@@ -1,0 +1,76 @@
+name: SV IPTV - проверка каналов
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '17 1,7,13,19 * * *'
+  push:
+    branches: [main]
+    paths:
+      - 'sv_iptv.py'
+      - 'channels.json'
+      - 'config.json'
+      - 'custom.m3u'
+      - 'tests/**'
+      - '.github/workflows/update.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: sv-iptv-update
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 55
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install ffmpeg
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y ffmpeg
+      - name: Проверка кода
+        run: python -m unittest discover -s tests -v
+      - name: Проверка эфира
+        id: check
+        continue-on-error: true
+        run: python -u sv_iptv.py
+      - name: Сохранение результатов проверки
+        if: always() && steps.check.outcome != 'skipped'
+        uses: actions/upload-artifact@v4
+        with:
+          name: sv-iptv-check-results
+          retention-days: 7
+          path: |
+            status.json
+            history.json
+            backups.json
+            probe-progress.json
+            tv.m3u
+      - name: Итог проверки
+        if: always() && steps.check.outcome != 'skipped'
+        run: |
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+          path = Path('status.json')
+          if path.exists():
+              s = json.loads(path.read_text())
+              with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as f:
+                  f.write('# SV IPTV\n\n')
+                  f.write(f"Уникальных каналов прошло проверку: **{s['unique_channels_passed']}**.\n\n")
+                  f.write(f"С накопленной статистикой: **{s['stable_channels']}**.\n\n")
+                  f.write(f"Результат сборки: **{s['publication']}**.\n\n")
+                  f.write(str(s.get('publication_reason') or '') + '\n\n')
+                  f.write('Запись в репозиторий отключена. Основной M3U по постоянной ссылке этим запуском не изменяется.\n')
+          PY
+      - name: Ошибка проверки требует внимания
+        if: steps.check.outcome == 'failure'
+        run: exit 1
