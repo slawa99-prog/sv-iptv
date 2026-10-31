@@ -15,7 +15,7 @@ on:
       - '.github/workflows/update.yml'
 
 permissions:
-  contents: read
+  contents: write
 
 concurrency:
   group: sv-iptv-update
@@ -28,7 +28,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          persist-credentials: false
+          persist-credentials: true
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
@@ -54,6 +54,18 @@ jobs:
             backups.json
             probe-progress.json
             tv.m3u
+      - name: Сохранение истории и плейлиста
+        if: always() && steps.check.outcome != 'skipped'
+        run: |
+          git config user.name 'sv-iptv-bot'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for file in tv.m3u history.json status.json backups.json seed/*.json; do
+            if [ -f "$file" ]; then git add -- "$file"; fi
+          done
+          if ! git diff --cached --quiet; then
+            git commit -m 'SV IPTV: stream checks and playlist update'
+            git push
+          fi
       - name: Итог проверки
         if: always() && steps.check.outcome != 'skipped'
         run: |
@@ -69,7 +81,6 @@ jobs:
                   f.write(f"С накопленной статистикой: **{s['stable_channels']}**.\n\n")
                   f.write(f"Результат сборки: **{s['publication']}**.\n\n")
                   f.write(str(s.get('publication_reason') or '') + '\n\n')
-                  f.write('Запись в репозиторий отключена. Основной M3U по постоянной ссылке этим запуском не изменяется.\n')
           PY
       - name: Ошибка проверки требует внимания
         if: steps.check.outcome == 'failure'
