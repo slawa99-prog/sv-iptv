@@ -422,7 +422,96 @@ def check_stream(item: dict, cfg: dict) -> dict:
         return {"ok": False, "reason": reason, "elapsed": round(time.monotonic() - started, 2), "pixels": 0}
 
 
-def load_sources(cfg: dict) -> tuple[list[dict], list[dict]]:
+def discover_catalog(catalog: list[dict], cfg: dict, now: str) -> tuple[list[dict], dict]:
+    """Expand only from identified Russian-language feeds, never publish untested media."""
+    discovery = cfg.get("catalog_discovery", {})
+    if not discovery.get("enabled"):
+        return catalog, {"state": "disabled", "added": 0}
+    snapshot_path = ROOT / "seed/catalog-discovery.json"
+    excluded = Counter()
+    candidates = []
+    report = {"state": "fresh", "added": 0, "source": discovery["playlist_url"]}
+    try:
+        metadata = json.loads(fetch_bytes(discovery["metadata_url"], timeout=30,
+                                          limit=20_000_000).decode("utf-8-sig"))
+        text = fetch_bytes(discovery["playlist_url"], timeout=30,
+                           limit=5_000_000).decode("utf-8-sig")
+        if not isinstance(metadata, list) or not text.lstrip().startswith("#EXTM3U"):
+            raise ValueError("invalid discovery catalog")
+        by_id = {c["id"].casefold(): c for c in metadata if isinstance(c, dict) and c.get("id")}
+        seen = set()
+        for item in parse_m3u(text):
+            identity = item["attrs"].get("tvg-id", "")
+            cid = base_id(identity)
+            meta = by_id.get(cid)
+            if not meta:
+                excluded["unknown_id_or_nonmain_feed"] += 1
+                continue
+            if cid in seen:
+                continue
+            seen.add(cid)
+            if meta.get("is_nsfw") or meta.get("closed") or meta.get("replaced_by"):
+                excluded["adult_closed_or_replaced"] += 1
+                continue
+            candidates.append({**meta, "logo": item["attrs"].get("tvg-logo", "")})
+        # Save a small, bounded snapshot instead of the worldwide metadata database.
+        if len(candidates) > discovery.get("max_candidate_channels", 1500):
+            raise ValueError("unexpected discovery catalog growth")
+        write_json(snapshot_path, {"fetched_utc": now, "source": discovery["playlist_url"],
+                                   "metadata_url": discovery["metadata_url"], "channels": candidates})
+    except Exception as exc:
+        report.update(state="failed", error=str(exc)[:160])
+        snapshot = read_json(snapshot_path, {})
+        try:
+            age = (timestamp(now) - timestamp(snapshot["fetched_utc"])) / 3600
+        except (KeyError, ValueError, TypeError):
+            age = float("inf")
+        if (snapshot.get("source") == discovery["playlist_url"]
+                and snapshot.get("metadata_url") == discovery["metadata_url"]
+                and 0 <= age <= cfg.get("source_fallback_hours", 72)):
+            candidates = snapshot.get("channels", [])
+            report["state"] = "snapshot"
+        else:
+            candidates = []
+    known_ids = {c["id"].casefold() for c in catalog}
+    known_names = {name_key(n) for c in catalog for n in [c["name"]] + c.get("aliases", []) if n}
+    excluded_ids = {x.casefold() for x in discovery.get("excluded_ids", [])}
+    groups = {"movies": "Кино", "series": "Сериалы", "kids": "Детские", "animation": "Детские",
+              "music": "Музыка", "news": "Новости", "sports": "Спорт", "documentary": "Познавательные",
+              "science": "Познавательные", "education": "Познавательные", "cooking": "Кулинария",
+              "religious": "Религиозные", "entertainment": "Развлекательные", "comedy": "Развлекательные"}
+    expanded = list(catalog)
+    added = []
+    for meta in sorted(candidates, key=lambda c: c["id"].casefold()):
+        cid = meta["id"].casefold()
+        if cid in known_ids:
+            continue
+        if cid in excluded_ids or meta.get("is_nsfw") or meta.get("closed") or meta.get("replaced_by"):
+            excluded["excluded_channel"] += 1
+            continue
+        aliases = list(dict.fromkeys(clean(n) for n in [meta.get("name", "")] + meta.get("alt_names", []) if n))
+        if not aliases or any(name_key(n) in known_names for n in aliases):
+            excluded["name_collision"] += 1
+            continue
+        name = next((n for n in aliases[1:] if re.search(r"[А-Яа-яЁё]", n)), aliases[0])
+        name = re.sub(r"\s+(?:SD|HD|FHD|UHD|4K|8K)$", "", name, flags=re.I).strip()
+        if not name_key(name) or name_key(name) in known_names:
+            excluded["name_collision"] += 1
+            continue
+        categories = meta.get("categories", [])
+        group = next((groups[c] for c in categories if c in groups), "Региональные и общие")
+        channel = {"id": meta["id"], "name": name, "group": group, "aliases": aliases,
+                   "website": meta.get("website") or "", "logo": meta.get("logo") or "",
+                   "country": meta.get("country"), "catalog_source": discovery["playlist_url"]}
+        expanded.append(channel)
+        added.append(channel["id"])
+        known_ids.add(cid)
+        known_names.update(name_key(n) for n in aliases + [name])
+    report.update(added=len(added), added_ids=added, excluded=dict(excluded))
+    return expanded, report
+
+
+def load_sources(cfg: dict, catalog: list[dict] | None = None) -> tuple[list[dict], list[dict]]:
     records, reports = [], []
     for source in cfg["sources"]:
         url = source["url"] if isinstance(source, dict) else source
@@ -436,7 +525,7 @@ def load_sources(cfg: dict) -> tuple[list[dict], list[dict]]:
                     raise ValueError("source outside project")
                 data = path.read_text(encoding="utf-8-sig")
             if isinstance(source, dict) and source.get("format") == "iptv-org-streams":
-                allowed = {c["id"] for c in read_json(ROOT / "channels.json", [])}
+                allowed = {c["id"] for c in (catalog if catalog is not None else read_json(ROOT / "channels.json", []))}
                 lines = ["#EXTM3U"]
                 for row in json.loads(data):
                     if row.get("channel") not in allowed:
@@ -585,11 +674,13 @@ def render_m3u(pairs: list[tuple[dict, dict]], cfg: dict, *, unverified=False) -
 def build(cfg: dict, *, tester=check_stream, now: str | None = None, inventory=False) -> dict:
     now = now or utcnow()
     catalog = read_json(ROOT / "channels.json", [])
+    base_catalog_count = len(catalog)
+    catalog, discovery_report = discover_catalog(catalog, cfg, now)
     ids = [c["id"].casefold() for c in catalog]
     names = [name_key(c["name"]) for c in catalog]
     if not catalog or len(set(ids)) != len(ids) or len(set(names)) != len(names):
         raise ValueError("empty catalog or duplicate channel IDs/names")
-    records, source_reports = load_sources(cfg)
+    records, source_reports = load_sources(cfg, catalog)
     found, excluded = group_candidates(records, catalog, cfg)
     if inventory:
         pairs, used = [], set()
@@ -600,7 +691,8 @@ def build(cfg: dict, *, tester=check_stream, now: str | None = None, inventory=F
                 used.add(item["url"])
         atomic_write(ROOT / "candidates-unverified.m3u", render_m3u(pairs, cfg, unverified=True))
         report = {"generated_utc": now, "unverified_channels": len(pairs), "candidate_streams": sum(map(len, found.values())),
-                  "source_reports": source_reports, "excluded": excluded}
+                  "catalog_channels": len(catalog), "base_catalog_channels": base_catalog_count,
+                  "catalog_discovery": discovery_report, "source_reports": source_reports, "excluded": excluded}
         write_json(ROOT / "inventory.json", report)
         print(json.dumps(report, ensure_ascii=False), flush=True)
         return report
@@ -706,6 +798,9 @@ def build(cfg: dict, *, tester=check_stream, now: str | None = None, inventory=F
         guard = "all remote catalogs unavailable; previous playlist retained"
     finished = utcnow() if tester is check_stream else now
     report = {"version": "3.0", "started_utc": now, "checked_utc": finished,
+              "check_environment": cfg.get("check_environment", "github-actions" if os.environ.get("GITHUB_ACTIONS") == "true" else "local-default"),
+              "catalog_channels": len(catalog), "base_catalog_channels": base_catalog_count,
+              "catalog_discovery": discovery_report,
               "publication": "blocked" if guard else "published",
               "publication_reason": guard, "minimum_channels": minimum,
               "candidate_streams_tested": len(results), "streams_passed": sum(bool(r["ok"]) for r in results.values()),
@@ -727,14 +822,38 @@ def build(cfg: dict, *, tester=check_stream, now: str | None = None, inventory=F
     return report
 
 
+def prepare_local_workspace(cfg: dict) -> tuple[Path, dict]:
+    """Keep home-network measurements independent of GitHub history and publication."""
+    output = ROOT / "local-check"
+    output.mkdir(exist_ok=True)
+    for name in ("channels.json", "custom.m3u"):
+        source = ROOT / name
+        if source.exists():
+            atomic_write(output / name, source.read_text(encoding="utf-8"))
+    # Seed files contain source catalogs only, never cloud check history or results.
+    for source in (ROOT / "seed").glob("*.json"):
+        target = output / "seed" / source.name
+        if not target.exists():
+            atomic_write(target, source.read_text(encoding="utf-8"))
+    local_cfg = dict(cfg)
+    local_cfg.update(skip_tagged_geo_blocked=False, check_environment="local-network",
+                     workers=min(4, cfg.get("workers", 4)))
+    return output, local_cfg
+
+
 def main():
+    global ROOT
     parser = argparse.ArgumentParser(description="SV IPTV: check live streams and publish unique channels")
     parser.add_argument("--config", default="config.json")
     parser.add_argument("--inventory", action="store_true", help="export explicitly unverified candidates; no media tests")
     parser.add_argument("--resume", action="store_true", help="reuse matching probe results less than one hour old")
+    parser.add_argument("--local", action="store_true", help="check this network in local-check/ with separate history; also test geo-tagged URLs")
     args = parser.parse_args()
     try:
         cfg = read_json(ROOT / args.config, {})
+        if args.local:
+            ROOT, cfg = prepare_local_workspace(cfg)
+            print(f"Local-network check only. Results: {ROOT}; no automatic upload.", flush=True)
         cfg["resume_checks"] = args.resume
         report = build(cfg, inventory=args.inventory)
         if report.get("publication") == "blocked":

@@ -9,6 +9,17 @@
       "priority": 18
     },
     {
+      "url": "https://iptv-org.github.io/iptv/languages/rus.m3u",
+      "fallback": "seed/russian-language.json",
+      "priority": 19
+    },
+    {
+      "url": "https://raw.githubusercontent.com/denxvofficial/IPTV/main/iptv.m3u",
+      "fallback": "seed/denx.json",
+      "match_by_name": true,
+      "priority": 12
+    },
+    {
       "url": "https://dearbulut.github.io/iptv/playlists/country/ru.m3u",
       "fallback": "seed/dearbulut.json",
       "match_by_name": true,
@@ -209,12 +220,6 @@
       ]
     },
     {
-      "url": "https://raw.githubusercontent.com/smolnp/IPTVru/gh-pages/IPTVstable.m3u8",
-      "fallback": "seed/smol-stable.json",
-      "match_by_name": true,
-      "priority": 10
-    },
-    {
       "url": "https://raw.githubusercontent.com/Free-TV/IPTV/master/playlists/playlist_russia.m3u8",
       "fallback": "seed/free-tv.json",
       "match_by_name": true,
@@ -231,7 +236,7 @@
     "custom.m3u"
   ],
   "epg_url": "",
-  "workers": 4,
+  "workers": 6,
   "per_host_workers": 2,
   "network_timeout_seconds": 8,
   "decode_timeout_seconds": 30,
@@ -251,5 +256,24 @@
   "source_fallback_hours": 72,
   "require_fresh_remote_source": true,
   "skip_tagged_geo_blocked": true,
-  "skip_tagged_not_24_7": true
+  "skip_tagged_not_24_7": true,
+  "catalog_discovery": {
+    "enabled": true,
+    "metadata_url": "https://iptv-org.github.io/api/channels.json",
+    "playlist_url": "https://iptv-org.github.io/iptv/languages/rus.m3u",
+    "max_candidate_channels": 1500,
+    "excluded_ids": [
+      "CarouselInternational.ru",
+      "Channel5International.ru",
+      "ChannelOneCIS.ru",
+      "ChannelOneWorldwide.ru",
+      "FridayInternational.ru",
+      "NTVInternational.ru",
+      "PeretzInternational.ru",
+      "RENTVInternational.ru",
+      "STSInternational.ru",
+      "TNT4International.ru",
+      "TNTInternational.ru"
+    ]
+  }
 }
