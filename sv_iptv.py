@@ -476,9 +476,12 @@ def discover_catalog(catalog: list[dict], cfg: dict, now: str) -> tuple[list[dic
     known_ids = {c["id"].casefold() for c in catalog}
     known_names = {name_key(n) for c in catalog for n in [c["name"]] + c.get("aliases", []) if n}
     excluded_ids = {x.casefold() for x in discovery.get("excluded_ids", [])}
-    groups = {"movies": "Кино", "series": "Сериалы", "kids": "Детские", "animation": "Детские",
+    groups = {"movies": "Кино и сериалы", "series": "Кино и сериалы", "kids": "Детские", "animation": "Развлекательные",
               "music": "Музыка", "news": "Новости", "sports": "Спорт", "documentary": "Познавательные",
               "science": "Познавательные", "education": "Познавательные", "cooking": "Кулинария",
+              "nature": "Природа и животные", "wildlife": "Природа и животные",
+              "travel": "Путешествия", "outdoor": "Путешествия", "auto": "Авто и техника",
+              "culture": "Культура", "lifestyle": "Здоровье и образ жизни", "shop": "Телемагазины",
               "religious": "Религиозные", "entertainment": "Развлекательные", "comedy": "Развлекательные"}
     expanded = list(catalog)
     added = []
@@ -499,7 +502,7 @@ def discover_catalog(catalog: list[dict], cfg: dict, now: str) -> tuple[list[dic
             excluded["name_collision"] += 1
             continue
         categories = meta.get("categories", [])
-        group = next((groups[c] for c in categories if c in groups), "Региональные и общие")
+        group = next((groups[c] for c in categories if c in groups), "Общие")
         channel = {"id": meta["id"], "name": name, "group": group, "aliases": aliases,
                    "website": meta.get("website") or "", "logo": meta.get("logo") or "",
                    "country": meta.get("country"), "catalog_source": discovery["playlist_url"]}
@@ -651,13 +654,31 @@ def select_candidates(items: list[dict], old: dict, previous: str | None, cfg: d
     return keep + rotation[:limit - len(keep)]
 
 
+def apply_channel_groups(catalog: list[dict]) -> list[dict]:
+    """Reviewed channel identity overrides unreliable source-list categories."""
+    rules = read_json(ROOT / "channel-groups.json", {})
+    overrides = {cid.casefold(): group for cid, group in rules.get("groups", {}).items()}
+    legacy = {"Региональные и общие": "Общие", "Кино": "Кино и сериалы", "Сериалы": "Кино и сериалы",
+              "Авто": "Авто и техника", "Образ жизни": "Здоровье и образ жизни"}
+    return [{**c, "group": overrides.get(c["id"].casefold(),
+             legacy.get(c.get("group", ""), c.get("group") or "Общие"))} for c in catalog]
+
+
 def render_m3u(pairs: list[tuple[dict, dict]], cfg: dict, *, unverified=False) -> str:
-    header = '#EXTM3U x-playlist-name="SV IPTV"'
+    title = "SV IPTV — проверка GitHub" if cfg.get("publication_mode") == "reviewed-local" else "SV IPTV"
+    header = f'#EXTM3U x-playlist-name="{title}"'
     if cfg.get("epg_url"):
         header += f' x-tvg-url="{clean(cfg["epg_url"])}"'
     lines = [header]
     if unverified:
         lines.append("# UNVERIFIED CANDIDATES: not a tested or stable playlist")
+    rules = read_json(ROOT / "channel-groups.json", {})
+    order = {group: index for index, group in enumerate(rules.get("group_order", []))}
+    pairs = list(zip(apply_channel_groups([c for c, _ in pairs]), [i for _, i in pairs]))
+    # Keep the familiar federal order; group all other channels and sort their names.
+    if order:
+        pairs.sort(key=lambda p: (order.get(p[0]["group"], len(order)),
+                   "" if p[0]["group"] == "Федеральные" else name_key(p[0]["name"])))
     for channel, item in pairs:
         attrs = f'tvg-id="{clean(channel["id"])}" tvg-name="{clean(channel["name"])}" group-title="{clean(channel["group"])}"'
         if channel.get("logo"):
@@ -673,9 +694,14 @@ def render_m3u(pairs: list[tuple[dict, dict]], cfg: dict, *, unverified=False) -
 
 def build(cfg: dict, *, tester=check_stream, now: str | None = None, inventory=False) -> dict:
     now = now or utcnow()
+    mode = cfg.get("publication_mode", "automatic")
+    if mode not in ("automatic", "reviewed-local"):
+        raise ValueError("unknown publication mode")
+    playlist_path = "cloud.m3u" if mode == "reviewed-local" else "tv.m3u"
     catalog = read_json(ROOT / "channels.json", [])
     base_catalog_count = len(catalog)
     catalog, discovery_report = discover_catalog(catalog, cfg, now)
+    catalog = apply_channel_groups(catalog)
     ids = [c["id"].casefold() for c in catalog]
     names = [name_key(c["name"]) for c in catalog]
     if not catalog or len(set(ids)) != len(ids) or len(set(names)) != len(names):
@@ -802,6 +828,7 @@ def build(cfg: dict, *, tester=check_stream, now: str | None = None, inventory=F
               "catalog_channels": len(catalog), "base_catalog_channels": base_catalog_count,
               "catalog_discovery": discovery_report,
               "publication": "blocked" if guard else "published",
+              "published_playlist": playlist_path,
               "publication_reason": guard, "minimum_channels": minimum,
               "candidate_streams_tested": len(results), "streams_passed": sum(bool(r["ok"]) for r in results.values()),
               "unique_channels_passed": len(pairs), "stable_channels": sum(x["rating"] == "observed_stable" for x in selected),
@@ -811,11 +838,15 @@ def build(cfg: dict, *, tester=check_stream, now: str | None = None, inventory=F
               "source_reports": source_reports, "excluded": excluded,
               "failure_reasons": dict(Counter(r["reason"] for r in results.values() if not r["ok"])),
               "selected": selected, "unavailable": unavailable}
+    if mode == "reviewed-local":
+        home = read_json(ROOT / "home-review.json", {})
+        report["reviewed_local_playlist"] = {k: v for k, v in home.items()
+            if k not in ("channel_ids", "stability_rules", "source_archive_sha256")}
     # Always save failed observations. Otherwise a bad day would disappear from ratings.
     write_json(ROOT / "history.json", {"version": 3, "streams": updated,
                "last_selected": previous if guard else next_previous})
     if not guard:
-        atomic_write(ROOT / "tv.m3u", render_m3u(pairs, cfg))
+        atomic_write(ROOT / playlist_path, render_m3u(pairs, cfg))
         write_json(ROOT / "backups.json", {"checked_utc": finished, "channels": backups})
     write_json(ROOT / "status.json", report)
     print(f'{report["publication"].upper()}: {len(pairs)} unique channels; {report["stable_channels"]} with accumulated history', flush=True)
@@ -826,7 +857,7 @@ def prepare_local_workspace(cfg: dict) -> tuple[Path, dict]:
     """Keep home-network measurements independent of GitHub history and publication."""
     output = ROOT / "local-check"
     output.mkdir(exist_ok=True)
-    for name in ("channels.json", "custom.m3u"):
+    for name in ("channels.json", "custom.m3u", "channel-groups.json"):
         source = ROOT / name
         if source.exists():
             atomic_write(output / name, source.read_text(encoding="utf-8"))
@@ -837,6 +868,7 @@ def prepare_local_workspace(cfg: dict) -> tuple[Path, dict]:
             atomic_write(target, source.read_text(encoding="utf-8"))
     local_cfg = dict(cfg)
     local_cfg.update(skip_tagged_geo_blocked=False, check_environment="local-network",
+                     publication_mode="automatic",
                      workers=min(4, cfg.get("workers", 4)))
     return output, local_cfg
 
