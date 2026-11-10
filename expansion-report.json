@@ -1,0 +1,473 @@
+{
+  "created_utc": "2026-11-10T17:55:08+00:00",
+  "display_time_orenburg": "10.11.2026 22:55",
+  "check_environment": "assistant-workspace-not-verified-as-Russia",
+  "main_pc_channels": 376,
+  "added_after_two_checks_and_frame_review": 23,
+  "expanded_preview_channels": 399,
+  "new_channels_verified_on_user_pc": 0,
+  "strictly_stable_new_channels": 0,
+  "pc_queue": {
+    "package": "3.4-expansion-20261110",
+    "channels": 1125,
+    "requests": 3924,
+    "new_catalog_ids": 381,
+    "new_requests_since_latest_pc_report": 1049,
+    "previous_pc_requests_retained": 2875,
+    "current_main_requests_retained": 376,
+    "original_research_requests_retained": 341,
+    "history_snapshot": "2026-11-10T09:54:49+00:00",
+    "main_reviewed_channels": 376,
+    "new_channels_verified_on_pc": 0,
+    "research_checks_imported_into_pc_history": 0
+  },
+  "funnel": {
+    "public_source_files": 12,
+    "parsed_source_records": 14440,
+    "candidate_catalog_ids_not_in_main": 676,
+    "distinct_candidate_requests": 1391,
+    "http_screened_requests": 1391,
+    "screen_eligible_requests": 841,
+    "full_checked_requests": 769,
+    "full_passed_requests": 71,
+    "candidate_ids_with_a_technical_pass": 67,
+    "repeat_checked_requests": 71,
+    "repeat_passed_requests": 31,
+    "inconclusive_child_runner_attempts_retained": 54,
+    "direct_rechecks_of_inconclusive_attempts": 54,
+    "not_fully_checked_requests": 72,
+    "deferred_for_unavailable_host": 37,
+    "other_screen_eligible_not_fully_checked": 35
+  },
+  "method": {
+    "decoded_sample_seconds_minimum": 12,
+    "hls_live_advancement_required": true,
+    "mpeg_ts_continuity_required": true,
+    "visual_identity_review_required": true,
+    "repeat_success_required_for_preview": true,
+    "long_term_stability_claimed": false,
+    "audio_language_independently_listened_to": false,
+    "note": "Short successful samples are observations, not uninterrupted viewing or proof of availability across Russia."
+  },
+  "repeat_runner_note": "54 repeated attempts launched by a waiting subprocess returned immediate HTTP/tunnel 403 responses. A direct control request to the same ETV+ endpoint succeeded (HTTP 200). These attempts were treated as inconclusive runner/transport observations and separately rechecked with a direct probe invocation. Original attempt files remain preserved; other earlier repeat failures were not replaced.",
+  "main_sha256": "3c452004d66033a7b8131649c9be9c4fff7b802ec7f9a7fca8dc844eec58ff86",
+  "new_channels": [
+    {
+      "id": "360.ru",
+      "name": "360°",
+      "group": "Общие",
+      "country": null,
+      "url": "http://tv.ttk.mx:9088",
+      "headers": {},
+      "key": "d4e855251c17be0c539470a2e3afa67f9d4db176461ff3b5f4528a0c0e873f05",
+      "checked_utc": [
+        "2026-11-10T17:37:27+00:00",
+        "2026-11-10T17:53:10+00:00"
+      ],
+      "played_seconds": [
+        13.22,
+        13.22
+      ],
+      "identity_review": "logo_confirmed_both_frames"
+    },
+    {
+      "id": "Avers.ua",
+      "name": "Аверс",
+      "group": "Региональные",
+      "country": "UA",
+      "url": "https://avers.pp.ua/hls/efir.m3u8",
+      "headers": {},
+      "key": "1a2ac16d5e0d6272ede4d427b639f0ef4b6e6c911bccdc7bd06700ed33878c78",
+      "checked_utc": [
+        "2026-11-10T17:03:02+00:00",
+        "2026-11-10T17:49:44+00:00"
+      ],
+      "played_seconds": [
+        22.96,
+        26.4
+      ],
+      "identity_review": "logo_confirmed_both_frames"
+    },
+    {
+      "id": "BakuTV.az",
+      "name": "Baku.TV",
+      "group": "Новости",
+      "country": "AZ",
+      "url": "https://rtmp.baku.tv/hls/bakutv.m3u8",
+      "headers": {},
+      "key": "60c72a967278060bba1272df690e5e8c0458d418700ed542007ca7b90e71096f",
+      "checked_utc": [
+        "2026-11-10T17:01:21+00:00",
+        "2026-11-10T17:48:54+00:00"
+      ],
+      "played_seconds": [
+        29.96,
+        30.0
+      ],
+      "identity_review": "logo_confirmed_both_frames"
+    },
+    {
+      "id": "Bober.ru",
+      "name": "Бобёр",
+      "group": "Дом и дача",
+      "country": null,
+      "url": "http://tv.ttk.mx:9077",
+      "headers": {},
+      "key": "2c6aa820d3bad44a2c4271129ac61f971c2556475bf1d38492e5f12b2f06188d",
+      "checked_utc": [
+        "2026-11-10T17:20:32+00:00",
+        "2026-11-10T17:47:44+00:00"
+      ],
+      "played_seconds": [
+        13.85,
+        12.89
+      ],
+      "identity_review": "logo_confirmed_both_frames"
+    },
+    {
+      "id": "Detskimir.ru",
+      "name": "Детский мир",
+      "group": "Детские",
+      "country": "RU",
+      "url": "http://tv.ttk.mx:9063",
+      "headers": {},
+      "key": "2568ea491042971461d6984f490c2f260e99d72a69b9a20421cb49bcce47bb46",
+      "checked_utc": [
+        "2026-11-10T17:10:04+00:00",
+        "2026-11-10T17:20:33+00:00"
+      ],
+      "played_seconds": [
+        12.46,
+        12.46
+      ],
+      "identity_review": "logo_confirmed_both_frames"
+    },
+    {
+      "id": "EWTNUkraine.ua",
+      "name": "EWTN Україна",
+      "group": "Религиозные",
+      "country": "UA",
+      "url": "https://cdn3.wowza.com/1/WjduMm1tYnlwNXQx/M01NV3Uz/hls/live/playlist.m3u8",
+      "headers": {},
+      "key": "2cdaa207bf855e76b9fd4a593264f236b8443cd1f31c985d331a0a8058661bc9",
+      "checked_utc": [
+        "2026-11-10T17:01:15+00:00",
+        "2026-11-10T17:48:48+00:00"
+      ],
+      "played_seconds": [
+        29.92,
+        29.96
+      ],
+      "identity_review": "logo_confirmed_both_frames"
+    },
+    {
+      "id": "KusKus.ua",
+      "name": "Кус-Кус",
+      "group": "Кулинария",
+      "country": "UA",
+      "url": "https://dash2.antik.sk/live/test_kuskus_tv_atktv/playlist.m3u8",
+      "headers": {},
+      "key": "5bca23fc8537d444e300c21927f3003654327007701c4f14140486e56b333872",
+      "checked_utc": [
+        "2026-11-10T17:04:17+00:00",
+        "2026-11-10T17:49:55+00:00"
+      ],
+      "played_seconds": [
+        19.95,
+        21.92
+      ],
+      "identity_review": "logo_confirmed_both_frames"
+    },
+    {
+      "id": "LuxTV.ua",
+      "name": "Lux TV",
+      "group": "Музыка",
+      "country": "UA",
+      "url": "http://777905.live.tvstitch.com/stream.m3u8?channel=431&m=aHR0cHM6Ly9obHMtY2RuMS5keXZ5YXBwLmNvbS9sdXgtdHYvdmlkZW8ubTN1OD90b2tlbj1leUpoYkdjaU9pSklVekkxTmlJc0luUjVjQ0k2SWtwWFZDSjkuZXlKamFHRnVibVZzWDJsa0lqbzBNekVzSW1Ob1lXNXVaV3hmYm1GdFpTSTZJa3hWV0NCVVZpSXNJbWx3SWpvaU1UYzRMakV6Tmk0ME1pNHlNakFpTENKamIzVnVkSEo1SWpvaVZXdHlZV2x1WlNJc0luVnpaWEpmYVdRaU9tNTFiR3dzSW5WelpYSmZjR2h2Ym1VaU9tNTFiR3dzSW5WelpYSmZjbTlzWlhNaU9sdGRMQ0p3Y205bWFXeGxYMmxrSWpwdWRXeHNMQ0p6WlhOemFXOXVYMmxrSWpvaU56ZGpabVUzTkdJdE1USmtaQzAwTTJSbExXSmtNVGt0WVRKaFptUmtabUUwT0RWaElpd2laVzUyYVhKdmJtMWxiblFpT2lKd2NtOWtkV04wYVc5dUlpd2ljR3hoZEdadmNtMGlPaUpFWlhOcmRHOXdJaXdpZFhObGNsOWhaMlZ1ZENJNklrMXZlbWxzYkdGY0x6VXVNQ0FvVjJsdVpHOTNjeUJPVkNBeE1DNHdPeUJYYVc0Mk5Ec2dlRFkwS1NCQmNIQnNaVmRsWWt0cGRGd3ZOVE0zTGpNMklDaExTRlJOVEN3Z2JHbHJaU0JIWldOcmJ5a2dRMmh5YjIxbFhDOHhOVEl1TUM0d0xqQWdVMkZtWVhKcFhDODFNemN1TXpZaUxDSmxlSEFpT2pFM09EZ3hOekk0TnpOOS5GV2NmZDBhOV93dEVONmozWS1GaFNFYzFjbV9uamh1VVZmWjhiZzVLcG84",
+      "headers": {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36",
+        "Referer": "http://live.tvstitch.com/"
+      },
+      "key": "7f16ade4b8094b325a9e4d9b71c3eb6f9c4961fc246b32b0e2fdcb1bda37a881",
+      "checked_utc": [
+        "2026-11-10T17:04:55+00:00",
+        "2026-11-10T17:50:24+00:00"
+      ],
+      "played_seconds": [
+        17.96,
+        17.92
+      ],
+      "identity_review": "logo_confirmed_both_frames"
+    },
+    {
+      "id": "Magnat.ru",
+      "name": "Magnat",
+      "group": "Телемагазины",
+      "country": null,
+      "url": "http://88.218.242.237:8001/Magnat_HD",
+      "headers": {},
+      "key": "7a0204d6b868620bf54b35e197a0b6b507ec5c01c1b17d796f2ff4531ab42160",
+      "checked_utc": [
+        "2026-11-10T17:16:12+00:00",
+        "2026-11-10T17:22:30+00:00"
+      ],
+      "played_seconds": [
+        12.16,
+        12.12
+      ],
+      "identity_review": "logo_confirmed_both_frames"
+    },
+    {
+      "id": "Moldova1.md",
+      "name": "Moldova 1",
+      "group": "Общие",
+      "country": null,
+      "url": "http://116.202.113.254:8888/Moldova1hd",
+      "headers": {},
+      "key": "52cb647549e478335da15674db3bb0297afa79e5248fd1db303c8952e85c7ef5",
+      "checked_utc": [
+        "2026-11-10T17:33:12+00:00",
+        "2026-11-10T17:51:28+00:00"
+      ],
+      "played_seconds": [
+        12.18,
+        12.18
+      ],
+      "identity_review": "logo_confirmed_both_frames"
+    },
+    {
+      "id": "NorocTV.md",
+      "name": "Noroc TV",
+      "group": "Музыка",
+      "country": "MD",
+      "url": "https://media.noroc.tv/noroc/bitrate_1080p.m3u8",
+      "headers": {},
+      "key": "929686a5e9303ee3f187a873002c4b86daa0cdc01b216dec0ccc142c08189669",
+      "checked_utc": [
+        "2026-11-10T17:01:41+00:00",
+        "2026-11-10T17:49:19+00:00"
+      ],
+      "played_seconds": [
+        30.0,
+        29.96
+      ],
+      "identity_review": "logo_confirmed_both_frames"
+    },
+    {
+      "id": "OTR.ru",
+      "name": "ОТР",
+      "group": "Федеральные",
+      "country": null,
+      "url": "http://tv.ttk.mx:9008",
+      "headers": {},
+      "key": "e35040111d4738c92f1e1a7d2087908dbcb294740452cee47c22afb305f2d720",
+      "checked_utc": [
+        "2026-11-10T17:38:12+00:00",
+        "2026-11-10T17:53:40+00:00"
+      ],
+      "played_seconds": [
+        12.55,
+        12.55
+      ],
+      "identity_review": "logo_confirmed_both_frames"
+    },
+    {
+      "id": "PervyygorodskoyOdessa.ua",
+      "name": "Первый городской канал",
+      "group": "Региональные",
+      "country": null,
+      "url": "http://91.194.79.46:8081/stream2/channel2/playlist.m3u8",
+      "headers": {},
+      "key": "d11c6c871d506e2bff59eae3273df01147a0ff6a2317fab8bf5747026c5bb000",
+      "checked_utc": [
+        "2026-11-10T17:36:33+00:00",
+        "2026-11-10T17:53:04+00:00"
+      ],
+      "played_seconds": [
+        18.0,
+        18.0
+      ],
+      "identity_review": "logo_confirmed_both_frames"
+    },
+    {
+      "id": "RTViUS.us",
+      "name": "RTVi US",
+      "group": "Новости",
+      "country": null,
+      "url": "https://amg17233-amg17233c1-wisptv-us-6409.playouts.now.amagi.tv/playlist.m3u8",
+      "headers": {},
+      "key": "b97616771c555375b5253b63d401219df6c718ace2e6a8e8bf08f95afc9ab04a",
+      "checked_utc": [
+        "2026-11-10T17:34:02+00:00",
+        "2026-11-10T17:52:24+00:00"
+      ],
+      "played_seconds": [
+        17.99,
+        17.99
+      ],
+      "identity_review": "logo_confirmed_both_frames"
+    },
+    {
+      "id": "RenomeTV.ua",
+      "name": "Renome TV",
+      "group": "Общие",
+      "country": "UA",
+      "url": "http://85.238.112.40:8810/hls_sec/online/list-renome.m3u8",
+      "headers": {},
+      "key": "a9788e3968e1ca6330c23467fce72e7cb308c18b6a286180e2c447a5d0030019",
+      "checked_utc": [
+        "2026-11-10T17:05:53+00:00",
+        "2026-11-10T17:50:33+00:00"
+      ],
+      "played_seconds": [
+        25.08,
+        25.08
+      ],
+      "identity_review": "logo_confirmed_both_frames"
+    },
+    {
+      "id": "RussianExtreme.ru",
+      "name": "Русский Экстрим",
+      "group": "Спорт",
+      "country": null,
+      "url": "http://85.208.223.249:8888/play/a004",
+      "headers": {},
+      "key": "3b5937b127e3b5ccc5b21dfc3a52c410eef6d5bfef3f60bb06428194cfb501b2",
+      "checked_utc": [
+        "2026-11-10T17:15:12+00:00",
+        "2026-11-10T17:22:07+00:00"
+      ],
+      "played_seconds": [
+        12.26,
+        12.26
+      ],
+      "identity_review": "logo_confirmed_both_frames"
+    },
+    {
+      "id": "Scream.ru",
+      "name": "Scream",
+      "group": "Кино и сериалы",
+      "country": "RU",
+      "url": "http://88.218.242.237:8001/Scream_HD",
+      "headers": {},
+      "key": "e1862d45b9aad99a2685c03c1ff325b8e5be2d7d9c544003bbb2eb9e6e635608",
+      "checked_utc": [
+        "2026-11-10T17:12:04+00:00",
+        "2026-11-10T17:21:37+00:00"
+      ],
+      "played_seconds": [
+        12.12,
+        12.12
+      ],
+      "identity_review": "logo_confirmed_both_frames"
+    },
+    {
+      "id": "TLC.ru",
+      "name": "TLC",
+      "group": "Развлекательные",
+      "country": null,
+      "url": "http://91.205.196.7:8000/play/a027",
+      "headers": {},
+      "key": "cc8127a55bf4b6afd75c21802305d6f6d63578dcb468883cc9686b001fb2e145",
+      "checked_utc": [
+        "2026-11-10T17:17:53+00:00",
+        "2026-11-10T17:23:00+00:00"
+      ],
+      "played_seconds": [
+        12.16,
+        12.14
+      ],
+      "identity_review": "logo_confirmed_both_frames"
+    },
+    {
+      "id": "TV1000.ru",
+      "name": "TV1000",
+      "group": "Кино и сериалы",
+      "country": "RU",
+      "url": "https://flussonic.mkpnet.ru/tv-aab84159a39fbe84/video.m3u8",
+      "headers": {},
+      "key": "4a0acac5b87255d39af6bd724d55fbe6863f5622dc664e6e1b5a79ec54bffb31",
+      "checked_utc": [
+        "2026-11-10T17:37:21+00:00",
+        "2026-11-10T17:48:18+00:00"
+      ],
+      "played_seconds": [
+        17.96,
+        17.92
+      ],
+      "identity_review": "logo_confirmed_both_frames"
+    },
+    {
+      "id": "TVGuberniya.ru",
+      "name": "TV Губерния",
+      "group": "Региональные",
+      "country": null,
+      "url": "https://s68149.cdn.ngenix.net/s68149-media-origin/lvs/tvgub/tracks-v1a1/mono.m3u8",
+      "headers": {},
+      "key": "8dc9415dcbd1f691eeebc277964d27f63c8984bb9f46d265484aadabf3b763c3",
+      "checked_utc": [
+        "2026-11-10T17:20:41+00:00",
+        "2026-11-10T17:48:40+00:00"
+      ],
+      "played_seconds": [
+        19.3,
+        18.62
+      ],
+      "identity_review": "logo_confirmed_both_frames"
+    },
+    {
+      "id": "TVPirveli.ge",
+      "name": "TV Pirveli",
+      "group": "Общие",
+      "country": "GE",
+      "url": "http://nue01-edge01.itdc.ge/pirvelitv/mpegts",
+      "headers": {},
+      "key": "ef2aaf18ae792f10a20d599d5c9028bb306e48be09eb363b94bcb794ecc9a7d9",
+      "checked_utc": [
+        "2026-11-10T17:21:21+00:00",
+        "2026-11-10T17:50:46+00:00"
+      ],
+      "played_seconds": [
+        12.0,
+        12.0
+      ],
+      "identity_review": "logo_confirmed_both_frames"
+    },
+    {
+      "id": "VmesteRF.ru",
+      "name": "Вместе-РФ",
+      "group": "Новости",
+      "country": null,
+      "url": "http://tv.ttk.mx:9103",
+      "headers": {},
+      "key": "9f3ee959d4e87e0fcb7f33c78b88975f67b99d3d09baea61cff1dd703bfb8808",
+      "checked_utc": [
+        "2026-11-10T17:31:28+00:00",
+        "2026-11-10T17:48:09+00:00"
+      ],
+      "played_seconds": [
+        12.7,
+        12.7
+      ],
+      "identity_review": "logo_confirmed_both_frames"
+    },
+    {
+      "id": "o2tv.ru",
+      "name": "о2тв",
+      "group": "Музыка",
+      "country": null,
+      "url": "http://tv.ttk.mx:9059",
+      "headers": {},
+      "key": "be9b26af716b03997c34c4dbaa4717ef17d7486e608fc7c17ab2198a1bdede8a",
+      "checked_utc": [
+        "2026-11-10T17:26:43+00:00",
+        "2026-11-10T17:53:10+00:00"
+      ],
+      "played_seconds": [
+        12.55,
+        12.98
+      ],
+      "identity_review": "logo_confirmed_both_frames"
+    }
+  ]
+}
