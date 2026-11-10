@@ -9,7 +9,7 @@
 | SV ТВ 1 | [tv1.m3u](https://raw.githubusercontent.com/slawa99-prog/sv-iptv/main/managed/tv1.m3u) | 376 | 2026-11-10T13:44:56+00:00 | Без изменений |
 | SV ТВ 2 | [tv2.m3u](https://raw.githubusercontent.com/slawa99-prog/sv-iptv/main/managed/tv2.m3u) | 504 | 2026-11-10T13:44:57+00:00 | Обновлён |
 | SV ТВ 3 | [tv3.m3u](https://raw.githubusercontent.com/slawa99-prog/sv-iptv/main/managed/tv3.m3u) | 978 | 2026-11-10T13:44:57+00:00 | Обновлён |
-| SV ТВ 4 | [tv4.m3u](https://raw.githubusercontent.com/slawa99-prog/sv-iptv/main/managed/tv4.m3u) | 463 | 2026-11-10T13:44:57+00:00 | Обновлён |
+| SV ТВ 4 | [tv4.m3u](https://raw.githubusercontent.com/slawa99-prog/sv-iptv/main/managed/tv4.m3u) | 463 | 2026-11-10T13:46:44+00:00 | Без изменений |
 
 Количество — записи в файле автора, не количество подтверждённых рабочих или уникальных каналов. Проверяется загрузка и структура M3U; полный эфир каждого канала здесь не проверяется.
 
