@@ -1,0 +1,105 @@
+name: SV ТВ — замена плейлистов
+
+on:
+  workflow_dispatch:
+    inputs:
+      operation:
+        description: 'Что сделать'
+        type: choice
+        default: 'Заменить источник'
+        options:
+          - 'Заменить источник'
+          - 'Обновить сейчас'
+          - 'Вернуть предыдущую версию'
+          - 'Возобновить автообновление'
+      slot:
+        description: 'Какой плейлист'
+        type: choice
+        default: 'tv1 — SV ТВ 1'
+        options:
+          - 'tv1 — SV ТВ 1'
+          - 'tv2 — SV ТВ 2'
+          - 'tv3 — SV ТВ 3'
+          - 'tv4 — SV ТВ 4'
+          - 'all — обновить все'
+      preset:
+        description: 'Готовый источник (или вставьте свою ссылку ниже)'
+        type: choice
+        default: 'Своя ссылка'
+        options:
+          - 'Своя ссылка'
+          - 'SV IPTV — проверка ПК'
+          - 'SV IPTV — облачная проверка'
+          - 'iptv-org — Россия'
+          - 'ngrch — Россия'
+          - 'dearbulut — Россия'
+      source_url:
+        description: 'Общедоступная ссылка M3U автора; без личных ключей. Имеет приоритет над готовым источником.'
+        type: string
+        required: false
+  schedule:
+    - cron: '37 * * * *'
+  push:
+    branches: [main]
+    paths:
+      - 'playlist_manager/**'
+      - 'managed/config.json'
+      - 'tv.m3u'
+      - '.github/workflows/playlists.yml'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: sv-playlist-manager
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Проверка замены, сохранения и восстановления
+        run: python -m unittest discover -s playlist_manager/tests -v
+      - name: Получить и подготовить плейлисты
+        id: playlists
+        continue-on-error: true
+        env:
+          INPUT_OPERATION: ${{ inputs.operation }}
+          INPUT_SLOT: ${{ inputs.slot }}
+          INPUT_PRESET: ${{ inputs.preset }}
+          INPUT_SOURCE: ${{ inputs.source_url }}
+        run: python playlist_manager/manager.py
+      - name: Опубликовать изменения
+        if: always() && steps.playlists.outcome != 'skipped'
+        run: |
+          git config user.name 'sv-iptv-bot'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -- managed
+          if ! git diff --cached --quiet; then
+            git commit -m 'SV ТВ: обновить заменяемые плейлисты'
+            for attempt in 1 2 3; do
+              if git push origin HEAD:main; then exit 0; fi
+              git fetch origin main
+              if ! git rebase origin/main; then
+                git rebase --abort
+                exit 1
+              fi
+            done
+            exit 1
+          fi
+      - name: Результат и постоянные ссылки
+        if: always() && steps.playlists.outcome != 'skipped'
+        run: |
+          if [ -f managed/README.md ]; then cat managed/README.md >> "$GITHUB_STEP_SUMMARY"; fi
+      - name: Источник требует внимания
+        if: steps.playlists.outcome == 'failure'
+        run: exit 1

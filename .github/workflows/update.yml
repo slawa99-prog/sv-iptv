@@ -67,7 +67,15 @@ jobs:
           done
           if ! git diff --cached --quiet; then
             git commit -m 'SV IPTV: stream checks and playlist update'
-            git push
+            for attempt in 1 2 3; do
+              if git push; then break; fi
+              git fetch origin main
+              if ! git rebase origin/main; then
+                git rebase --abort
+                exit 1
+              fi
+              if [ "$attempt" = 3 ]; then git push; fi
+            done
           fi
       - name: Итог проверки
         if: always() && steps.check.outcome != 'skipped'
@@ -92,3 +100,4 @@ jobs:
       - name: Ошибка проверки требует внимания
         if: steps.check.outcome == 'failure'
         run: exit 1
+
