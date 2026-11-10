@@ -1,0 +1,27 @@
+{
+  "version": 1,
+  "public_base_url": "https://raw.githubusercontent.com/slawa99-prog/sv-iptv/main/managed",
+  "minimum_retained_fraction": 0.5,
+  "slots": {
+    "tv1": {
+      "title": "SV ТВ 1",
+      "source": "repo:tv.m3u",
+      "auto_refresh": true
+    },
+    "tv2": {
+      "title": "SV ТВ 2",
+      "source": "https://iptv-org.github.io/iptv/countries/ru.m3u",
+      "auto_refresh": true
+    },
+    "tv3": {
+      "title": "SV ТВ 3",
+      "source": "https://ngrch.github.io/iptv/ru.m3u",
+      "auto_refresh": true
+    },
+    "tv4": {
+      "title": "SV ТВ 4",
+      "source": "https://dearbulut.github.io/iptv/playlists/country/ru.m3u",
+      "auto_refresh": true
+    }
+  }
+}
