@@ -9,6 +9,7 @@ on:
     paths:
       - 'sv_iptv.py'
       - 'channels.json'
+      - 'channel-groups.json'
       - 'config.json'
       - 'custom.m3u'
       - 'tests/**'
@@ -54,12 +55,14 @@ jobs:
             backups.json
             probe-progress.json
             tv.m3u
+            cloud.m3u
+            home-review.json
       - name: Сохранение истории и плейлиста
         if: always() && steps.check.outcome != 'skipped'
         run: |
           git config user.name 'sv-iptv-bot'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          for file in tv.m3u history.json status.json backups.json seed/*.json; do
+          for file in tv.m3u cloud.m3u history.json status.json backups.json seed/*.json; do
             if [ -f "$file" ]; then git add -- "$file"; fi
           done
           if ! git diff --cached --quiet; then
@@ -77,8 +80,12 @@ jobs:
               s = json.loads(path.read_text())
               with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as f:
                   f.write('# SV IPTV\n\n')
-                  f.write(f"Уникальных каналов прошло проверку: **{s['unique_channels_passed']}**.\n\n")
-                  f.write(f"С накопленной статистикой: **{s['stable_channels']}**.\n\n")
+                  f.write(f"Уникальных каналов прошло проверку GitHub: **{s['unique_channels_passed']}**.\n\n")
+                  f.write(f"Со стабильной статистикой именно в сети GitHub: **{s['stable_channels']}**.\n\n")
+                  f.write(f"Файл этой сборки: `{s.get('published_playlist', 'tv.m3u')}`.\n\n")
+                  home = s.get('reviewed_local_playlist', {})
+                  if home:
+                      f.write(f"Основной tv.m3u: **{home['unique_channels']}** каналов после проверки ПК `{home['checked_utc']}`; строгая стабильность: **{home['strictly_stable_channels']}**.\n\n")
                   f.write(f"Результат сборки: **{s['publication']}**.\n\n")
                   f.write(str(s.get('publication_reason') or '') + '\n\n')
           PY
