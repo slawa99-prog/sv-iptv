@@ -1,504 +1,648 @@
-# SV IPTV: каналы по категориям
+# Каналы SV IPTV
 
-Основной `tv.m3u`: 376 уникальных каналов из завершённой проверки ПК 10.11.2026. Категории не являются оценкой стабильности.
+585 каналов после проверки ПК 11.11.2026, завершённой в 13:52 по Оренбургу. Кадры проверены в предыдущем разборе. Длительная стабильность по новым визуальным критериям пока не подтверждена.
 
-В `channel-groups.json` закреплены категории всех 744 известных каналов-кандидатов. В этой таблице только опубликованные 376.
+## Федеральные — 14
 
-| Категория | Каналов |
-|---|---:|
-| Федеральные | 13 |
-| Новости | 28 |
-| Кино и сериалы | 57 |
-| Развлекательные | 18 |
-| Детские | 30 |
-| Спорт | 14 |
-| Музыка | 16 |
-| Познавательные | 19 |
-| Природа и животные | 11 |
-| Путешествия | 6 |
-| Охота и рыбалка | 4 |
-| Кулинария | 4 |
-| Авто и техника | 5 |
-| Дом и дача | 3 |
-| Здоровье и образ жизни | 8 |
-| Культура | 7 |
-| Региональные | 103 |
-| Общие | 19 |
-| Религиозные | 7 |
-| Телемагазины | 4 |
+- Домашний
+- Звезда
+- МИР
+- НТВ
+- ОТР
+- Первый канал
+- Пятница!
+- Пятый канал
+- РЕН ТВ
+- Россия 1
+- СТС
+- ТВ Центр
+- ТВ-3
+- ТНТ
 
-## Федеральные
+## Новости — 45
 
-| Канал | ID |
-|---|---|
-| ТВ Центр | `TVCentr.ru` |
-| РЕН ТВ | `RENTV.ru` |
-| Звезда | `Zvezda.ru` |
-| Россия 1 | `Russia1.ru` |
-| МИР | `Mir.ru` |
-| Домашний | `Domashniy.ru` |
-| НТВ | `NTV.ru` |
-| Первый канал | `ChannelOne.ru` |
-| СТС | `STS.ru` |
-| Пятница! | `Friday.ru` |
-| ТВ-3 | `TV3.ru` |
-| Пятый канал | `Channel5.ru` |
-| ТНТ | `TNT.ru` |
+- 100% NEWS
+- 24KZ
+- 360°
+- 9 канал
+- Atameken Business
+- Baku.TV
+- CGTN Pусский
+- Euronews по-русски
+- First Channel News
+- Formula
+- FREEДOM
+- O'zbekiston 24
+- Ost West 24
+- Palitra News
+- RT
+- RT Arabic
+- RT Balkan
+- RT en Espanol
+- Vocea Basarabiei TV
+- Армія ТБ
+- Беларусь 24
+- Вести FM
+- Вместе-РФ
+- Говорит Москва
+- Дельта ТВ
+- Дума ТВ
+- Еспресо TV
+- Известия
+- Красная линия
+- Крик-ТВ
+- ЛДПР ТВ
+- МИР 24
+- Настоящее Время
+- Общественное Независимое Телевидение
+- ОСН ТВ
+- Первый информационный
+- Про Бизнес
+- Радио 1
+- Радио России
+- РБК
+- Репортёр
+- Россия 24
+- Соловьёв Live
+- ТАСС — видеоэфир
+- Эхо-ТВ
 
-## Новости
+## Кино и сериалы — 69
 
-| Канал | ID |
-|---|---|
-| 24KZ | `24KZ.kz` |
-| 360° Новости | `360News.ru` |
-| 9 канал | `Channel9.il` |
-| CGTN Pусский | `CGTNRussian.cn` |
-| Euronews по-русски | `EuronewsRussian.fr` |
-| FREEДOM | `FREEDOM.ua` |
-| Ost West 24 | `OstWest24.de` |
-| RT Balkan | `RTBalkan.ru` |
-| UzReport TV | `UzReportTV.uz` |
-| Беларусь 24 | `Belarus24.by` |
-| Вести FM | `VestiFM.ru` |
-| Говорит Москва | `GovoritMoskva.ru` |
-| Известия | `Izvestia.ru` |
-| Красная линия | `RedLine.ru` |
-| Крик-ТВ | `KrikTV.ru` |
-| ЛДПР ТВ | `LDPRTV.ru` |
-| МИР 24 | `Mir24.ru` |
-| Настоящее Время | `CurrentTimeTV.cz` |
-| ОСН ТВ | `OSN.ru` |
-| Первый информационный | `PerviyInformationniy.by` |
-| Про Бизнес | `ProBusiness.ru` |
-| Радио 1 | `Radio1.ru` |
-| Радио России | `RadioRossii.ru` |
-| РБК | `RBKTV.ru` |
-| Россия 24 | `Russia24.ru` |
-| Соловьёв Live | `SolovyovLive.ru` |
-| ТАСС — видеоэфир | `sv.tass` |
-| Эхо-ТВ | `EchoTV.ru` |
+- .sci-fi
+- 4ever Drama
+- BIZ Cinema
+- Bollywood
+- Cinema
+- FAN
+- FilmUADrama
+- Hollywood
+- Kinoteatr
+- Scream
+- Silk Way Cinema
+- Star Cinema
+- START Air
+- viju TV1000
+- viju TV1000 action
+- viju TV1000 русское
+- viju+ Comedy
+- viju+ Serial
+- А2
+- Балабол
+- Детское кино
+- Дом кино
+- Дом кино Премиум
+- Дорама
+- Еврокино
+- Иллюзион+
+- Индийское кино
+- Индия
+- Кинеко
+- Кино ТВ
+- Кинокомедия
+- Киноман
+- Киномикс
+- Кинопоказ
+- Кинопремьера
+- КиноСат
+- Киносвидание
+- КиноСезон
+- Киносемья
+- Киносерия
+- Киноужас
+- Кинохит
+- Классика Кино
+- Комедия
+- Мир Сериала
+- Мосфильм Золотая коллекция
+- Мужское кино
+- Наше Любимое Кино
+- Наше новое кино
+- Невский
+- НСТ
+- НТВ-Хит
+- Первый отдел
+- Победа
+- Родное Кино
+- Роман
+- Русский бестселлер
+- Русский детектив
+- Русский Иллюзион
+- Русский роман
+- Сити Эдем КиноМистика
+- Скорая помощь
+- Смотрим 100% Классика
+- Смотрим 100% Любовь
+- Смотрим 100% Мужское
+- Советское Кино
+- ТВ 21
+- Феникс плюс кино
+- Шеф
 
-## Кино и сериалы
+## Развлекательные — 26
 
-| Канал | ID |
-|---|---|
-| Bollywood | `Bollywood.ru` |
-| Cinema | `Cinema.ru` |
-| FAN | `FAN.ru` |
-| FilmUADrama | `FilmUADrama.ua` |
-| Hollywood | `Hollywood.ru` |
-| KinoLiving | `Kinoliving.ru` |
-| Silk Way Cinema | `SilkWayCinema.kz` |
-| Star Cinema | `StarCinema.ru` |
-| viju+ Comedy | `vijuPlusComedy.ru` |
-| viju+ Megahit | `vijuPlusMegahit.ru` |
-| viju+ Premiere | `vijuPlusPremiere.ru` |
-| viju+ Serial | `vijuPlusSerial.ru` |
-| viju TV1000 | `vijuTV1000.ru` |
-| viju TV1000 action | `vijuTV1000action.ru` |
-| viju TV1000 русское | `vijuTV1000russkoe.ru` |
-| Yosso TV Советские Фильмы | `sv.custom.fee4c9808f542de5` |
-| Балабол | `Balabol.ru` |
-| Дом кино | `Domkino.ru` |
-| Дом кино Премиум | `DomkinoPremium.ru` |
-| Дорама | `Dorama.ru` |
-| Еврокино | `Evrokino.ru` |
-| Иллюзион+ | `IllusionPlus.ru` |
-| Индийское кино | `IndiyskoyeKino.ru` |
-| Кинокомедия | `Kinokomedija.ru` |
-| Киномикс | `Kinomix.ru` |
-| Кинопоказ | `Kinopokaz.ru` |
-| Кинопремьера | `Kinopremyera.ru` |
-| Киносвидание | `Kinosvidanie.ru` |
-| КиноСезон | `KinoSezon.ru` |
-| Киносемья | `Kinosemja.ru` |
-| Киносерия | `Kinoseriya.ru` |
-| Кино ТВ | `KinoTV.ru` |
-| Кинохит | `KinoHit.ru` |
-| Комедия | `Komedia.ru` |
-| Мир Сериала | `MirSeriala.ru` |
-| Мосфильм Золотая коллекция | `MosfilmGoldCollection.ru` |
-| Мужское кино | `Muzhskoekino.ru` |
-| Наше | `Nashe.ru` |
-| Наше Любимое Кино | `NasheLubimoeKino.ru` |
-| Наше новое кино | `NasheNovoeKino.ru` |
-| Невский | `Nevskiy.ru` |
-| НСТ | `NST.ru` |
-| НТВ Сериал | `NTVSeries.ru` |
-| НТВ-Хит | `NTVHit.ru` |
-| Первый отдел | `Perviyotdel.ru` |
-| Пёс | `Pes.ru` |
-| Пять минут тишины | `5minuttishiny.ru` |
-| Родное Кино | `RodnoeKino.ru` |
-| Роман | `Roman.ru` |
-| Русский Иллюзион | `RusskiyIllusion.ru` |
-| Русский роман | `Russkiyroman.ru` |
-| Скорая помощь | `Skorayapomoshch.ru` |
-| Смотрим 100% Классика | `Smotrim100Klassika.ru` |
-| Смотрим 100% Любовь | `Smotrim100Lyubov.ru` |
-| Смотрим 100% Мужское | `Smotrim100Muzhskoe.ru` |
-| ТВ 21 | `TV21.ru` |
-| Шеф | `Shef.ru` |
+- 2x2
+- 312 ТВ
+- 8 канал
+- BIZ TV
+- Makon TV
+- MY5
+- OTV
+- RAZ 2
+- Ruxsor TV
+- TLC
+- Беларусь 2
+- Вопросы и ответы
+- Калейдоскоп ТВ
+- НТВ Своя игра
+- Продвижение
+- Ратник
+- Ретро
+- Сарафан
+- Смотрим 100% Праздник
+- СТС Love
+- Суббота!
+- Твое ТВ
+- Твое ТВ Юмор
+- ТНТ4
+- Че!
+- Ю
 
-## Развлекательные
+## Детские — 35
 
-| Канал | ID |
-|---|---|
-| 2x2 | `2x2.ru` |
-| 8 канал | `Channel8.ru` |
-| Makon TV | `MakonTV.uz` |
-| OTV | `OTV.ee` |
-| Беларусь 2 | `Belarus2.by` |
-| Вопросы и ответы | `VoprosyiOtvety.ru` |
-| Калейдоскоп ТВ | `KaleidoscopeTV.ru` |
-| КВН ТВ | `KVNTV.ru` |
-| Продвижение | `Prodvizhenie.ru` |
-| Ретро | `Retro.ru` |
-| Сарафан | `Sarafan.ru` |
-| Смотрим 100% Праздник | `Smotrim100Prazdnik.ru` |
-| СТС Love | `STSLove.ru` |
-| Суббота! | `Subbota.ru` |
-| Твое ТВ | `TvoeTV.ru` |
-| Твое ТВ Юмор | `TvoyeTVYumor.ru` |
-| ТНТ4 | `TNT4.ru` |
-| Ю | `U.ru` |
+- Ani
+- Aqlvoy
+- Baby Time
+- Balapan
+- Bolajon
+- Cartoon Classics
+- Cartoonito CEE
+- ducktv
+- Gulli Girl
+- Joy Cook
+- MiMi TV
+- Nickelodeon CIS
+- Nicktoons CIS
+- TiJi
+- В гостях у сказки
+- Детский
+- Детский мир
+- Капитан Фантастика
+- Карусель
+- Мульт
+- Мультиландия
+- Мультимания ТВ
+- Мультимузыка
+- О!
+- Піксель TV
+- Радость Моя
+- Рыжий
+- Смайл ТВ
+- Смотрим 100% Детское
+- Солнце
+- СТС Kids
+- СуперГерои
+- Терра Инкогнита
+- Тооку
+- Шаян ТВ
 
-## Детские
+## Спорт — 27
 
-| Канал | ID |
-|---|---|
-| Ani | `Ani.ru` |
-| Aqlvoy | `Aqlvoy.uz` |
-| Baby Time | `BabyTime.ru` |
-| Balapan International | `BalapanInternational.kz` |
-| Cartoon Classics | `CartoonClassics.ru` |
-| Cartoonito CEE | `CartoonitoCEE.uk` |
-| Gulli Girl | `GulliGirl.ru` |
-| Nickelodeon CIS | `NickelodeonCIS.kz` |
-| Nick Jr. | `NickJr.ru` |
-| Nicktoons CIS | `NicktoonsCIS.ru` |
-| TiJi | `TiJi.ru` |
-| Yosso TV Наше Детское | `sv.custom.9e26c6022eb90575` |
-| В гостях у сказки | `Vgostyakhuskazki.ru` |
-| Детский | `Detskiy.ru` |
-| Капитан Фантастика | `KapitanFantastika.ru` |
-| Карусель | `Carousel.ru` |
-| Мульт | `Mult.ru` |
-| Мультиландия | `Multilandia.ru` |
-| Мультимания ТВ | `Multimania.ru` |
-| О! | `O.ru` |
-| Радость Моя | `RadostMoya.ru` |
-| Рыжий | `Ryzhiy.ru` |
-| Смайл ТВ | `SmileTV.ru` |
-| Смотрим 100% Детское | `Smotrim100Detskoe.ru` |
-| Солнце | `Solnce.ru` |
-| СТС Kids | `STSkids.ru` |
-| СуперГерои | `SuperGeroi.ru` |
-| Тамыр | `Tamyr.ru` |
-| Тооку | `Tooku.ru` |
-| Шаян ТВ | `ShayanTV.ru` |
+- Fast&FunBox
+- Futbol
+- Futbol TV
+- Maincast Sport
+- MMA-TV.com
+- Okko Футбол
+- Turkmenistan Sport
+- viju+ Sport
+- Астрахань спорт
+- Беларусь 5
+- Волейбол
+- КХЛ
+- Матч ТВ
+- Матч! Арена
+- Матч! Игра
+- Матч! Планета
+- Матч! Страна
+- Матч! Ультра
+- Матч! Футбол 1
+- Матч! Футбол 2
+- Матч! Футбол 3
+- Русский Экстрим
+- Спорт
+- Спорт ТВ
+- Старт
+- Старт Триумф
+- Футбол
 
-## Спорт
+## Музыка — 35
 
-| Канал | ID |
-|---|---|
-| MMA-TV.com | `MMATVcom.ru` |
-| Okko Прайм Спорт | `OkkoPrajmSport.ru` |
-| Okko Футбол | `OkkoFutbol.ru` |
-| viju+ Sport | `vijuPlusSport.ru` |
-| Астрахань спорт | `AstrahanRuSport.ru` |
-| Беларусь 5 | `Belarus5.by` |
-| Матч! Арена | `MatchArena.ru` |
-| Матч! Планета | `MatchPlaneta.ru` |
-| Матч! Ультра | `MatchUltra.ru` |
-| Матч! Футбол 3 | `MatchFutbol3.ru` |
-| Спортивный | `Sportivnyy.ru` |
-| Спорт ТВ | `SportTV.by` |
-| Старт | `Start.ru` |
-| Старт Триумф | `StartTriumf.ru` |
+- 1HD Music Television
+- BIZ Music
+- BRIDGE
+- BRIDGE Deluxe
+- BRIDGE Hits
+- BRIDGE Rock
+- BRIDGE Русский Хит
+- BRIDGE Фрэш
+- BRIDGE Шлягер
+- DanceHits80
+- Ellikqala TV
+- FTV
+- Hit FM
+- iTV Music
+- KN Music TV
+- Lux TV
+- Muz TV Uzbekistan
+- Navo
+- Noroc TV
+- Tezaur TV
+- Turkmen Owazy
+- Жара ТВ
+- Курай-ТВ
+- Майдан
+- Матур ТВ
+- Муз Союз
+- Муз-ТВ
+- Музыка Первого
+- Новое Радио
+- о2тв
+- Радио Мир
+- РУ.ТВ
+- Страна FM
+- ТМTV
+- ТНТ Music
 
-## Музыка
+## Познавательные — 31
 
-| Канал | ID |
-|---|---|
-| BRIDGE | `BRIDGE.ru` |
-| BRIDGE Rock | `BRIDGERock.ru` |
-| DanceHits80 | `DanceHits80.ru` |
-| Hit FM | `HitFM.md` |
-| Курай-ТВ | `KurajTV.ru` |
-| Майдан | `Maidan.ru` |
-| Муз Союз | `MuzSoyuz.ru` |
-| Муз-ТВ | `MuzTV.ru` |
-| Музыка Первого | `MuzykaPervogo.ru` |
-| Новое Радио | `NovoeRadio.ru` |
-| Первый Музыкальный Канал | `FirstMusicChannel.by` |
-| Радио Мир | `RadioMir.by` |
-| РУ.ТВ | `RUTV.ru` |
-| Страна FM | `StranaFM.ru` |
-| ТНТ Music | `FONMusic.ru` |
-| Шансон ТВ | `ShansonTV.ru` |
+- 365 дней ТВ
+- Da Vinci
+- Discovery Channel
+- O'zbekiston Tarixi
+- RTД
+- Univer TV
+- viju Explore
+- viju History
+- Арсенал
+- Вкус
+- ВоенТВ
+- Время
+- Звезда Плюс
+- Инсайт ТВ
+- История
+- Конгресс ТВ
+- Мамонт
+- Мужской
+- МЫ
+- Наука
+- НТВ Право
+- НТВ Следствие вели
+- Оружие
+- Первый Космический
+- Просвещение
+- Смотрим 100% Факты
+- Смотрим Честный Детектив
+- Совершенно секретно
+- Тайны Галактики
+- Точка РФ
+- Успех
 
-## Познавательные
+## Природа и животные — 13
 
-| Канал | ID |
-|---|---|
-| 365 дней ТВ | `365daysTV.ru` |
-| Da Vinci | `DaVinci.ru` |
-| Discovery Channel | `DiscoveryChannel.ru` |
-| Univer TV | `UniverTV.ru` |
-| viju Explore | `vijuExplore.ru` |
-| viju History | `vijuHistory.ru` |
-| Арсенал | `Arsenal.ru` |
-| Вкус | `Vkus.ru` |
-| ВоенТВ | `VoyenTV.by` |
-| Звезда Плюс | `ZvezdaPlus.ru` |
-| Инсайт ТВ | `InsaytTV.ru` |
-| История | `Istoriya.ru` |
-| Конгресс ТВ | `KongressTV.ru` |
-| Мамонт | `Mamont.ru` |
-| Мужской | `Muzhskoy.ru` |
-| Наука | `Nauka.ru` |
-| Просвещение | `Prosveshchenie.ru` |
-| Смотрим 100% Факты | `Smotrim100Fakty.ru` |
-| Смотрим Честный Детектив | `SmotrimChestnyyDetektiv.ru` |
+- Animal Planet
+- Home
+- Love Nature
+- National Geographic Wild Россия
+- viju Nature
+- Zooпарк
+- В мире животных
+- Домашние животные
+- Живая Планета
+- Живая природа
+- Лапки Live
+- Наша Сибирь
+- Рибалка
 
-## Природа и животные
+## Путешествия — 10
 
-| Канал | ID |
-|---|---|
-| Animal Planet | `AnimalPlanet.ru` |
-| Home | `Home4K.ru` |
-| Love Nature | `LoveNature.ca` |
-| National Geographic Wild Россия | `NationalGeographicWild.ru` |
-| viju Nature | `vijuNature.ru` |
-| Zooпарк | `Zoopark.ru` |
-| В мире животных | `Vmirezhivotnykh.ru` |
-| Домашние животные | `DomashnieZhivotnye.ru` |
-| Живая Планета | `ZhivayaPlaneta.ru` |
-| Живая природа | `Zhivayapriroda.ru` |
-| Наша Сибирь | `NashaSibir.ru` |
+- Big Planet
+- The Explorers
+- Turan TV
+- Глазами Туриста
+- Моя Планета
+- Наша Тема
+- Неизвестная планета
+- Поехали!
+- Приключения
+- Точка отрыва
 
-## Путешествия
+## Охота и рыбалка — 5
 
-| Канал | ID |
-|---|---|
-| The Explorers | `TheExplorers.ru` |
-| Глазами Туриста | `GlazamiTurista.ru` |
-| Моя Планета | `MoyaPlaneta.ru` |
-| Неизвестная планета | `Neizvestnayaplaneta.ru` |
-| Приключения | `Priklyucheniya.ru` |
-| Точка отрыва | `Tochkaotryva.ru` |
+- Диалоги о рыбалке
+- Дикая охота
+- Дикий
+- Охота и рыбалка
+- Охотник и рыболов
 
-## Охота и рыбалка
+## Кулинария — 6
 
-| Канал | ID |
-|---|---|
-| Дикая охота | `Dikayaokhota.ru` |
-| Дикий | `Dikij.ru` |
-| Охота и рыбалка | `Okhotairybalka.ru` |
-| Охотник и рыболов | `Ohotnikirybolov.ru` |
+- Dasturxon TV
+- Аппетитный
+- Кулинар HD
+- Кухня
+- Первый вегетарианский
+- Телекафе
 
-## Кулинария
+## Авто и техника — 5
 
-| Канал | ID |
-|---|---|
-| Dasturxon TV | `DasturxonTV.uz` |
-| Кулинар HD | `KulinarTV.ru` |
-| Кухня | `Kuhnya.ru` |
-| Телекафе | `Telecafe.ru` |
+- Авто Плюс
+- Авто24
+- Драйв
+- РЖД ТВ
+- Т24
 
-## Авто и техника
+## Дом и дача — 4
 
-| Канал | ID |
-|---|---|
-| Авто24 | `Avto24.ru` |
-| Авто Плюс | `AutoPlus.ru` |
-| Драйв | `Drive.ru` |
-| РЖД ТВ | `RZDTV.ru` |
-| Т24 | `T24.ru` |
+- Бобёр
+- Загородная жизнь
+- Загородный
+- Усадьба
 
-## Дом и дача
+## Здоровье и образ жизни — 12
 
-| Канал | ID |
-|---|---|
-| Дача | `Dacha.ua` |
-| Загородная жизнь | `ZagorodnayaZhizn.ru` |
-| Усадьба | `Usadba.ru` |
+- 36.6 TV
+- Dомашний International
+- FashionTV
+- Shifo TV
+- World Fashion Channel
+- Доктор
+- Живи Активно
+- Здоровое ТВ
+- Мама
+- Открытый мир. Здоровье
+- Психология
+- Тонус
 
-## Здоровье и образ жизни
+## Культура — 10
 
-| Канал | ID |
-|---|---|
-| FashionTV | `FashionTV.ru` |
-| Доктор | `Doctor.ru` |
-| Живи! | `Zhivi.ru` |
-| Живи Активно | `sv.zhivi-aktivno` |
-| Здоровое ТВ | `ZdorovoeTV.ru` |
-| Мама | `Mama.ru` |
-| Психология | `Psikhologiya.ru` |
-| Тонус | `Tonus.ru` |
+- Ararat TV
+- Miras
+- Абай ТВ
+- АРТ
+- Беларусь 3
+- Восток ТВ
+- Министерство идей
+- Ностальгия
+- Россия К
+- ТНВ-Планета
 
-## Культура
+## Региональные — 149
 
-| Канал | ID |
-|---|---|
-| Абай ТВ | `AbaiTV.kz` |
-| АРТ | `ART.ru` |
-| Беларусь 3 | `Belarus3.by` |
-| Министерство идей | `Ministerstvoidey.ru` |
-| Ностальгия | `Nostalgia.ru` |
-| Россия К | `RussiaK.ru` |
-| ТНВ-Планета | `TNVPlanet.ru` |
+- 10 канал
+- 12 канал — Омск
+- 31 канал — Челябинск
+- 41 регион
+- 78 канал
+- 8 канал Красноярск
+- 8 канал Новосибирск
+- Almaty TV
+- Apsua TV
+- Astrahan.Ru TV
+- Navoiy MTRK
+- Oplot 2
+- Qaraqalpaqstan
+- Sochi Live
+- TDK 42
+- TV Губерния
+- Ulytau
+- Абакан 24
+- АИСТ ТВ
+- Алмазный край
+- Амурское областное телевидение
+- Арис 24
+- Арктика 24
+- Архыз 24
+- Астрахань 24
+- Барс — Иваново
+- Башкортостан 24
+- Белгород 24
+- Брянская губерния
+- БСТ
+- БСТ — Братск
+- Ветта 24
+- Волга
+- Волгоград 1
+- Волгоград 24
+- Восток 24
+- Городской телеканал — Ярославль
+- Грозный
+- Губерния 33
+- Губерния — Самара
+- Дагестан
+- Девятка — Киров
+- Дзержинск ТВ
+- Димград 24 HD
+- Дон 24
+- Евразия
+- Енисей
+- За! ТВ
+- Запад 24
+- Ингушетия
+- Истоки
+- Кавказ 24
+- Камчатка 1
+- Каскад 24
+- Катунь 24
+- Кварц
+- Крым 24
+- КТВ-Луч — Сызрань
+- Кубань 24
+- Кузбасс 1
+- Легендарный 24
+- ЛенТВ24
+- Липецкое время
+- Луганск 24
+- Мордовия 24
+- Москва 24
+- Москва. Доверие
+- МТВ
+- МТРК
+- МЭТР
+- Наш дом
+- Наши Города
+- НВК Саха
+- Нижний Новгород 24
+- Ника TV
+- ННТВ
+- Новгородское областное телевидение
+- Новое телевидение
+- НСК 49
+- НТК 21
+- НТМ
+- НТС — Ирбит
+- НТС — Иркутск
+- НТС — Севастополь
+- ОРТ — Оренбург
+- Осетия-Ирыстон
+- ОТВ Сахалин
+- ОТВ — Екатеринбург
+- ОТВ — Челябинск
+- ОТВ-Прим
+- ОТС
+- Первый городской канал
+- Первый Крымский
+- Первый областной — Орёл
+- Первый Псковский
+- Первый Республиканский
+- Первый Тульский
+- Прима
+- ПРНК
+- Раменское ТВ
+- Регион29
+- Рика ТВ
+- Рифей-ТВ
+- Россия 1 Вайнах
+- РТС — Хакасия
+- Русский Север
+- Рыбинск-40
+- С1
+- С86 (Сургут)
+- Салям
+- Самара 24
+- Самара-ГИС
+- Самотлор
+- Сампо ТВ
+- Санкт-Петербург
+- Саратов 24
+- Саров 24
+- Своё ТВ
+- Север
+- Сибирь 24
+- Симферополь 24
+- СК 1
+- Сургут 24
+- Таврия
+- Татарстан 24
+- ТВК
+- Телеканал Краснодар
+- Телплюс
+- Тивиком
+- ТКР
+- ТНВ-Татарстан
+- Толк
+- Тольятти 24
+- Томское время
+- ТРК 555
+- Тюменское Время
+- Удмуртия
+- Урал 1
+- Урал 24
+- Учалы ТВ
+- Чăваш Ен
+- Щёлковское ТВ
+- Эхо ТВ 24 — Новоуральск
+- Югра-ТВ
+- Юрган
+- ЮТВ — Чебоксары
+- Якутия 24
+- Ямал
+- ЯПервый
 
-## Региональные
+## Общие — 72
 
-| Канал | ID |
-|---|---|
-| 10 канал | `Channel10.ru` |
-| 12 канал — Омск | `Channel12.ru` |
-| 31 канал — Челябинск | `sv.channel31-chelyabinsk` |
-| 8 канал Красноярск | `Channel8Krasnoyarsk.ru` |
-| 8 канал Новосибирск | `Channel8Novosibirsk.ru` |
-| Apsua TV | `ApsuaTV.ge` |
-| Astrahan.Ru TV | `AstrahanRuTV.ru` |
-| Oplot 2 | `Oplot2.ru` |
-| Sochi Live | `SochiLive.ru` |
-| АИСТ ТВ | `AISTTV.ru` |
-| Алмазный край | `Almaznyykray.ru` |
-| Арис 24 | `Aris24.ru` |
-| Арктика 24 | `Arktika24.ru` |
-| Архыз 24 | `Arkhyz24.ru` |
-| Астрахань 24 | `Astrahan24.ru` |
-| Белгород 24 | `Belgorod24.ru` |
-| БСТ | `BST.ru` |
-| БСТ — Братск | `sv.bst-bratsk` |
-| Ветта 24 | `Vetta24.ru` |
-| Волга | `Volga.ru` |
-| Восток 24 | `Vostok24.ru` |
-| Грозный | `Groznyj.ru` |
-| Губерния 33 | `Guberniya33.ru` |
-| Губерния — Самара | `GuberniaSamara.ru` |
-| Дагестан | `Dagestan.ru` |
-| Девятка — Киров | `sv.devyatka-kirov` |
-| Дзержинск ТВ | `sv.dzerzhinsk` |
-| Дон 24 | `Don24.ru` |
-| Евразия | `Eurasia.ru` |
-| Енисей | `Enisey.ru` |
-| Запад 24 | `Zapad24.ru` |
-| За! ТВ | `ZaTV.ru` |
-| Ингушетия | `Ingushetia.ru` |
-| Истоки | `Istoki.ru` |
-| Камчатка 1 | `sv.kamchatka1` |
-| Каскад 24 | `sv.kaskad24` |
-| Катунь 24 | `Katun24.ru` |
-| Кварц | `Kvarc.ru` |
-| Крым 24 | `Crimea24.ru` |
-| КТВ-Луч — Сызрань | `sv.ktv-luch-syzran` |
-| Кубань 24 | `Kuban24.ru` |
-| Мир Белогорья | `MirBelogorya.ru` |
-| Мордовия 24 | `Mordoviya24.ru` |
-| Москва 24 | `Moskva24.ru` |
-| Москва. Доверие | `MoskvaDoveriye.ru` |
-| МТВ | `MTVVolgograd.ru` |
-| МТРК | `MTRK.kz` |
-| Наши Города | `sv.nashi-goroda` |
-| НВК Саха | `NVKSakha.ru` |
-| Нижний Новгород 24 | `NizhniyNovgorod24.ru` |
-| Ника TV | `NikaTV.ru` |
-| Новое телевидение | `Novoetelevidenie.kz` |
-| НТМ | `NTM.ru` |
-| НТС — Ирбит | `sv.nts-irbit` |
-| НТС — Иркутск | `NTS.ru` |
-| ОРТ — Оренбург | `sv.ort-orenburg` |
-| Осетия-Ирыстон | `OsetiyaIryston.ru` |
-| ОТВ — Екатеринбург | `OTV.ru` |
-| ОТВ-Прим | `OTVPrim.ru` |
-| ОТВ Сахалин | `OTVSakhalin.ru` |
-| ОТС | `OTS.ru` |
-| Первый Крымский | `PerviyKrymskiy.ru` |
-| Первый областной — Орёл | `sv.pervyy-oblastnoy-orel` |
-| Первый Республиканский | `PervyyRespublikanskiy.ru` |
-| Прима | `Prima.ru` |
-| ПРНК | `sv.prnk` |
-| Раменское ТВ | `RamenskoeTV.ru` |
-| Регион29 | `Region29.ru` |
-| Рика ТВ | `RikaTV.kz` |
-| РТС — Хакасия | `sv.rts-abakan` |
-| Рыбинск-40 | `sv.rybinsk40` |
-| С1 | `S1.ru` |
-| С86 (Сургут) | `86.ru` |
-| Салям | `Salyam.ru` |
-| Самара-ГИС | `SamaraGIS.ru` |
-| Самотлор | `sv.samotlor` |
-| Сампо ТВ | `sv.sampo` |
-| Санкт-Петербург | `SanktPeterburg.ru` |
-| Саратов 24 | `Saratov24.ru` |
-| Своё ТВ | `SvoyoTV.ru` |
-| Сочи24 | `Sochi24.ru` |
-| Таврия | `Tavriya.ru` |
-| Татарстан 24 | `Tatarstan24.ru` |
-| ТВК | `TVK.ru` |
-| Телеканал Краснодар | `TelekanalKrasnodar.ru` |
-| Телплюс | `Telplus.ru` |
-| ТКР | `TKR.ru` |
-| ТНВ-Татарстан | `TNVTatarstan.ru` |
-| Толк | `Tolk.ru` |
-| Тольятти 24 | `Tolyatti24.ru` |
-| Томское время | `sv.tomskoe-vremya` |
-| ТРК 555 | `555.ru` |
-| Урал 1 | `sv.ural1` |
-| Урал 24 | `Ural24.ru` |
-| Учалы ТВ | `UchalyTV.ru` |
-| Чăваш Ен | `ChuvashEn.ru` |
-| Щёлковское ТВ | `ShchyolkovskoeTV.ru` |
-| Эхо ТВ 24 — Новоуральск | `sv.echo24-novouralsk` |
-| Югра-ТВ | `UgraTV.ru` |
-| Юрган | `Yurgan.ru` |
-| ЮТВ — Чебоксары | `YuTV.ru` |
-| Якутия 24 | `Yakutiya24.ru` |
-| ЯПервый | `YaPervyy.ru` |
+- 1+1 Марафон
+- 1+1 Україна
+- 1TV
+- 2 TV
+- 31 канал
+- Altyn Asyr
+- Armenia 1
+- Armenia 2
+- Asgabat
+- Astana TV
+- Ayaz TV
+- Az TV
+- Azad TV
+- Badakhshon
+- BMG TV
+- Dunyo bo'ylab
+- Farg'ona MTRK
+- Fashion
+- Fortuna TV
+- Imedi TV
+- Istiqlol TV
+- ITV
+- Jaslar TV
+- Jibek Joly
+- Kanal S
+- Kentron TV
+- Madaniyat va ma'rifat
+- Mahalla
+- Milliy
+- Moldova TV
+- Muloqot TV
+- Nurafshon TV
+- O'zbekiston
+- Qazaqstan
+- Qazaqstan International
+- RAZ 3 International
+- Renessans TV
+- Renome TV
+- RTN
+- Sevimli TV
+- Silk Way
+- Surxondaryo MTRK
+- Taraqqiyot TV
+- Toshkent
+- Turkmenistan
+- TV 25
+- TV BRICS — русский
+- TV PRO
+- TVMChannel
+- TVR Moldova
+- Xorazm MTRK
+- Yoshlar
+- Беларусь 1
+- Большая Азия
+- Всё ТВ
+- Душанбе HD
+- ДІМ
+- Еркир Медиа
+- Измаил ТВ
+- Некст-ТВ
+- НТВ Мир
+- НТВ Неизвестная Россия
+- НТК
+- РТР-Планета
+- Сангат
+- Светлое ТВ
+- Союзный
+- СТБ
+- Сфера-ТВ
+- ТБН
+- ТРК Круг
+- Інтер (Украина)
 
-## Общие
+## Религиозные — 11
 
-| Канал | ID |
-|---|---|
-| 31 канал | `31Kanal.kz` |
-| Jibek Joly | `JibekJoly.kz` |
-| O'zbekiston | `Ozbekiston.uz` |
-| Qazaqstan | `Qazaqstan.kz` |
-| Qazaqstan International | `QazaqstanInternational.kz` |
-| RAZ 3 International | `RAZ3International.ua` |
-| RTN | `RTN.us` |
-| Sevimli TV | `SevimliTV.uz` |
-| Silk Way | `SilkWay.kz` |
-| Taraqqiyot TV | `TaraqqiyotTV.uz` |
-| Turkmenistan | `Turkmenistan.tm` |
-| TV BRICS — русский | `TVBRICSRussian.ru` |
-| TV PRO | `TVPRO.ru` |
-| Беларусь 1 | `Belarus1.by` |
-| Большая Азия | `BigAsia.ru` |
-| РТР-Планета | `RTRPlaneta.ru` |
-| Союзный | `Soyuzny.ru` |
-| СТБ | `STV.by` |
-| ТВ Центр International | `TVCentrInternational.ru` |
+- Ertsulovneba
+- EWTN Україна
+- Life TV
+- TBN Baltia
+- Каббала ТВ
+- Мана Церковь Онлайн
+- Союз
+- Спас
+- ТВ МАНА Русский
+- Три Ангела
+- Хузур ТВ
 
-## Религиозные
+## Телемагазины — 6
 
-| Канал | ID |
-|---|---|
-| Life TV | `LifeTV.ee` |
-| TBN Baltia | `TBNBaltia.ee` |
-| Каббала ТВ | `KabbalaTV.ru` |
-| Союз | `Soyuz.ru` |
-| Спас | `Spas.ru` |
-| ТВ МАНА Русский | `TVManaRusskiy.pt` |
-| Хузур ТВ | `HuzurTV.ru` |
-
-## Телемагазины
-
-| Канал | ID |
-|---|---|
-| Leomax 24 | `Leomax24.ru` |
-| Shopping Live | `ShoppingLive.ru` |
-| Витрина ТВ | `VitrinaTV.ru` |
-| Ювелирочка | `Yuvelirochka.ru` |
+- Leomax 24
+- Luxury
+- Magnat
+- Shopping Live
+- Витрина ТВ
+- Ювелирочка

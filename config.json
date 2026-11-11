@@ -233,7 +233,53 @@
       "url": "https://raw.githubusercontent.com/iptv-org/iptv/master/streams/ru.m3u",
       "fallback": "seed/streams-ru.json"
     },
-    "custom.m3u"
+    "custom.m3u",
+    {
+      "url": "https://iptv-org.github.io/iptv/regions/cis.m3u",
+      "match_by_name": true,
+      "priority": 15,
+      "fallback": "seed/expansion-cis.json"
+    },
+    {
+      "url": "https://iptv-org.github.io/iptv/countries/ua.m3u",
+      "match_by_name": true,
+      "priority": 15,
+      "fallback": "seed/expansion-ua.json"
+    },
+    {
+      "url": "https://iptv-org.github.io/iptv/countries/ge.m3u",
+      "match_by_name": true,
+      "priority": 15,
+      "fallback": "seed/expansion-ge.json"
+    },
+    {
+      "url": "https://iptv-org.github.io/iptv/countries/md.m3u",
+      "match_by_name": true,
+      "priority": 15,
+      "fallback": "seed/expansion-md.json"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/slava-67/TV/IPTV/avto.m3u",
+      "match_by_name": true,
+      "priority": 15,
+      "fallback": "seed/expansion-slava67.json"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/Dimonovich/TV/Dimonovich/FREE/ZARUB",
+      "match_by_name": true,
+      "priority": 15,
+      "fallback": "seed/expansion-dimon_zarub.json"
+    },
+    {
+      "url": "https://loganettv.github.io/playlists/all.m3u",
+      "match_by_name": true,
+      "priority": 15,
+      "fallback": "seed/expansion-loganettv.json"
+    },
+    {
+      "url": "expansion-candidates.m3u",
+      "priority": 30
+    }
   ],
   "epg_url": "",
   "workers": 6,
