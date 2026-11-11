@@ -8,6 +8,8 @@ on:
     branches: [main]
     paths:
       - 'sv_iptv.py'
+      - 'placeholder_filter.py'
+      - 'placeholder-templates.json'
       - 'channels.json'
       - 'channel-groups.json'
       - 'config.json'
@@ -57,6 +59,7 @@ jobs:
             tv.m3u
             cloud.m3u
             home-review.json
+            review-frames/
       - name: Сохранение истории и плейлиста
         if: always() && steps.check.outcome != 'skipped'
         run: |
@@ -90,6 +93,7 @@ jobs:
                   f.write('# SV IPTV\n\n')
                   f.write(f"Уникальных каналов прошло проверку GitHub: **{s['unique_channels_passed']}**.\n\n")
                   f.write(f"Со стабильной статистикой именно в сети GitHub: **{s['stable_channels']}**.\n\n")
+                  f.write(f"Потоков с проверенными кадрами: **{s.get('visually_checked_streams', 0)}**; известных заглушек: **{s.get('known_placeholder_streams', 0)}**.\n\n")
                   f.write(f"Файл этой сборки: `{s.get('published_playlist', 'tv.m3u')}`.\n\n")
                   home = s.get('reviewed_local_playlist', {})
                   if home:
@@ -100,4 +104,5 @@ jobs:
       - name: Ошибка проверки требует внимания
         if: steps.check.outcome == 'failure'
         run: exit 1
+
 

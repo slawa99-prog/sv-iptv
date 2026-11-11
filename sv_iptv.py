@@ -26,11 +26,15 @@ import tempfile
 import threading
 import time
 import unicodedata
+from functools import lru_cache
+import placeholder_filter
 from urllib.error import HTTPError, URLError
 from urllib.parse import urljoin, urlparse
 from urllib.request import Request, urlopen
 
 ROOT = Path(__file__).resolve().parent
+VALIDATION_ROOT = ROOT
+CHECKER_VERSION = "3.1-visual"
 ATTR = re.compile(r'([\w-]+)=(?:"([^"]*)"|\'([^\']*)\')')
 QUALITY = re.compile(r'^(?:SD|HD|FHD|UHD|4K|8K|\d{3,4}[pi])$', re.I)
 HOST_LOCKS: dict[str, threading.Semaphore] = {}
@@ -276,6 +280,52 @@ def run_command(args: list[str], timeout: int) -> tuple[int, str, str]:
         return 124, "", "decode timeout"
 
 
+@lru_cache(maxsize=1)
+def visual_signature() -> str:
+    """Scope new visual-history evidence to this algorithm and template set."""
+    data = (VALIDATION_ROOT / "placeholder-templates.json").read_bytes()
+    refs = placeholder_filter.templates(str(VALIDATION_ROOT / "placeholder-templates.json"),
+                                       (VALIDATION_ROOT / "placeholder-templates.json").stat().st_mtime_ns)
+    if not refs:
+        raise ValueError("empty placeholder template set")
+    return hashlib.sha256(CHECKER_VERSION.encode() + data +
+                          (VALIDATION_ROOT / "placeholder_filter.py").read_bytes()).hexdigest()
+
+
+class VisualInspectionError(ValueError):
+    def __init__(self, inspection: dict):
+        self.inspection = inspection
+        message = ("video placeholder: " + inspection["reason"] if inspection.get("state") == "blocked_frame"
+                   else "visual inspection incomplete: " + inspection.get("state", "unknown"))
+        super().__init__(message)
+
+
+def inspect_sample(path: Path, cfg: dict, seconds: float, input_args: list[str]) -> dict:
+    """Inspect two frames in every decoded window, including newly found feeds."""
+    evidence = []
+    for index, at in enumerate(sorted({min(2, seconds / 3), max(0, seconds - 1)})):
+        frame = path.parent / f"review-{index}.jpg"
+        rc, _, _ = run_command(["ffmpeg", "-nostdin", "-hide_banner", "-loglevel", "error", "-threads", "1"] +
+            input_args + ["-i", str(path), "-ss", str(round(at, 3)), "-frames:v", "1", "-vf", "scale=480:-2",
+                          "-threads", "1", "-y", str(frame)], 15)
+        inspection = ({"state": "frame_decode_failed"} if rc else
+                      placeholder_filter.inspect(frame, VALIDATION_ROOT))
+        item = {**inspection, "sample_time_seconds": round(at, 3)}
+        key = cfg.get("_inspection_key", "")
+        if cfg.get("_inspection_dir") and re.fullmatch(r"[0-9a-f]{64}", key):
+            folder = Path(cfg["_inspection_dir"]); folder.mkdir(parents=True, exist_ok=True)
+            number = cfg.setdefault("_inspection_counter", [0]); number[0] += 1
+            name = f"{key}-{number[0]:02d}"
+            if frame.exists():
+                shutil.copyfile(frame, folder / (name + ".jpg"))
+                item["frame"] = "review-frames/" + name + ".jpg"
+            write_json(folder / (name + ".json"), {**item, "checked_utc": utcnow(), "stream_key": key})
+        evidence.append(item)
+        if inspection["state"] != "no_known_placeholder":
+            raise VisualInspectionError({**item, "frames": evidence})
+    return {"state": "no_known_placeholder", "frames_checked": len(evidence), "frames": evidence}
+
+
 def decode_sample(segments: list[dict], headers: dict, cfg: dict, audio_segments: list[dict] | None = None) -> dict:
     """Download complete segments, then verify both tracks and actual decoded frames."""
     with tempfile.TemporaryDirectory(prefix="sv-iptv-") as tmp:
@@ -319,7 +369,7 @@ def decode_sample(segments: list[dict], headers: dict, cfg: dict, audio_segments
             if rc:
                 raise ValueError("sample probe failed")
             tracks.append(json.loads(out).get("streams", []))
-        videos = [x for x in tracks[0] if x.get("codec_type") == "video"]
+        videos = [x for x in tracks[0] if x.get("codec_type") == "video" and x.get("width", 0) > 0 and x.get("height", 0) > 0]
         audios = [x for x in tracks[-1] if x.get("codec_type") == "audio"]
         if not videos or not audios:
             raise ValueError("missing video or audio")
@@ -342,12 +392,15 @@ def decode_sample(segments: list[dict], headers: dict, cfg: dict, audio_segments
             raise ValueError("decode errors: " + summary[:110])
         if download_seconds > max(8, expected * cfg.get("max_download_duration_ratio", 1.0)):
             raise ValueError("media download slower than playback")
+        inspection = inspect_sample(paths[0], cfg, seconds, safe_input)
         return {"pixels": max(int(x.get("width", 0)) * int(x.get("height", 0)) for x in videos),
                 "played_seconds": round(seconds, 2), "download_seconds": round(download_seconds, 2),
-                "bytes": total_bytes}
+                "bytes": total_bytes, "frame_inspection": inspection}
 
 
 def check_stream(item: dict, cfg: dict) -> dict:
+    cfg = {**cfg, "_inspection_key": stream_key(item), "_inspection_counter": [0]}
+    visual_criteria = visual_signature()
     host = urlparse(item["url"]).hostname
     with LOCK:
         semaphore = HOST_LOCKS.setdefault(host, threading.Semaphore(cfg.get("per_host_workers", 2)))
@@ -376,6 +429,7 @@ def check_stream(item: dict, cfg: dict) -> dict:
                 if audio_seconds < 1 or len(audio_chosen) > 12:
                     raise ValueError("insufficient audio sample")
             sample = decode_sample(chosen, item.get("headers", {}), cfg, audio_chosen)
+            frames = list(sample["frame_inspection"]["frames"])
             played, last_read = sample["played_seconds"], started
             # Short live windows are common for low-latency channels. Accumulate
             # real decoded media across updates rather than accepting a short test.
@@ -400,6 +454,7 @@ def check_stream(item: dict, cfg: dict) -> dict:
                     if not fresh_audio:
                         raise ValueError("audio manifest did not advance")
                 later = decode_sample(fresh[-1:], item.get("headers", {}), cfg, fresh_audio[-1:] if fresh_audio else None)
+                frames.extend(later["frame_inspection"]["frames"])
                 played += later["played_seconds"]
                 if played >= cfg.get("test_seconds", 12):
                     break
@@ -409,10 +464,16 @@ def check_stream(item: dict, cfg: dict) -> dict:
             else:
                 raise ValueError("insufficient live sample across updates")
             elapsed = time.monotonic() - started
-            return {"ok": True, "reason": "decoded live samples; manifest advancing",
+            return {"ok": True, "reason": "decoded live samples; manifest advancing; sampled frames checked",
                     "pixels": sample["pixels"], "played_seconds": round(played, 2),
                     "elapsed": round(elapsed, 2), "download_seconds": sample["download_seconds"],
-                    "media_url": media_url, "audio_url": audio_url, "advanced": True}
+                    "media_url": media_url, "audio_url": audio_url, "advanced": True,
+                    "visual_criteria": visual_criteria,
+                    "frame_inspection": {"state": "no_known_placeholder", "frames_checked": len(frames), "frames": frames}}
+        except VisualInspectionError as exc:
+            return {"ok": False, "reason": str(exc), "technical_decode_ok": True, "pixels": 0,
+                    "elapsed": round(time.monotonic() - started, 2), "visual_criteria": visual_criteria,
+                    "frame_inspection": exc.inspection}
         except HTTPError as exc:
             reason = f"HTTP {exc.code}"
         except (TimeoutError, URLError):
@@ -616,24 +677,34 @@ def observation(old: dict, result: dict, now: str, cfg: dict) -> dict:
     checks = [c for c in checks if isinstance(c, dict) and "at" in c]
     cutoff = timestamp(now) - cfg.get("history_days", 14) * 86400
     checks = [c for c in checks if timestamp(c["at"]) >= cutoff]
-    entry = {"at": now, "ok": bool(result["ok"])}
+    criteria = visual_signature()
+    entry = {"at": now, "ok": bool(result["ok"]),
+             "visual_criteria": result.get("visual_criteria") if
+             result.get("frame_inspection", {}).get("state") in ("blocked_frame", "no_known_placeholder") else None}
     if checks and timestamp(now) - timestamp(checks[-1]["at"]) < cfg.get("sample_spacing_hours", 2) * 3600:
         # Repeating a command within minutes does not create days of reliability.
         entry["at"] = checks[-1]["at"]
         # A quick retry must not erase a failure already seen in this interval.
         entry["ok"] = bool(checks[-1]["ok"] and entry["ok"])
+        if checks[-1].get("visual_criteria") != entry["visual_criteria"]:
+            entry["visual_criteria"] = None
         checks[-1] = entry
     else:
         checks.append(entry)
     checks = checks[-cfg.get("history_size", 56):]
     rate = sum(c["ok"] for c in checks) / len(checks)
     span = (timestamp(now) - timestamp(checks[0]["at"])) / 3600
+    visual_checks = [c for c in checks if c.get("visual_criteria") == criteria]
+    visual_span = ((timestamp(now) - timestamp(visual_checks[0]["at"])) / 3600) if visual_checks else 0
     stable = (result["ok"] and len(checks) >= cfg.get("stable_min_samples", 8)
               and span >= cfg.get("stable_min_hours", 42)
+              and len(visual_checks) >= cfg.get("stable_min_samples", 8)
+              and visual_span >= cfg.get("stable_min_hours", 42)
               and rate >= cfg.get("minimum_success_rate", .9))
     return {"checks": checks, "last_checked": now, "last_result": result,
             "samples": len(checks), "success_rate": round(rate, 4),
-            "observation_hours": round(span, 2), "stable": bool(stable)}
+            "observation_hours": round(span, 2), "stable": bool(stable),
+            "visual_samples": len(visual_checks), "visual_observation_hours": round(visual_span, 2)}
 
 
 def select_candidates(items: list[dict], old: dict, previous: str | None, cfg: dict, now: str) -> list[dict]:
@@ -692,6 +763,24 @@ def render_m3u(pairs: list[tuple[dict, dict]], cfg: dict, *, unverified=False) -
     return "\r\n".join(lines) + "\r\n"
 
 
+def prune_confirmed_placeholders(path: Path, results: dict) -> int:
+    """A count guard must not preserve an exact URL observed serving a slate."""
+    rejected = {key for key, r in results.items() if r.get("frame_inspection", {}).get("state") == "blocked_frame"}
+    if not rejected or not path.exists():
+        return 0
+    blocks = re.split(r"(?m)(?=^#EXTINF:)", path.read_text(encoding="utf-8"))
+    kept, removed = [], 0
+    for block in blocks:
+        entries = parse_m3u("#EXTM3U\n" + block) if block.startswith("#EXTINF:") else []
+        if entries and stream_key(entries[0]) in rejected:
+            removed += 1
+        else:
+            kept.append(block)
+    if removed:
+        atomic_write(path, "".join(kept))
+    return removed
+
+
 def build(cfg: dict, *, tester=check_stream, now: str | None = None, inventory=False) -> dict:
     now = now or utcnow()
     mode = cfg.get("publication_mode", "automatic")
@@ -730,7 +819,7 @@ def build(cfg: dict, *, tester=check_stream, now: str | None = None, inventory=F
     all_items = {stream_key(i): i for items in chosen.values() for i in items}
     print(f'Testing {len(all_items)} streams for {sum(bool(v) for v in chosen.values())} channels', flush=True)
     results = {}
-    signature = hashlib.sha256(json.dumps({"checker": "3.0.2", **{k: cfg.get(k) for k in
+    signature = hashlib.sha256(json.dumps({"checker": CHECKER_VERSION, "visual_criteria": visual_signature(), **{k: cfg.get(k) for k in
         ("test_seconds", "preferred_max_height", "preferred_max_bitrate", "network_timeout_seconds",
          "max_download_duration_ratio", "decode_timeout_seconds")}}, sort_keys=True).encode()).hexdigest()
     if tester is check_stream and cfg.get("resume_checks"):
@@ -754,7 +843,8 @@ def build(cfg: dict, *, tester=check_stream, now: str | None = None, inventory=F
             if bucket:
                 queue.append(bucket.pop(0))
     with ThreadPoolExecutor(max_workers=max(1, min(cfg.get("workers", 8), 16))) as pool:
-        futures = {pool.submit(tester, item, cfg): key for key, item in queue}
+        check_cfg = {**cfg, "_inspection_dir": str(ROOT / "review-frames")}
+        futures = {pool.submit(tester, item, check_cfg): key for key, item in queue}
         for f in as_completed(futures):
             key = futures[f]
             try:
@@ -823,7 +913,23 @@ def build(cfg: dict, *, tester=check_stream, now: str | None = None, inventory=F
     if not fresh_count and cfg.get("require_fresh_remote_source", True):
         guard = "all remote catalogs unavailable; previous playlist retained"
     finished = utcnow() if tester is check_stream else now
-    report = {"version": "3.0", "started_utc": now, "checked_utc": finished,
+    pruned = prune_confirmed_placeholders(ROOT / playlist_path, results) if guard else 0
+    if pruned:
+        prior_count = len(parse_m3u((ROOT / playlist_path).read_text(encoding="utf-8")))
+        guard += f"; removed {pruned} confirmed placeholder streams from retained playlist"
+        rejected = {k for k,r in results.items() if r.get("frame_inspection", {}).get("state") == "blocked_frame"}
+        previous = {cid: key for cid,key in previous.items() if key not in rejected}
+        saved_backups = read_json(ROOT / "backups.json", {})
+        if "channels" in saved_backups:
+            saved_backups["channels"] = {cid: [e for e in entries if stream_key(e) not in rejected]
+                                         for cid,entries in saved_backups["channels"].items()}
+            write_json(ROOT / "backups.json", saved_backups)
+    report = {"version": CHECKER_VERSION, "started_utc": now, "checked_utc": finished,
+              "visual_criteria": visual_signature(),
+              "retained_playlist_placeholders_removed": pruned,
+              "known_placeholder_streams": sum(r.get("frame_inspection", {}).get("state") == "blocked_frame" for r in results.values()),
+              "visually_checked_streams": sum(r.get("visual_criteria") == visual_signature() and
+                  r.get("frame_inspection", {}).get("state") in ("blocked_frame", "no_known_placeholder") for r in results.values()),
               "check_environment": cfg.get("check_environment", "github-actions" if os.environ.get("GITHUB_ACTIONS") == "true" else "local-default"),
               "catalog_channels": len(catalog), "base_catalog_channels": base_catalog_count,
               "catalog_discovery": discovery_report,
@@ -834,7 +940,7 @@ def build(cfg: dict, *, tester=check_stream, now: str | None = None, inventory=F
               "unique_channels_passed": len(pairs), "stable_channels": sum(x["rating"] == "observed_stable" for x in selected),
               "probation_channels": sum(x["rating"] == "probation" for x in selected),
               "last_published_count": prior_count if guard else len(pairs),
-              "last_published_utc": old_status.get("last_published_utc") if guard else finished,
+              "last_published_utc": old_status.get("last_published_utc") if guard and not pruned else finished,
               "source_reports": source_reports, "excluded": excluded,
               "failure_reasons": dict(Counter(r["reason"] for r in results.values() if not r["ok"])),
               "selected": selected, "unavailable": unavailable}
@@ -897,3 +1003,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
