@@ -1,0 +1,11 @@
+[Unit]
+Description=Repeat Russian SV IPTV checks six hours after each completed run
+
+[Timer]
+OnBootSec=5min
+OnUnitInactiveSec=6h
+RandomizedDelaySec=2min
+Unit=sv-iptv-ru.service
+
+[Install]
+WantedBy=timers.target

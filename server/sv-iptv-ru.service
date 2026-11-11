@@ -1,0 +1,33 @@
+[Unit]
+Description=SV IPTV checks from the Russian VPS
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=oneshot
+User=sv-iptv-ru
+Group=sv-iptv-ru
+StateDirectory=sv-iptv-ru
+StateDirectoryMode=0700
+WorkingDirectory=/var/lib/sv-iptv-ru
+LoadCredential=github-token:/etc/sv-iptv-ru/github-token
+ExecStart=/usr/bin/python3 /usr/local/lib/sv-iptv-ru/ru_check.py --workers 2
+TimeoutStartSec=6h
+TimeoutStopSec=30s
+KillMode=control-group
+SuccessExitStatus=2
+UMask=0077
+Nice=10
+MemoryHigh=2500M
+MemoryMax=3G
+TasksMax=256
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+RestrictSUIDSGID=true
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6
+
