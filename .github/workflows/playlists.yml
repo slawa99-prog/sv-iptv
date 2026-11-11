@@ -51,7 +51,7 @@ permissions:
   contents: write
 
 concurrency:
-  group: sv-playlist-manager
+  group: sv-iptv-main-writer
   cancel-in-progress: false
 
 jobs:
@@ -103,3 +103,4 @@ jobs:
       - name: Источник требует внимания
         if: steps.playlists.outcome == 'failure'
         run: exit 1
+
