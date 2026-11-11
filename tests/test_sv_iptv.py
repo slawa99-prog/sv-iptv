@@ -153,7 +153,8 @@ class ParserAndHistoryCase(unittest.TestCase):
     def test_short_live_window_accumulates_required_playback(self):
         def playlist(sequence):
             return f'#EXTM3U\n#EXT-X-TARGETDURATION:3\n#EXT-X-MEDIA-SEQUENCE:{sequence}\n#EXTINF:3,\n{sequence}.ts\n'
-        sample = {"pixels": 160 * 90, "played_seconds": 3, "download_seconds": .2}
+        sample = {"pixels": 160 * 90, "played_seconds": 3, "download_seconds": .2,
+                  "frame_inspection": {"state": "no_known_placeholder", "frames": []}}
         with patch.object(sv, "choose_media", return_value=('https://example.com/a.m3u8', playlist(1), None)), \
              patch.object(sv, "manifest", side_effect=[playlist(2), playlist(3), playlist(4)]), \
              patch.object(sv, "decode_sample", return_value=sample) as decode, \
@@ -165,7 +166,8 @@ class ParserAndHistoryCase(unittest.TestCase):
 
     def test_short_live_window_without_new_media_fails(self):
         playlist = '#EXTM3U\n#EXT-X-TARGETDURATION:3\n#EXT-X-MEDIA-SEQUENCE:1\n#EXTINF:3,\n1.ts\n'
-        sample = {"pixels": 160 * 90, "played_seconds": 3, "download_seconds": .2}
+        sample = {"pixels": 160 * 90, "played_seconds": 3, "download_seconds": .2,
+                  "frame_inspection": {"state": "no_known_placeholder", "frames": []}}
         with patch.object(sv, "choose_media", return_value=('https://example.com/a.m3u8', playlist, None)), \
              patch.object(sv, "manifest", return_value=playlist), \
              patch.object(sv, "decode_sample", return_value=sample), \
@@ -231,7 +233,9 @@ https://example.com/ntv.m3u8
         h = {}
         start = datetime(2026, 10, 24, tzinfo=timezone.utc)
         for i in range(8):
-            h = sv.observation(h, {"ok": True}, (start + timedelta(hours=i * 6)).isoformat(), {})
+            h = sv.observation(h, {"ok": True, "visual_criteria": sv.visual_signature(),
+                                  "frame_inspection": {"state": "no_known_placeholder"}},
+                               (start + timedelta(hours=i * 6)).isoformat(), {})
         self.assertTrue(h["stable"])
         h = sv.observation(h, {"ok": False}, (start + timedelta(hours=48)).isoformat(), {})
         self.assertFalse(h["stable"])
@@ -299,3 +303,4 @@ class DecodeIntegrationCase(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
