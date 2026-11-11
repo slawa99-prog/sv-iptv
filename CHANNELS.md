@@ -1,6 +1,8 @@
 # Каналы SV IPTV
 
-585 каналов после проверки ПК 11.11.2026, завершённой в 13:52 по Оренбургу. Кадры проверены в предыдущем разборе. Длительная стабильность по новым визуальным критериям пока не подтверждена.
+452 канала. Состав очищен от 133 иноязычных и неподтверждённых многоязычных версий 11.11.2026. Последняя проверка эфира на ПК завершена 11.11.2026 в 13:52 по Оренбургу; этот отбор не является новым тестом.
+
+[Подробности исключений](language-selection-2026-11-11.json). Российские региональные каналы и русскоязычные версии зарубежных брендов сохранены.
 
 ## Федеральные — 14
 
@@ -19,35 +21,20 @@
 - ТВ-3
 - ТНТ
 
-## Новости — 45
+## Новости — 29
 
-- 100% NEWS
-- 24KZ
 - 360°
 - 9 канал
 - Atameken Business
-- Baku.TV
 - CGTN Pусский
 - Euronews по-русски
-- First Channel News
-- Formula
 - FREEДOM
-- O'zbekiston 24
 - Ost West 24
-- Palitra News
-- RT
-- RT Arabic
-- RT Balkan
-- RT en Espanol
-- Vocea Basarabiei TV
-- Армія ТБ
 - Беларусь 24
 - Вести FM
 - Вместе-РФ
 - Говорит Москва
-- Дельта ТВ
 - Дума ТВ
-- Еспресо TV
 - Известия
 - Красная линия
 - Крик-ТВ
@@ -61,25 +48,19 @@
 - Радио 1
 - Радио России
 - РБК
-- Репортёр
 - Россия 24
 - Соловьёв Live
 - ТАСС — видеоэфир
 - Эхо-ТВ
 
-## Кино и сериалы — 69
+## Кино и сериалы — 64
 
 - .sci-fi
-- 4ever Drama
-- BIZ Cinema
 - Bollywood
 - Cinema
 - FAN
-- FilmUADrama
 - Hollywood
-- Kinoteatr
 - Scream
-- Silk Way Cinema
 - Star Cinema
 - START Air
 - viju TV1000
@@ -139,17 +120,11 @@
 - Феникс плюс кино
 - Шеф
 
-## Развлекательные — 26
+## Развлекательные — 20
 
 - 2x2
-- 312 ТВ
 - 8 канал
-- BIZ TV
-- Makon TV
-- MY5
-- OTV
 - RAZ 2
-- Ruxsor TV
 - TLC
 - Беларусь 2
 - Вопросы и ответы
@@ -168,19 +143,14 @@
 - Че!
 - Ю
 
-## Детские — 35
+## Детские — 29
 
 - Ani
-- Aqlvoy
 - Baby Time
-- Balapan
-- Bolajon
 - Cartoon Classics
-- Cartoonito CEE
 - ducktv
 - Gulli Girl
 - Joy Cook
-- MiMi TV
 - Nickelodeon CIS
 - Nicktoons CIS
 - TiJi
@@ -194,7 +164,6 @@
 - Мультимания ТВ
 - Мультимузыка
 - О!
-- Піксель TV
 - Радость Моя
 - Рыжий
 - Смайл ТВ
@@ -206,15 +175,11 @@
 - Тооку
 - Шаян ТВ
 
-## Спорт — 27
+## Спорт — 21
 
 - Fast&FunBox
-- Futbol
-- Futbol TV
-- Maincast Sport
 - MMA-TV.com
 - Okko Футбол
-- Turkmenistan Sport
 - viju+ Sport
 - Астрахань спорт
 - Беларусь 5
@@ -230,16 +195,13 @@
 - Матч! Футбол 2
 - Матч! Футбол 3
 - Русский Экстрим
-- Спорт
-- Спорт ТВ
 - Старт
 - Старт Триумф
 - Футбол
 
-## Музыка — 35
+## Музыка — 23
 
 - 1HD Music Television
-- BIZ Music
 - BRIDGE
 - BRIDGE Deluxe
 - BRIDGE Hits
@@ -248,17 +210,6 @@
 - BRIDGE Фрэш
 - BRIDGE Шлягер
 - DanceHits80
-- Ellikqala TV
-- FTV
-- Hit FM
-- iTV Music
-- KN Music TV
-- Lux TV
-- Muz TV Uzbekistan
-- Navo
-- Noroc TV
-- Tezaur TV
-- Turkmen Owazy
 - Жара ТВ
 - Курай-ТВ
 - Майдан
@@ -274,13 +225,11 @@
 - ТМTV
 - ТНТ Music
 
-## Познавательные — 31
+## Познавательные — 28
 
 - 365 дней ТВ
 - Da Vinci
 - Discovery Channel
-- O'zbekiston Tarixi
-- RTД
 - Univer TV
 - viju Explore
 - viju History
@@ -289,7 +238,6 @@
 - ВоенТВ
 - Время
 - Звезда Плюс
-- Инсайт ТВ
 - История
 - Конгресс ТВ
 - Мамонт
@@ -308,11 +256,10 @@
 - Точка РФ
 - Успех
 
-## Природа и животные — 13
+## Природа и животные — 11
 
 - Animal Planet
 - Home
-- Love Nature
 - National Geographic Wild Россия
 - viju Nature
 - Zooпарк
@@ -322,13 +269,11 @@
 - Живая природа
 - Лапки Live
 - Наша Сибирь
-- Рибалка
 
-## Путешествия — 10
+## Путешествия — 9
 
 - Big Planet
 - The Explorers
-- Turan TV
 - Глазами Туриста
 - Моя Планета
 - Наша Тема
@@ -345,9 +290,8 @@
 - Охота и рыбалка
 - Охотник и рыболов
 
-## Кулинария — 6
+## Кулинария — 5
 
-- Dasturxon TV
 - Аппетитный
 - Кулинар HD
 - Кухня
@@ -369,12 +313,9 @@
 - Загородный
 - Усадьба
 
-## Здоровье и образ жизни — 12
+## Здоровье и образ жизни — 9
 
-- 36.6 TV
 - Dомашний International
-- FashionTV
-- Shifo TV
 - World Fashion Channel
 - Доктор
 - Живи Активно
@@ -384,11 +325,8 @@
 - Психология
 - Тонус
 
-## Культура — 10
+## Культура — 7
 
-- Ararat TV
-- Miras
-- Абай ТВ
 - АРТ
 - Беларусь 3
 - Восток ТВ
@@ -397,7 +335,7 @@
 - Россия К
 - ТНВ-Планета
 
-## Региональные — 149
+## Региональные — 140
 
 - 10 канал
 - 12 канал — Омск
@@ -406,16 +344,11 @@
 - 78 канал
 - 8 канал Красноярск
 - 8 канал Новосибирск
-- Almaty TV
-- Apsua TV
 - Astrahan.Ru TV
-- Navoiy MTRK
 - Oplot 2
-- Qaraqalpaqstan
 - Sochi Live
 - TDK 42
 - TV Губерния
-- Ulytau
 - Абакан 24
 - АИСТ ТВ
 - Алмазный край
@@ -476,7 +409,6 @@
 - Ника TV
 - ННТВ
 - Новгородское областное телевидение
-- Новое телевидение
 - НСК 49
 - НТК 21
 - НТМ
@@ -490,7 +422,6 @@
 - ОТВ — Челябинск
 - ОТВ-Прим
 - ОТС
-- Первый городской канал
 - Первый Крымский
 - Первый областной — Орёл
 - Первый Псковский
@@ -500,7 +431,6 @@
 - ПРНК
 - Раменское ТВ
 - Регион29
-- Рика ТВ
 - Рифей-ТВ
 - Россия 1 Вайнах
 - РТС — Хакасия
@@ -520,7 +450,6 @@
 - Север
 - Сибирь 24
 - Симферополь 24
-- СК 1
 - Сургут 24
 - Таврия
 - Татарстан 24
@@ -549,85 +478,25 @@
 - Ямал
 - ЯПервый
 
-## Общие — 72
+## Общие — 14
 
-- 1+1 Марафон
-- 1+1 Україна
-- 1TV
-- 2 TV
-- 31 канал
-- Altyn Asyr
-- Armenia 1
-- Armenia 2
-- Asgabat
-- Astana TV
-- Ayaz TV
-- Az TV
-- Azad TV
-- Badakhshon
-- BMG TV
-- Dunyo bo'ylab
-- Farg'ona MTRK
-- Fashion
-- Fortuna TV
-- Imedi TV
-- Istiqlol TV
-- ITV
-- Jaslar TV
-- Jibek Joly
-- Kanal S
-- Kentron TV
-- Madaniyat va ma'rifat
-- Mahalla
-- Milliy
-- Moldova TV
-- Muloqot TV
-- Nurafshon TV
-- O'zbekiston
-- Qazaqstan
-- Qazaqstan International
-- RAZ 3 International
-- Renessans TV
-- Renome TV
 - RTN
-- Sevimli TV
-- Silk Way
-- Surxondaryo MTRK
-- Taraqqiyot TV
-- Toshkent
-- Turkmenistan
-- TV 25
 - TV BRICS — русский
 - TV PRO
 - TVMChannel
-- TVR Moldova
-- Xorazm MTRK
-- Yoshlar
 - Беларусь 1
 - Большая Азия
 - Всё ТВ
-- Душанбе HD
-- ДІМ
-- Еркир Медиа
-- Измаил ТВ
-- Некст-ТВ
 - НТВ Мир
 - НТВ Неизвестная Россия
-- НТК
 - РТР-Планета
 - Сангат
-- Светлое ТВ
 - Союзный
 - СТБ
-- Сфера-ТВ
 - ТБН
-- ТРК Круг
-- Інтер (Украина)
 
-## Религиозные — 11
+## Религиозные — 9
 
-- Ertsulovneba
-- EWTN Україна
 - Life TV
 - TBN Baltia
 - Каббала ТВ

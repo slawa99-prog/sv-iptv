@@ -633,6 +633,7 @@ def load_sources(cfg: dict, catalog: list[dict] | None = None) -> tuple[list[dic
 
 def group_candidates(records: list[dict], catalog: list[dict], cfg: dict) -> tuple[dict, dict]:
     found = {c["id"].casefold(): [] for c in catalog}
+    scope_excluded = {cid.casefold() for cid in cfg.get("channel_scope", {}).get("excluded_ids", [])}
     by_name = {}
     for channel in catalog:
         for name in [channel["name"]] + channel.get("aliases", []):
@@ -656,6 +657,9 @@ def group_candidates(records: list[dict], catalog: list[dict], cfg: dict) -> tup
             excluded["not_24_7"] += 1
             continue
         identity = item["attrs"].get("tvg-id", "")
+        if identity and base_id(identity) in scope_excluded:
+            excluded["outside_playlist_scope"] += 1
+            continue
         channel_id = base_id(identity) if identity else by_name.get(name_key(item["name"]))
         if channel_id not in found and item.get("match_by_name") and "@" not in identity:
             channel_id = by_name.get(name_key(item["name"]))
@@ -725,6 +729,24 @@ def select_candidates(items: list[dict], old: dict, previous: str | None, cfg: d
     return keep + rotation[:limit - len(keep)]
 
 
+def allowed_channel_ids(cfg: dict) -> set[str] | None:
+    """A reviewed scope is explicit; source refreshes cannot silently widen it."""
+    scope = cfg.get("channel_scope")
+    if scope is None:
+        return None
+    if not isinstance(scope, dict) or scope.get("mode") != "reviewed-allowlist":
+        raise ValueError("invalid channel scope")
+    ids = scope.get("allowed_ids")
+    if not isinstance(ids, list) or not ids or any(not isinstance(cid, str) or not cid.strip() for cid in ids):
+        raise ValueError("channel scope requires a nonempty list of reviewed IDs")
+    return {cid.casefold() for cid in ids}
+
+
+def apply_channel_scope(catalog: list[dict], cfg: dict) -> list[dict]:
+    allowed = allowed_channel_ids(cfg)
+    return list(catalog) if allowed is None else [c for c in catalog if c["id"].casefold() in allowed]
+
+
 def apply_channel_groups(catalog: list[dict]) -> list[dict]:
     """Reviewed channel identity overrides unreliable source-list categories."""
     rules = read_json(ROOT / "channel-groups.json", {})
@@ -736,6 +758,9 @@ def apply_channel_groups(catalog: list[dict]) -> list[dict]:
 
 
 def render_m3u(pairs: list[tuple[dict, dict]], cfg: dict, *, unverified=False) -> str:
+    allowed = allowed_channel_ids(cfg)
+    if allowed is not None:
+        pairs = [(channel, item) for channel, item in pairs if channel["id"].casefold() in allowed]
     title = "SV IPTV — проверка GitHub" if cfg.get("publication_mode") == "reviewed-local" else "SV IPTV"
     header = f'#EXTM3U x-playlist-name="{title}"'
     if cfg.get("epg_url"):
@@ -790,6 +815,9 @@ def build(cfg: dict, *, tester=check_stream, now: str | None = None, inventory=F
     catalog = read_json(ROOT / "channels.json", [])
     base_catalog_count = len(catalog)
     catalog, discovery_report = discover_catalog(catalog, cfg, now)
+    discovered_catalog_count = len(catalog)
+    catalog = apply_channel_scope(catalog, cfg)
+    discovery_report["excluded_by_playlist_scope"] = discovered_catalog_count - len(catalog)
     catalog = apply_channel_groups(catalog)
     ids = [c["id"].casefold() for c in catalog]
     names = [name_key(c["name"]) for c in catalog]
