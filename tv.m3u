@@ -11,7 +11,7 @@ https://zabava-htlive.cdn.ngenix.net/hls/CH_5TV/variant.m3u8
 #EXTINF:-1 tvg-id="OTR.ru" tvg-name="ОТР" group-title="Федеральные" tvg-logo="https://i.imgur.com/VaWlnjZ.png",ОТР
 https://rt-nw-klgr-htlive.cdn.ngenix.net/hls/CH_R01_OTR_KLNG_FILIAL/variant.m3u8
 #EXTINF:-1 tvg-id="TVCentr.ru" tvg-name="ТВ Центр" group-title="Федеральные" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/7/72/TV_Tsentr_2013_Logo.svg",ТВ Центр
-https://tvc-hls.cdnvideo.ru/tvc-res/smil:vd9221.smil/playlist.m3u8
+https://zabava-htlive.cdn.ngenix.net/hls/CH_TVC/variant.m3u8
 #EXTINF:-1 tvg-id="RENTV.ru" tvg-name="РЕН ТВ" group-title="Федеральные" tvg-logo="https://i.imgur.com/0Tu5lte.png" http-user-agent="WINK/1.40.1 (AndroidTV/9) HlsWinkPlayer",РЕН ТВ
 #EXTVLCOPT:http-user-agent=WINK/1.40.1 (AndroidTV/9) HlsWinkPlayer
 http://zabava-htlive.cdn.ngenix.net/hls/CH_RENTV/variant.m3u8
@@ -72,8 +72,6 @@ http://osnmedia.servicecdn.ru/streams/17603_88089/playlist.m3u8
 https://ngtrk.dc.beltelecom.by/ngtrk/smil:informacionnyy.smil/playlist.m3u8
 #EXTINF:-1 tvg-id="ProBusiness.ru" tvg-name="Про Бизнес" group-title="Новости" tvg-logo="https://i.imgur.com/1u8KvTD.png",Про Бизнес
 https://tv-streaming.bsh.ru:21938/probusiness/probusiness.stream/index.m3u8
-#EXTINF:-1 tvg-id="Radio1.ru" tvg-name="Радио 1" group-title="Новости" tvg-logo="https://radiopotok.ru/f/station/512/1812.png",Радио 1
-https://stream.radio1.ru/memfs/49dee7fe-77ba-4e6b-8cdc-fa840535b242.m3u8
 #EXTINF:-1 tvg-id="RBKTV.ru" tvg-name="РБК" group-title="Новости" tvg-logo="https://i.imgur.com/CwhmJby.png",РБК
 http://online-video.rbc.ru/spb/rbctv_spb.m3u8
 #EXTINF:-1 tvg-id="Russia24.ru" tvg-name="Россия 24" group-title="Новости" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/Rossiya-24_Logo.svg/960px-Rossiya-24_Logo.svg.png",Россия 24
@@ -109,6 +107,8 @@ http://stream.mcquack.net/395/index.m3u8
 #EXTINF:-1 tvg-id="Kino2.ua" tvg-name="Kino 2" group-title="Кино и сериалы" tvg-logo="https://upload.wikimedia.org/wikipedia/uk/3/35/KINO_2_UA.png" http-user-agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36",Kino 2
 #EXTVLCOPT:http-user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36
 http://stream.mcquack.net/465/index.m3u8
+#EXTINF:-1 tvg-id="KinoJam2.ru" tvg-name="KinoJam 2" group-title="Кино и сериалы" tvg-logo="https://iptvx.one/picons/kinojam2.png",KinoJam 2
+http://185.76.10.53:8080/srv5/kinojam2/tracks-v1a1/mono.m3u8?cid=144&did=5366158&m=1&rid=24397&token=2022b6576a65c40ede42a7d4941b5471
 #EXTINF:-1 tvg-id="Kinoliving.ru" tvg-name="KinoLiving" group-title="Кино и сериалы",KinoLiving
 http://stream.mcquack.net/445/index.m3u8
 #EXTINF:-1 tvg-id="red.ru" tvg-name=".red" group-title="Кино и сериалы" tvg-logo="https://i.imgur.com/GET9Qut.png",.red
@@ -276,7 +276,7 @@ https://bl.rutube.ru/livestream/9ae8e8a6dc58bdad66190475f9872ecd/index.m3u8?s=U_
 #EXTINF:-1 tvg-id="TLC.ru" tvg-name="TLC" group-title="Развлекательные",TLC
 http://stream.mcquack.net/168/tracks-v1a1/mono.ts.m3u8
 #EXTINF:-1 tvg-id="Belarus2.by" tvg-name="Беларусь 2" group-title="Развлекательные" tvg-logo="https://i.imgur.com/BpEHpPS.png",Беларусь 2
-https://ngtrk.dc.beltelecom.by/ngtrk/_definst_/smil:belarus24.smil/playlist.m3u8
+http://dmi3y-tv.online/hls/blrus/CH_BELARUS2.m3u8
 #EXTINF:-1 tvg-id="VoprosyiOtvety.ru" tvg-name="Вопросы и ответы" group-title="Развлекательные",Вопросы и ответы
 https://stream8.cinerama.uz/1429/index.m3u8
 #EXTINF:-1 tvg-id="KaleidoscopeTV.ru" tvg-name="Калейдоскоп ТВ" group-title="Развлекательные",Калейдоскоп ТВ
@@ -435,7 +435,7 @@ http://rt-vlg-kzn-htlive.cdn.ngenix.net/hls/CH_R05_OTT_VLG_KZN_MAIDAN/variant.m3
 #EXTVLCOPT:http-user-agent=ExoPlayer2/2.37
 https://s45177.cdn.ngenix.net/hls/CH_R02_MATURTV/variant.m3u8
 #EXTINF:-1 tvg-id="MuzSoyuz.ru" tvg-name="Муз Союз" group-title="Музыка" tvg-logo="https://i.imgur.com/Puk1Bhx.png",Муз Союз
-http://hls-tvsoyuz.cdnvideo.ru/tvsoyuz2/muzsoyuz.6fw0-58xp-acts-esy0/playlist.m3u8
+http://hls.tvsoyuz.cdnvideo.ru/tvsoyuz2/muzsoyuz.6fw0-58xp-acts-esy0/playlist.m3u8
 #EXTINF:-1 tvg-id="MuzTV.ru" tvg-name="Муз-ТВ" group-title="Музыка" tvg-logo="https://i.imgur.com/BtqrHmz.png",Муз-ТВ
 https://zabava-htlive.cdn.ngenix.net/hls/CH_MUZTV/variant.m3u8
 #EXTINF:-1 tvg-id="MuzykaLive.ru" tvg-name="Музыка Live" group-title="Музыка" tvg-logo="https://i.imgur.com/RH6hTWG.png",Музыка Live
@@ -615,7 +615,7 @@ http://194.143.148.28/Mir24/index.m3u8
 #EXTINF:-1 tvg-id="ART.ru" tvg-name="АРТ" group-title="Культура" tvg-logo="https://optim.tildacdn.com/tild3134-3836-4338-a138-666666653363/-/format/webp/__.png.webp",АРТ
 http://89.104.114.24:8080/art/index.m3u8
 #EXTINF:-1 tvg-id="Belarus3.by" tvg-name="Беларусь 3" group-title="Культура" tvg-logo="https://i.imgur.com/JkcDycn.png",Беларусь 3
-https://edge50.dc.beltelecom.by/ngtrk/smil:belarus3.smil/playlist.m3u8
+http://dmi3y-tv.online/hls/blrus/CH_BELARUS3.m3u8
 #EXTINF:-1 tvg-id="Nostalgia.ru" tvg-name="Ностальгия" group-title="Культура" tvg-logo="https://i.imgur.com/YBdBc0J.png",Ностальгия
 https://fs.uplink.kz/nostalgia/mono.m3u8?token=onlinetv2
 #EXTINF:-1 tvg-id="RussiaK.ru" tvg-name="Россия К" group-title="Культура" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/4/45/Russia-Cultura.svg/960px-Russia-Cultura.svg.png",Россия К
@@ -709,7 +709,7 @@ http://stream.tvbelgorod.ru:8080/mirbelogorya/index.m3u8
 #EXTINF:-1 tvg-id="Mordoviya24.ru" tvg-name="Мордовия 24" group-title="Региональные",Мордовия 24
 https://live-mordovia24.cdnvideo.ru/mordovia24/streamtr/playlist.m3u8
 #EXTINF:-1 tvg-id="Moskva24.ru" tvg-name="Москва 24" group-title="Региональные" tvg-logo="https://i.imgur.com/gXbUMVy.png",Москва 24
-https://stream.smotrim.ru/hls/moscow_24/playlist.m3u8?entity=channel&id=76&sign=e8e1bc15ce94ee7718ef8948500e5d21
+https://stream.smotrim.ru/hls/givc8/playlist.m3u8?entity=channel&id=798&sign=37881ef2e289f062ceff0dca6c24dc58
 #EXTINF:-1 tvg-id="MoskvaDoveriye.ru" tvg-name="Москва. Доверие" group-title="Региональные" tvg-logo="https://i.imgur.com/QDqDQzt.png",Москва. Доверие
 https://stream.smotrim.ru/hls2/doverie/playlist_3.m3u8
 #EXTINF:-1 tvg-id="NashDom.ru" tvg-name="Наш дом" group-title="Региональные",Наш дом
@@ -774,8 +774,6 @@ http://rt-sib-abakan-htlive.cdn.ngenix.net/hls/CH_R01_OTT_SIB_ABAKAN_RTS/variant
 #EXTINF:-1 tvg-id="RusskiySever.ru" tvg-name="Русский Север" group-title="Региональные" tvg-logo="https://mbmh5s36ok.a.trbcdn.net/572aecd6-static/channel/10063/logo_256_1660807097.png" http-user-agent="ExoPlayer2/2.37",Русский Север
 #EXTVLCOPT:http-user-agent=ExoPlayer2/2.37
 https://rt-nw-vol-htlive.cdn.ngenix.net/hls/CH_R01_TV7/variant.m3u8
-#EXTINF:-1 tvg-id="Rus.ru" tvg-name="Русь" group-title="Региональные" tvg-logo="https://i.imgur.com/KuL21f9.png",Русь
-http://31.148.5.241/kanal_21/index.m3u8
 #EXTINF:-1 tvg-id="sv.rybinsk40" tvg-name="Рыбинск-40" group-title="Региональные" tvg-logo="https://iptvx.one/picons/rybinsk40.png",Рыбинск-40
 http://rt-ct-yarl-htlive.cdn.ngenix.net/hls/CH_R01_RYBINSK40/variant.m3u8
 #EXTINF:-1 tvg-id="86.ru" tvg-name="С86 (Сургут)" group-title="Региональные" tvg-logo="https://i.imgur.com/0dRS4Cb.png",С86 (Сургут)
@@ -851,7 +849,7 @@ http://rtmp.tvpro-online.ru/hls/ch1.m3u8
 #EXTINF:-1 tvg-id="ArigUs.ru" tvg-name="Ариг Ус" group-title="Общие" tvg-logo="data:image/svg+xml,<svg xmlns=",Ариг Ус
 https://rt-sib-uude-htlive.cdn.ngenix.net/hls/CH_R01_ARIGUS/variant.m3u8
 #EXTINF:-1 tvg-id="Belarus1.by" tvg-name="Беларусь 1" group-title="Общие" tvg-logo="https://i.imgur.com/sUD9t5j.png",Беларусь 1
-https://ngtrk.dc.beltelecom.by/ngtrk/_definst_/smil:belarus1.smil/playlist.m3u8
+http://dmi3y-tv.online/hls/blrus/CH_BELARUS1.m3u8
 #EXTINF:-1 tvg-id="BigAsia.ru" tvg-name="Большая Азия" group-title="Общие" tvg-logo="https://i.imgur.com/vruuPKF.png",Большая Азия
 https://live-bigasia.cdnvideo.ru/bigasia/bigasia.smil/playlist.m3u8
 #EXTINF:-1 tvg-id="VseTV.ru" tvg-name="Всё ТВ" group-title="Общие" http-user-agent="ExoPlayer2/2.37",Всё ТВ
