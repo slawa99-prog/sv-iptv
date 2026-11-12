@@ -450,10 +450,6 @@ http://stream.mcquack.net/303/index.m3u8
 https://stream8.cinerama.uz/1201/tracks-v1a1/mono.m3u8
 #EXTINF:-1 tvg-id="NovoeRadio.ru" tvg-name="Новое Радио" group-title="Музыка",Новое Радио
 https://hls-video01.cdnvideo.ru/video01/smil:video01.smil/playlist.m3u8
-#EXTINF:-1 tvg-id="FirstMusicChannel.by" tvg-name="Первый Музыкальный Канал" group-title="Музыка" tvg-logo="https://i.imgur.com/YdyFJrl.png",Первый Музыкальный Канал
-http://hz1.teleport.cc/HLS/SD.m3u8
-#EXTINF:-1 tvg-id="RadioMir.by" tvg-name="Радио Мир" group-title="Музыка" tvg-logo="https://pbs.twimg.com/profile_images/1902997619724480512/jY6I1qIH_400x400.jpg",Радио Мир
-https://stream1.dc.beltelecom.by/radiomir/studio.stream/playlist.m3u8
 #EXTINF:-1 tvg-id="RUTV.ru" tvg-name="РУ.ТВ" group-title="Музыка" tvg-logo="https://i.imgur.com/Z7HUU7V.png",РУ.ТВ
 https://stream8.cinerama.uz/1202/index.m3u8
 #EXTINF:-1 tvg-id="StranaFM.ru" tvg-name="Страна FM" group-title="Музыка" tvg-logo="https://i.imgur.com/WsPlKJJ.png",Страна FM
@@ -630,9 +626,8 @@ http://89.104.114.24:8080/art/index.m3u8
 https://edge50.dc.beltelecom.by/ngtrk/smil:belarus3.smil/playlist.m3u8
 #EXTINF:-1 tvg-id="Nostalgia.ru" tvg-name="Ностальгия" group-title="Культура" tvg-logo="https://i.imgur.com/YBdBc0J.png",Ностальгия
 https://fs.uplink.kz/nostalgia/mono.m3u8?token=onlinetv2
-#EXTINF:-1 tvg-id="RussiaK.ru" tvg-name="Россия К" group-title="Культура" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/4/45/Russia-Cultura.svg/960px-Russia-Cultura.svg.png" http-user-agent="WINK/1.40.1 (AndroidTV/9) HlsWinkPlayer",Россия К
-#EXTVLCOPT:http-user-agent=WINK/1.40.1 (AndroidTV/9) HlsWinkPlayer
-http://zabava-htlive.cdn.ngenix.net/hls/CH_RUSSIAK/variant.m3u8
+#EXTINF:-1 tvg-id="RussiaK.ru" tvg-name="Россия К" group-title="Культура" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/4/45/Russia-Cultura.svg/960px-Russia-Cultura.svg.png",Россия К
+https://live.smotrim.ru/vgtrk/0/kultura-hd/index.m3u8
 #EXTINF:-1 tvg-id="TNVPlanet.ru" tvg-name="ТНВ-Планета" group-title="Культура" tvg-logo="https://i.imgur.com/ijA1zDw.png",ТНВ-Планета
 http://origin5.mediacdn.ru/live/tnvplaneta/index.m3u8
 #EXTINF:-1 tvg-id="Channel12.ru" tvg-name="12 канал — Омск" group-title="Региональные" tvg-logo="https://i.imgur.com/OA9hm6e.png",12 канал — Омск
@@ -727,8 +722,6 @@ https://live-mordovia24.cdnvideo.ru/mordovia24/streamtr/playlist.m3u8
 https://stream.smotrim.ru/hls/moscow_24/playlist.m3u8?entity=channel&id=76&sign=e8e1bc15ce94ee7718ef8948500e5d21
 #EXTINF:-1 tvg-id="MoskvaDoveriye.ru" tvg-name="Москва. Доверие" group-title="Региональные" tvg-logo="https://i.imgur.com/QDqDQzt.png",Москва. Доверие
 https://stream.smotrim.ru/hls2/doverie/playlist_3.m3u8
-#EXTINF:-1 tvg-id="sv.metr" tvg-name="МЭТР" group-title="Региональные" tvg-logo="https://iptvx.one/picons/metr.png",МЭТР
-https://rt-vlg-yola-htlive.cdn.ngenix.net/hls/CH_R03_METR/variant.m3u8
 #EXTINF:-1 tvg-id="NashDom.ru" tvg-name="Наш дом" group-title="Региональные",Наш дом
 http://85.234.33.63/stream/c11.m3u8
 #EXTINF:-1 tvg-id="sv.nashi-goroda" tvg-name="Наши Города" group-title="Региональные" tvg-logo="https://iptvx.one/picons/nashi-goroda.png",Наши Города
@@ -807,8 +800,9 @@ http://rt-nw-pzav-htlive.cdn.ngenix.net/hls/CH_R01_SAMPOTV/variant.m3u8
 http://rt-nw-spb-htlive.cdn.ngenix.net/hls/CH_R02_SPBREGIONALHD/variant.m3u8
 #EXTINF:-1 tvg-id="Saratov24.ru" tvg-name="Саратов 24" group-title="Региональные",Саратов 24
 http://rt-vlg-saratov-htlive.cdn.ngenix.net/hls/CH_R01_SARATOV24/variant.m3u8
-#EXTINF:-1 tvg-id="sv.sarov24" tvg-name="Саров 24" group-title="Региональные",Саров 24
-https://serv30.vintera.tv/sarov/sarov_stream/playlist.m3u8
+#EXTINF:-1 tvg-id="sv.sarov24" tvg-name="Саров 24" group-title="Региональные" http-user-agent="TiviMate/2.8.0 (Linux; Android 11)",Саров 24
+#EXTVLCOPT:http-user-agent=TiviMate/2.8.0 (Linux; Android 11)
+http://serv30.vintera.tv:8081/sarov/sarov_stream/playlist.m3u8
 #EXTINF:-1 tvg-id="SvoyoTV.ru" tvg-name="Своё ТВ" group-title="Региональные" tvg-logo="https://i.imgur.com/3cP2fmX.png",Своё ТВ
 https://svoetv.mediacdn.ru/cdn/svoetv/playlist.m3u8
 #EXTINF:-1 tvg-id="Sever.ru" tvg-name="Север" group-title="Региональные" tvg-logo="https://i.imgur.com/sTOQLYl.png",Север
@@ -846,8 +840,6 @@ http://stream.novouralsk-news.ru/echotv24/echotv24-576p.m3u8
 https://live-ugratv.cdnvideo.ru/ugratv/ugratv/playlist.m3u8
 #EXTINF:-1 tvg-id="Yurgan.ru" tvg-name="Юрган" group-title="Региональные",Юрган
 http://rt-nw-komi-htlive.cdn.ngenix.net/hls/CH_R01_YURGAN/variant.m3u8
-#EXTINF:-1 tvg-id="YuTV.ru" tvg-name="ЮТВ — Чебоксары" group-title="Региональные",ЮТВ — Чебоксары
-http://rt-vlg-chr-htlive.cdn.ngenix.net/hls/CH_R01_UTV/variant.m3u8
 #EXTINF:-1 tvg-id="Yakutiya24.ru" tvg-name="Якутия 24" group-title="Региональные",Якутия 24
 https://live-saha.cdnvideo.ru/saha2/yak24rtmp_live.smil/playlist.m3u8
 #EXTINF:-1 tvg-id="Yamal.ru" tvg-name="Ямал" group-title="Региональные",Ямал
@@ -906,15 +898,12 @@ https://w1.manasat.com/tvmana-leste/smil:tvmana-leste.smil/playlist.m3u8
 #EXTINF:-1 tvg-id="3ABNRussia.ru" tvg-name="Три Ангела" group-title="Религиозные" tvg-logo="https://i.imgur.com/4fhBbam.png",Три Ангела
 https://3abn.bozztv.com/3abn2/Rus_live/smil:Rus_live.smil/playlist.m3u8
 #EXTINF:-1 tvg-id="Leomax24.ru" tvg-name="Leomax 24" group-title="Телемагазины" tvg-logo="https://i.imgur.com/qU9ohQu.png",Leomax 24
-https://v4.proofix.ru/7tv-live/index.m3u8
+https://tvshops.bonus-tv.ru/cdn/shop24/playlist.m3u8
 #EXTINF:-1 tvg-id="Luxury.ru" tvg-name="Luxury" group-title="Телемагазины",Luxury
 https://s1.tv-nano.com/Luxury_rec/tracks-v3a1/index.m3u8
 #EXTINF:-1 tvg-id="Magnat.ru" tvg-name="Magnat" group-title="Телемагазины" tvg-logo="https://i.imgur.com/r485aZL.png",Magnat
 https://s1.tv-nano.com/Magnat_HD_5119705/video.m3u8
 #EXTINF:-1 tvg-id="ShoppingLive.ru" tvg-name="Shopping Live" group-title="Телемагазины" tvg-logo="https://i.imgur.com/EMmGnjV.png",Shopping Live
 https://nonmirya7cc.a.trbcdn.net/livemaster/tzrz5_sazlypl5ot.smil/playlist.m3u8
-#EXTINF:-1 tvg-id="VitrinaTV.ru" tvg-name="Витрина ТВ" group-title="Телемагазины" tvg-logo="https://i.imgur.com/lzQsVfn.png" http-user-agent="Player (Linux; Android 10)",Витрина ТВ
-#EXTVLCOPT:http-user-agent=Player (Linux; Android 10)
-https://v4.proofix.ru/vitrina-live/tracks-v1a1/mono.m3u8
 #EXTINF:-1 tvg-id="Yuvelirochka.ru" tvg-name="Ювелирочка" group-title="Телемагазины" tvg-logo="https://i.imgur.com/IcWtXCZ.png",Ювелирочка
 https://live-uvelirochka.cdnvideo.ru/uvelirochka/uvelirochka_720p3/playlist.m3u8
