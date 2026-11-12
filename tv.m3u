@@ -9,7 +9,7 @@ https://zabava-htlive.cdn.ngenix.net/hls/CH_NTV/variant.m3u8
 #EXTVLCOPT:http-user-agent=WINK/1.44.1 (AndroidTV/9) HlsWinkPlayer
 https://zabava-htlive.cdn.ngenix.net/hls/CH_5TV/variant.m3u8
 #EXTINF:-1 tvg-id="OTR.ru" tvg-name="ОТР" group-title="Федеральные" tvg-logo="https://i.imgur.com/VaWlnjZ.png",ОТР
-https://zabava-htlive.cdn.ngenix.net/hls/CH_OTR/variant.m3u8
+https://rt-nw-klgr-htlive.cdn.ngenix.net/hls/CH_R01_OTR_KLNG_FILIAL/variant.m3u8
 #EXTINF:-1 tvg-id="TVCentr.ru" tvg-name="ТВ Центр" group-title="Федеральные" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/7/72/TV_Tsentr_2013_Logo.svg",ТВ Центр
 https://tvc-hls.cdnvideo.ru/tvc-res/smil:vd9221.smil/playlist.m3u8
 #EXTINF:-1 tvg-id="RENTV.ru" tvg-name="РЕН ТВ" group-title="Федеральные" tvg-logo="https://i.imgur.com/0Tu5lte.png" http-user-agent="WINK/1.40.1 (AndroidTV/9) HlsWinkPlayer",РЕН ТВ
@@ -74,8 +74,6 @@ https://ngtrk.dc.beltelecom.by/ngtrk/smil:informacionnyy.smil/playlist.m3u8
 https://tv-streaming.bsh.ru:21938/probusiness/probusiness.stream/index.m3u8
 #EXTINF:-1 tvg-id="Radio1.ru" tvg-name="Радио 1" group-title="Новости" tvg-logo="https://radiopotok.ru/f/station/512/1812.png",Радио 1
 https://stream.radio1.ru/memfs/49dee7fe-77ba-4e6b-8cdc-fa840535b242.m3u8
-#EXTINF:-1 tvg-id="RadioRossii.ru" tvg-name="Радио России" group-title="Новости" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/b/bb/Radio_Rossii_logo.svg/1920px-Radio_Rossii_logo.svg.png",Радио России
-https://stream.smotrim.ru/hls2/radio_rus/playlist_4.m3u8
 #EXTINF:-1 tvg-id="RBKTV.ru" tvg-name="РБК" group-title="Новости" tvg-logo="https://i.imgur.com/CwhmJby.png",РБК
 http://online-video.rbc.ru/spb/rbctv_spb.m3u8
 #EXTINF:-1 tvg-id="Russia24.ru" tvg-name="Россия 24" group-title="Новости" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/Rossiya-24_Logo.svg/960px-Rossiya-24_Logo.svg.png",Россия 24
@@ -305,8 +303,9 @@ https://tvoetv.space/tvoetv/index.m3u8
 https://zabava-htlive.cdn.ngenix.net/hls/CH_TNT4/variant.m3u8
 #EXTINF:-1 tvg-id="Che.ru" tvg-name="Че!" group-title="Развлекательные" tvg-logo="https://i.imgur.com/ZOcDGpB.png",Че!
 https://zabava-htlive.cdn.ngenix.net/hls/CH_PERETZ/variant.m3u8
-#EXTINF:-1 tvg-id="U.ru" tvg-name="Ю" group-title="Развлекательные" tvg-logo="https://i.imgur.com/KDZvt0Q.png",Ю
-https://zabava-htlive.cdn.ngenix.net/hls/CH_U/variant.m3u8
+#EXTINF:-1 tvg-id="U.ru" tvg-name="Ю" group-title="Развлекательные" tvg-logo="https://i.imgur.com/KDZvt0Q.png" http-user-agent="WINK/1.40.1 (AndroidTV/9) HlsWinkPlayer",Ю
+#EXTVLCOPT:http-user-agent=WINK/1.40.1 (AndroidTV/9) HlsWinkPlayer
+http://zabava-htlive.cdn.ngenix.net/hls/CH_U/variant.m3u8
 #EXTINF:-1 tvg-id="Ani.ru" tvg-name="Ani" group-title="Детские" tvg-logo="https://i.imgur.com/i2AP0hp.png",Ani
 http://stream.mcquack.net/306/index.m3u8
 #EXTINF:-1 tvg-id="BabyTime.ru" tvg-name="Baby Time" group-title="Детские" tvg-logo="https://i.imgur.com/lW3WIBD.png",Baby Time
@@ -367,8 +366,6 @@ https://dash3.antik.sk/live/test_fast_and_funbox_medium_atk/playlist.m3u8
 https://fs.uplink.kz/khl_prime/mono.m3u8?token=onlinetv2
 #EXTINF:-1 tvg-id="MMATVcom.ru" tvg-name="MMA-TV.com" group-title="Спорт" tvg-logo="https://i.imgur.com/QhdxNsB.png",MMA-TV.com
 https://stream8.cinerama.uz/1226/tracks-v1a1/mono.m3u8
-#EXTINF:-1 tvg-id="SetantaSports1.ru" tvg-name="Setanta Sports 1" group-title="Спорт" tvg-logo="https://i.imgur.com/8ANUZAu.png",Setanta Sports 1
-http://stream.mcquack.net/234/tracks-v1a1/mono.ts.m3u8
 #EXTINF:-1 tvg-id="SetantaSports2.ru" tvg-name="Setanta Sports 2" group-title="Спорт" tvg-logo="https://i.imgur.com/NOBACb6.png",Setanta Sports 2
 http://stream.mcquack.net/235/tracks-v1a1/mono.ts.m3u8
 #EXTINF:-1 tvg-id="UDAR.ru" tvg-name="UDAR" group-title="Спорт",UDAR
@@ -405,7 +402,7 @@ http://tv.tuva.ru/machtv/index.m3u8
 #EXTINF:-1 tvg-id="MatchFutbol1.ru" tvg-name="Матч! Футбол 1" group-title="Спорт",Матч! Футбол 1
 http://stream.mcquack.net/130/index.m3u8
 #EXTINF:-1 tvg-id="MatchFutbol2.ru" tvg-name="Матч! Футбол 2" group-title="Спорт",Матч! Футбол 2
-http://31.148.5.241/Match_Football_2_HD/index.m3u8
+http://stream.mcquack.net/142/index.m3u8
 #EXTINF:-1 tvg-id="MatchFutbol3.ru" tvg-name="Матч! Футбол 3" group-title="Спорт",Матч! Футбол 3
 http://stream.mcquack.net/185/index.m3u8
 #EXTINF:-1 tvg-id="Sportivnyy.ru" tvg-name="Спортивный" group-title="Спорт" tvg-logo="https://i.imgur.com/ujS6mMo.png",Спортивный
@@ -843,8 +840,6 @@ https://yaroslavl.mediacdn.ru/cdn/pervyaroslavsk/playlist.m3u8
 http://live-vgtrksmotrim.cdnvideo.ru/vgtrksmotrim/smotrim-live-04-srt.smil/tracks-v3a1/mono.m3u8
 #EXTINF:-1 tvg-id="GNC.kz" tvg-name="GNC" group-title="Общие" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/GNC%20HD.png",GNC
 http://tvspas.mediacdn.ru/cdn/spas/tracks-v1a1/mono.ts.m3u8
-#EXTINF:-1 tvg-id="STSInternational.ru" tvg-name="STS International" group-title="Общие" tvg-logo="https://i.imgur.com/mwiC0RG.png",STS International
-http://178.134.1.158:8081/CTC/index.m3u8
 #EXTINF:-1 tvg-id="TV1KG.kg" tvg-name="TV1.KG" group-title="Общие" tvg-logo="https://i.imgur.com/Mti9t9C.png",TV1.KG
 http://212.2.225.30:1935/live/site.stream/playlist.m3u8
 #EXTINF:-1 tvg-id="TVBRICSRussian.ru" tvg-name="TV BRICS — русский" group-title="Общие" tvg-logo="https://i.imgur.com/vLpm8tN.png",TV BRICS — русский
@@ -867,8 +862,8 @@ http://85.238.112.40:8810/hls_sec/239.1.75.33-.m3u8
 #EXTINF:-1 tvg-id="Channel5International.ru" tvg-name="Пятый International" group-title="Общие" tvg-logo="https://i.imgur.com/8VKc2Ya.png" http-user-agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36",Пятый International
 #EXTVLCOPT:http-user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36
 https://cdn4.skygo.mn/live/disk1/Channel_5/HLSv3-FTA/Channel_5.m3u8
-#EXTINF:-1 tvg-id="RENTVInternational.ru" tvg-name="РЕН ТВ International" group-title="Общие" tvg-logo="https://i.imgur.com/gBjk9oF.png",РЕН ТВ International
-http://178.134.1.158:8081/RENTV/index.m3u8
+#EXTINF:-1 tvg-id="RTRPlaneta.ru" tvg-name="РТР-Планета" group-title="Общие",РТР-Планета
+https://stream.smotrim.ru/hls/planeta_rtr_asia/playlist.m3u8?entity=channel&id=511&sign=d1fe06cd922b67e412719536998fa43d
 #EXTINF:-1 tvg-id="Soyuzny.ru" tvg-name="Союзный" group-title="Общие" tvg-logo="https://www.mtis.by/upload/medialibrary/717/v07nk6rmf6m1mno8ujhbkcg8nstkfjgv/Slide%2016_9%20-%2050.png",Союзный
 http://souzny.mediacdn.ru/cdn/souzny/tracks-v1a1/mono.ts.m3u8
 #EXTINF:-1 tvg-id="StrashnoeHD.ru" tvg-name="Страшное" group-title="Общие" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Страшное%20HD.png",Страшное
