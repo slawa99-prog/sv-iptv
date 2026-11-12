@@ -261,15 +261,15 @@ https://live-rian.cdnvideo.ru/rian/rus-radio/playlist.m3u8
 https://cdn-dvr.ntv.ru/Shef/index.m3u8
 #EXTINF:-1 tvg-id="Shokiruyushchee.ru" tvg-name="Шокирующее" group-title="Кино и сериалы" tvg-logo="https://i.imgur.com/UG63hZ0.png",Шокирующее
 http://stream.mcquack.net/75/index.m3u8
-#EXTINF:-1 tvg-id="2x2.ru" tvg-name="2x2" group-title="Развлекательные" tvg-logo="https://i.imgur.com/fhQFLEl.png" http-user-agent="WINK/1.40.1 (AndroidTV/9) HlsWinkPlayer",2x2
-#EXTVLCOPT:http-user-agent=WINK/1.40.1 (AndroidTV/9) HlsWinkPlayer
-https://zabava-htlive.cdn.ngenix.net/hls/CH_2X2/variant.m3u8
+#EXTINF:-1 tvg-id="2x2.ru" tvg-name="2x2" group-title="Развлекательные" tvg-logo="https://i.imgur.com/fhQFLEl.png",2x2
+http://185.23.80.23:8080/2x2/index.m3u8
 #EXTINF:-1 tvg-id="Channel8.ru" tvg-name="8 канал" group-title="Развлекательные" tvg-logo="https://i.imgur.com/nUSx1jF.png",8 канал
 https://flussonic.mkpnet.ru/tv-a308d006109b1c1f/video.m3u8
 #EXTINF:-1 tvg-id="FX.ru" tvg-name="FX" group-title="Развлекательные",FX
 http://stream.mcquack.net/182/index.m3u8
-#EXTINF:-1 tvg-id="QuizTV.ua" tvg-name="Quiz TV" group-title="Развлекательные" tvg-logo="https://i.imgur.com/I0ZE0M4.png",Quiz TV
-http://ott.watch/stream/DLGE1VZRN9/397.m3u8
+#EXTINF:-1 tvg-id="QuizTV.ua" tvg-name="Quiz TV" group-title="Развлекательные" tvg-logo="https://i.imgur.com/I0ZE0M4.png" http-user-agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36",Quiz TV
+#EXTVLCOPT:http-user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36
+http://stream.mcquack.net/397/index.m3u8
 #EXTINF:-1 tvg-id="RAZ1.ua" tvg-name="RAZ 1" group-title="Развлекательные" tvg-logo="https://s2.vcdn.biz/static/f/7607683721/image.jpg/pt/c192x192x4",RAZ 1
 http://ott.watch/stream/PBU2IRPDLW/463.m3u8
 #EXTINF:-1 tvg-id="RAZ2.ua" tvg-name="RAZ 2" group-title="Развлекательные" tvg-logo="https://s7.vcdn.biz/static/f/7607698621/image.jpg/pt/c192x192x4",RAZ 2
@@ -417,10 +417,6 @@ http://stream.mcquack.net/130/index.m3u8
 http://stream.mcquack.net/142/index.m3u8
 #EXTINF:-1 tvg-id="MatchFutbol3.ru" tvg-name="Матч! Футбол 3" group-title="Спорт",Матч! Футбол 3
 http://stream.mcquack.net/185/index.m3u8
-#EXTINF:-1 tvg-id="Sportivnyy.ru" tvg-name="Спортивный" group-title="Спорт" tvg-logo="https://i.imgur.com/ujS6mMo.png",Спортивный
-https://live-3.otcnet.ru/sportivny/index.m3u8
-#EXTINF:-1 tvg-id="Football.ru" tvg-name="Футбол" group-title="Спорт",Футбол
-http://radio.tvs.by:8088/Setanta1/index.m3u8
 #EXTINF:-1 tvg-id="BRIDGE.ru" tvg-name="BRIDGE" group-title="Музыка" tvg-logo="https://i.imgur.com/qYObfrG.png",BRIDGE
 http://194.143.148.28:8080/RT_DOC/index.m3u8
 #EXTINF:-1 tvg-id="BRIDGEClassic.ru" tvg-name="BRIDGE Classic" group-title="Музыка" tvg-logo="https://i.imgur.com/JJTQq81.png",BRIDGE Classic
@@ -521,6 +517,8 @@ https://fs.uplink.kz/oruzhie/mono.m3u8?token=onlinetv2
 https://stream8.cinerama.uz/1415/index.m3u8
 #EXTINF:-1 tvg-id="Prosveshchenie.ru" tvg-name="Просвещение" group-title="Познавательные" tvg-logo="https://i.imgur.com/uppFhhq.png",Просвещение
 http://cdn-01.bonus-tv.ru/prosveschenie_edge/tracks-v1a1/mono.m3u8
+#EXTINF:-1 tvg-id="Smotrim100Fakty.ru" tvg-name="Смотрим 100% Факты" group-title="Познавательные" tvg-logo="https://i.imgur.com/dB3cJzO.png",Смотрим 100% Факты
+https://stream.smotrim.ru/hls/fasttv06/playlist_3.m3u8
 #EXTINF:-1 tvg-id="SmotrimChestnyyDetektiv.ru" tvg-name="Смотрим Честный Детектив" group-title="Познавательные" tvg-logo="https://cdn-st3.smotrim.ru/vh/pictures/svg/444/241/8.svg",Смотрим Честный Детектив
 https://live-vgtrksmotrim.cdnvideo.ru/vgtrksmotrim/smotrim-live-01.smil/playlist.m3u8
 #EXTINF:-1 tvg-id="Tochkarf.ru" tvg-name="Точка РФ" group-title="Познавательные",Точка РФ
@@ -630,8 +628,6 @@ https://stream8.cinerama.uz/1244/index.m3u8
 #EXTINF:-1 tvg-id="NTVStilzhizn.ru" tvg-name="НТВ Стиль жизни" group-title="Здоровье и образ жизни" http-user-agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36 OPR/115.0.0.0",НТВ Стиль жизни
 #EXTVLCOPT:http-user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36 OPR/115.0.0.0
 https://cdn.ntv.ru/th_style/tracks-v1a1/playlist.m3u8
-#EXTINF:-1 tvg-id="Tonus.ru" tvg-name="Тонус" group-title="Здоровье и образ жизни" tvg-logo="https://i.imgur.com/pGm8QCj.png",Тонус
-http://194.143.148.28/Mir24/index.m3u8
 #EXTINF:-1 tvg-id="ART.ru" tvg-name="АРТ" group-title="Культура" tvg-logo="https://optim.tildacdn.com/tild3134-3836-4338-a138-666666653363/-/format/webp/__.png.webp",АРТ
 http://89.104.114.24:8080/art/index.m3u8
 #EXTINF:-1 tvg-id="Belarus3.by" tvg-name="Беларусь 3" group-title="Культура" tvg-logo="https://i.imgur.com/JkcDycn.png",Беларусь 3
@@ -696,10 +692,10 @@ http://rt-ct-vlad-htlive.cdn.ngenix.net/hls/CH_R02_OTT_CT_VLAD_GUBERNIA33/varian
 http://live.guberniatv.cdnvideo.ru/guberniatv/guberniatv.sdp/playlist.m3u8
 #EXTINF:-1 tvg-id="Dagestan.ru" tvg-name="Дагестан" group-title="Региональные" tvg-logo="https://i.imgur.com/jumkRvc.png",Дагестан
 https://dagestan.mediacdn.ru/cdn/dagestan/playlist.m3u8
-#EXTINF:-1 tvg-id="sv.devyatka-kirov" tvg-name="Девятка — Киров" group-title="Региональные" tvg-logo="https://iptvx.one/picons/deviatka.png",Девятка — Киров
-https://rt-vlg-kirov-htlive.cdn.ngenix.net/hls/CH_R02_9TV/variant.m3u8
 #EXTINF:-1 tvg-id="sv.dzerzhinsk" tvg-name="Дзержинск ТВ" group-title="Региональные" tvg-logo="https://iptvx.one/picons/dzenzhinsk-tv.png",Дзержинск ТВ
 http://rt-vlg-nn-htlive.cdn.ngenix.net/hls/CH_R01_DZERZHINSK/variant.m3u8
+#EXTINF:-1 tvg-id="Dimgrad24TV.ru" tvg-name="Димград 24 HD" group-title="Региональные",Димград 24 HD
+http://live-3.otcnet.ru/dimgrad/index.m3u8
 #EXTINF:-1 tvg-id="Don24.ru" tvg-name="Дон 24" group-title="Региональные" tvg-logo="https://i.imgur.com/fW15la1.png",Дон 24
 https://donmedia.bonus-tv.ru/cdn/donmedia/playlist.m3u8
 #EXTINF:-1 tvg-id="Eurasia.ru" tvg-name="Евразия" group-title="Региональные" tvg-logo="https://i.imgur.com/4JUHIVS.png",Евразия
@@ -785,6 +781,8 @@ http://tele2dvrnat01-02.cdnvideo.ru/stream/NAT_OTC_ap1f55f482a2df2bede07c661806c
 http://rt-ct-orl-htlive.cdn.ngenix.net/hls/CH_R01_PERVOBL/variant.m3u8
 #EXTINF:-1 tvg-id="PervyyRespublikanskiy.ru" tvg-name="Первый Республиканский" group-title="Региональные" tvg-logo="https://i.imgur.com/ti4OMBv.png",Первый Республиканский
 https://streaming.televizor-24-tochka.ru/live/27.m3u8
+#EXTINF:-1 tvg-id="sv.pervyy-rostovskiy" tvg-name="Первый Ростовский" group-title="Региональные" tvg-logo="https://iptvx.one/picons/pervy-rostovsky.png",Первый Ростовский
+https://rost.mediacdn.ru/cdn/rostov1/tracks-v2a1/mono.m3u8
 #EXTINF:-1 tvg-id="Prima.ru" tvg-name="Прима" group-title="Региональные" tvg-logo="https://i.imgur.com/33XGMch.png" http-user-agent="WINK/1.44.1 (AndroidTV/9) HlsWinkPlayer",Прима
 #EXTVLCOPT:http-user-agent=WINK/1.44.1 (AndroidTV/9) HlsWinkPlayer
 https://rt-sib-krsk-htlive.cdn.ngenix.net/hls/CH_R11_OTT_SIB_KRSK_STS/variant.m3u8
@@ -867,8 +865,6 @@ http://rt-nw-komi-htlive.cdn.ngenix.net/hls/CH_R01_YURGAN/variant.m3u8
 http://rt-vlg-chr-htlive.cdn.ngenix.net/hls/CH_R01_UTV/variant.m3u8
 #EXTINF:-1 tvg-id="Yakutiya24.ru" tvg-name="Якутия 24" group-title="Региональные",Якутия 24
 https://live-saha.cdnvideo.ru/saha2/yak24rtmp_live.smil/playlist.m3u8
-#EXTINF:-1 tvg-id="Yamal.ru" tvg-name="Ямал" group-title="Региональные",Ямал
-https://rt-ural-nbk-htlive.cdn.ngenix.net/hls/CH_R04_OTT_YAMREG_URAL_YNF/variant.m3u8
 #EXTINF:-1 tvg-id="360.ru" tvg-name="360°" group-title="Общие" tvg-logo="https://i.imgur.com/VTJqdoX.png",360°
 http://live-vgtrksmotrim.cdnvideo.ru/vgtrksmotrim/smotrim-live-04-srt.smil/tracks-v3a1/mono.m3u8
 #EXTINF:-1 tvg-id="Channel8International.ru" tvg-name="8 канал International" group-title="Общие" tvg-logo="https://i.imgur.com/I8OU9oa.png",8 канал International
@@ -900,7 +896,7 @@ http://85.238.112.40:8810/hls_sec/239.1.75.33-.m3u8
 #EXTVLCOPT:http-user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36
 https://cdn4.skygo.mn/live/disk1/Channel_5/HLSv3-FTA/Channel_5.m3u8
 #EXTINF:-1 tvg-id="RTRPlaneta.ru" tvg-name="РТР-Планета" group-title="Общие",РТР-Планета
-https://stream.smotrim.ru/hls/planeta_rtr_asia/playlist.m3u8?entity=channel&id=511&sign=d1fe06cd922b67e412719536998fa43d
+https://stream.smotrim.ru/hls/planeta_rtr_usa/playlist.m3u8?entity=channel&id=513&sign=3ac5d8e2db71ef7fc3d4becbff7512d8
 #EXTINF:-1 tvg-id="Soyuzny.ru" tvg-name="Союзный" group-title="Общие" tvg-logo="https://www.mtis.by/upload/medialibrary/717/v07nk6rmf6m1mno8ujhbkcg8nstkfjgv/Slide%2016_9%20-%2050.png",Союзный
 http://souzny.mediacdn.ru/cdn/souzny/tracks-v1a1/mono.ts.m3u8
 #EXTINF:-1 tvg-id="StrashnoeHD.ru" tvg-name="Страшное" group-title="Общие" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Страшное%20HD.png",Страшное
