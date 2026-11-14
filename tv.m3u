@@ -27,8 +27,9 @@ https://tvchannelstream1.tvzvezda.ru/cdn/tvzvezda/playlist_hdhigh.m3u8
 https://hls-mirtv.cdnvideo.ru/mirtv-parampublish/mirtv_2500/playlist.m3u8
 #EXTINF:-1 tvg-id="TNT.ru" tvg-name="ТНТ" group-title="Федеральные" tvg-logo="https://i.imgur.com/T4A6rEI.png",ТНТ
 http://stream.mcquack.net/135/index.m3u8
-#EXTINF:-1 tvg-id="TV3.ru" tvg-name="ТВ-3" group-title="Федеральные" tvg-logo="https://i.imgur.com/JLAvq8O.png",ТВ-3
-https://flussonic.mkpnet.ru/tv-b9ddf7deb3d25757/video.m3u8
+#EXTINF:-1 tvg-id="TV3.ru" tvg-name="ТВ-3" group-title="Федеральные" tvg-logo="https://i.imgur.com/JLAvq8O.png" http-user-agent="WINK/1.44.1 (AndroidTV/9) HlsWinkPlayer",ТВ-3
+#EXTVLCOPT:http-user-agent=WINK/1.44.1 (AndroidTV/9) HlsWinkPlayer
+https://zabava-htlive.cdn.ngenix.net/hls/CH_TV3/variant.m3u8
 #EXTINF:-1 tvg-id="360News.ru" tvg-name="360° Новости" group-title="Новости" tvg-logo="https://i.imgur.com/YXDeX8q.png",360° Новости
 https://live-vgtrksmotrim.cdnvideo.ru/vgtrksmotrim/smotrim-live-03-srt.smil/playlist.m3u8
 #EXTINF:-1 tvg-id="AtamekenBusiness.kz" tvg-name="Atameken Business" group-title="Новости" tvg-logo="https://i.imgur.com/CfRvm8i.png",Atameken Business
@@ -67,8 +68,6 @@ http://85.238.112.40:8810/hls_sec/239.33.75.33-.m3u8
 http://osnmedia.servicecdn.ru/streams/17603_88089/playlist.m3u8
 #EXTINF:-1 tvg-id="PerviyInformationniy.by" tvg-name="Первый информационный" group-title="Новости" tvg-logo="https://i.imgur.com/eIiXRAI.png",Первый информационный
 https://edge50.dc.beltelecom.by/ngtrk/smil:informacionnyy.smil/chunklist_b1010000_sleng.m3u8
-#EXTINF:-1 tvg-id="ProBusiness.ru" tvg-name="Про Бизнес" group-title="Новости" tvg-logo="https://i.imgur.com/1u8KvTD.png",Про Бизнес
-https://tv-streaming.bsh.ru:21938/probusiness/probusiness.stream/chunklist.m3u8
 #EXTINF:-1 tvg-id="RadioRossii.ru" tvg-name="Радио России" group-title="Новости" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/b/bb/Radio_Rossii_logo.svg/1920px-Radio_Rossii_logo.svg.png",Радио России
 https://stream.smotrim.ru/hls2/radio_rus/playlist_4.m3u8
 #EXTINF:-1 tvg-id="RBKTV.ru" tvg-name="РБК" group-title="Новости" tvg-logo="https://i.imgur.com/CwhmJby.png",РБК
@@ -313,8 +312,6 @@ http://stream.mcquack.net/230/index.m3u8
 http://stream.mcquack.net/306/index.m3u8
 #EXTINF:-1 tvg-id="BabyTime.ru" tvg-name="Baby Time" group-title="Детские" tvg-logo="https://i.imgur.com/lW3WIBD.png",Baby Time
 https://fs.uplink.kz/baby_time/mono.m3u8?token=onlinetv
-#EXTINF:-1 tvg-id="ducktv.ru" tvg-name="ducktv" group-title="Детские",ducktv
-https://stream8.cinerama.uz/1271/index.m3u8
 #EXTINF:-1 tvg-id="GulliGirl.ru" tvg-name="Gulli Girl" group-title="Детские" tvg-logo="https://i.imgur.com/lbViDuC.png",Gulli Girl
 https://stream8.cinerama.uz/1445/index.m3u8
 #EXTINF:-1 tvg-id="JoyCook.ru" tvg-name="Joy Cook" group-title="Детские",Joy Cook
@@ -349,8 +346,6 @@ https://radm.mediacdn.ru/cdn/radost/playlist_sdhigh.m3u8
 https://stream8.cinerama.uz/1407/tracks-v1a1/mono.m3u8
 #EXTINF:-1 tvg-id="SmileTV.ru" tvg-name="Смайл ТВ" group-title="Детские",Смайл ТВ
 https://5d23269b3ec0c.streamlock.net/WEB_Smilik/ngrp:Smilik.stream-adaptive/playlist.m3u8
-#EXTINF:-1 tvg-id="Smotrim100Detskoe.ru" tvg-name="Смотрим 100% Детское" group-title="Детские" tvg-logo="https://i.imgur.com/1hsNeTa.png",Смотрим 100% Детское
-https://stream.smotrim.ru/hls/fasttv05/playlist_3.m3u8
 #EXTINF:-1 tvg-id="Solnce.ru" tvg-name="Солнце" group-title="Детские" tvg-logo="https://i.imgur.com/HCefxaK.png",Солнце
 http://tv.mediacdn.ru/live/solntse/playlist_3000k.m3u8
 #EXTINF:-1 tvg-id="STSkids.ru" tvg-name="СТС Kids" group-title="Детские" tvg-logo="https://i.imgur.com/o9kLpAL.png",СТС Kids
@@ -419,8 +414,6 @@ http://stream.mcquack.net/272/index.m3u8
 http://stream.mcquack.net/92/index.m3u8
 #EXTINF:-1 tvg-id="BRIDGEHits.ru" tvg-name="BRIDGE Hits" group-title="Музыка" tvg-logo="https://i.imgur.com/sIW9oR4.png",BRIDGE Hits
 http://stream.mcquack.net/320/index.m3u8
-#EXTINF:-1 tvg-id="BRIDGERock.ru" tvg-name="BRIDGE Rock" group-title="Музыка" tvg-logo="https://i.imgur.com/MHuwct2.png",BRIDGE Rock
-http://178.134.1.158:8081/BRIDGEROCK/index.m3u8
 #EXTINF:-1 tvg-id="BRIDGESchlager.ru" tvg-name="BRIDGE Шлягер" group-title="Музыка" tvg-logo="https://mbmh5s36ok.a.trbcdn.net/572aecd6-static/channel/11173/logo_256_1660828534.png",BRIDGE Шлягер
 http://flussonic.mkpnet.ru/tv-64b2c4ff13365817/video.m3u8
 #EXTINF:-1 tvg-id="ClassicMusic.ru" tvg-name="Classic Music" group-title="Музыка" tvg-logo="https://i.imgur.com/TpXs1qA.png",Classic Music
@@ -733,8 +726,6 @@ https://live-mordovia24.cdnvideo.ru/mordovia24/streamtr/playlist.m3u8
 https://stream.smotrim.ru/hls/givc8/playlist.m3u8?entity=channel&id=798&sign=37881ef2e289f062ceff0dca6c24dc58
 #EXTINF:-1 tvg-id="MoskvaDoveriye.ru" tvg-name="Москва. Доверие" group-title="Региональные" tvg-logo="https://i.imgur.com/QDqDQzt.png",Москва. Доверие
 https://stream.smotrim.ru/hls2/doverie/playlist_3.m3u8
-#EXTINF:-1 tvg-id="NashDom.ru" tvg-name="Наш дом" group-title="Региональные",Наш дом
-http://85.234.33.63/stream/c11.m3u8
 #EXTINF:-1 tvg-id="sv.nashi-goroda" tvg-name="Наши Города" group-title="Региональные" tvg-logo="https://iptvx.one/picons/nashi-goroda.png",Наши Города
 http://rt-ural-sur-htlive.cdn.ngenix.net/hls/CH_R04_OTT_NGOR_URAL_SUR/variant.m3u8
 #EXTINF:-1 tvg-id="NVKSakha.ru" tvg-name="НВК Саха" group-title="Региональные" tvg-logo="https://i.imgur.com/LwXNUhf.png",НВК Саха
@@ -810,7 +801,7 @@ https://rt-ural-sur-htlive.cdn.ngenix.net/hls/CH_R01_SAMOTLOR/variant.m3u8
 #EXTINF:-1 tvg-id="sv.sampo" tvg-name="Сампо ТВ" group-title="Региональные" tvg-logo="https://iptvx.one/picons/sampo-tv.png",Сампо ТВ
 http://rt-nw-pzav-htlive.cdn.ngenix.net/hls/CH_R01_SAMPOTV/variant.m3u8
 #EXTINF:-1 tvg-id="SanktPeterburg.ru" tvg-name="Санкт-Петербург" group-title="Региональные" tvg-logo="https://i.imgur.com/9At4oG7.png",Санкт-Петербург
-https://stream.smotrim.ru/hls2/ext_spbtv/playlist_5.m3u8
+https://rt-nw-spb-htlive.cdn.ngenix.net/hls/CH_R02_SPBREGIONALHD/variant.m3u8
 #EXTINF:-1 tvg-id="Saratov24.ru" tvg-name="Саратов 24" group-title="Региональные",Саратов 24
 http://rt-vlg-saratov-htlive.cdn.ngenix.net/hls/CH_R01_SARATOV24/variant.m3u8
 #EXTINF:-1 tvg-id="sv.sarov24" tvg-name="Саров 24" group-title="Региональные" http-user-agent="TiviMate/2.8.0 (Linux; Android 11)",Саров 24
