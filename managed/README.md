@@ -6,10 +6,10 @@
 
 | Название | Ссылка для Televizo | Записей | Последняя загрузка UTC | Состояние |
 |---|---|---:|---|---|
-| SV ТВ 1 | [tv1.m3u](https://raw.githubusercontent.com/slawa99-prog/sv-iptv/main/managed/tv1.m3u) | 452 | 2026-11-15T11:25:30+00:00 | Без изменений |
-| SV ТВ 2 | [tv2.m3u](https://raw.githubusercontent.com/slawa99-prog/sv-iptv/main/managed/tv2.m3u) | 502 | 2026-11-15T11:25:30+00:00 | Без изменений |
-| SV ТВ 3 | [tv3.m3u](https://raw.githubusercontent.com/slawa99-prog/sv-iptv/main/managed/tv3.m3u) | 978 | 2026-11-15T11:25:30+00:00 | Без изменений |
-| SV ТВ 4 | [tv4.m3u](https://raw.githubusercontent.com/slawa99-prog/sv-iptv/main/managed/tv4.m3u) | 460 | 2026-11-15T11:25:30+00:00 | Обновлён |
+| SV ТВ 1 | [tv1.m3u](https://raw.githubusercontent.com/slawa99-prog/sv-iptv/main/managed/tv1.m3u) | 452 | 2026-11-15T17:56:23+00:00 | Без изменений |
+| SV ТВ 2 | [tv2.m3u](https://raw.githubusercontent.com/slawa99-prog/sv-iptv/main/managed/tv2.m3u) | 502 | 2026-11-15T17:56:23+00:00 | Без изменений |
+| SV ТВ 3 | [tv3.m3u](https://raw.githubusercontent.com/slawa99-prog/sv-iptv/main/managed/tv3.m3u) | 978 | 2026-11-15T17:56:23+00:00 | Без изменений |
+| SV ТВ 4 | [tv4.m3u](https://raw.githubusercontent.com/slawa99-prog/sv-iptv/main/managed/tv4.m3u) | 460 | 2026-11-15T17:56:23+00:00 | Без изменений |
 
 Количество — записи в файле автора, не количество подтверждённых рабочих или уникальных каналов. Проверяется загрузка и структура M3U; полный эфир каждого канала здесь не проверяется.
 
