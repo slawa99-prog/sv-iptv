@@ -119,10 +119,6 @@ http://tshift-1.telecoma.tv/8channel/index.m3u8
 #EXTVLCOPT:http-user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/154.0.0.0 Safari/537.36 Edg/154.0.0.0
 #EXTVLCOPT:http-referrer=http://live-11cinema.cdnvideo.net/11cinemanet/11cinemanet/playlist.m3u8
 http://live-11cinema.cdnvideo.net/11cinemanet/11cinemanet/playlist.m3u8
-#EXTINF:-1 tvg-id="Channel8Krasnoyarsk.ru" tvg-name="Channel 8 Krasnoyarsk" tvg-logo="https://i.imgur.com/q3JCAC3.png" tvg-country="RU" tvg-language="rus" group-title="General" nexus-score="100",Channel 8 Krasnoyarsk (1080p)
-#EXTVLCOPT:http-user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36 Edg/150.0.0.0
-#EXTVLCOPT:http-referrer=https://tshift-1.telecoma.tv/8channel/tracks-v1a1/mono.ts.m3u8
-https://tshift-1.telecoma.tv/8channel/tracks-v1a1/mono.ts.m3u8
 #EXTINF:-1 tvg-id="Channel8Novosibirsk.ru" tvg-name="Channel 8 Novosibirsk" tvg-logo="https://i.imgur.com/eHGETvU.png" tvg-country="RU" tvg-language="rus" group-title="General" nexus-score="100",Channel 8 Novosibirsk (480p)
 #EXTVLCOPT:http-user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36 Edg/150.0.0.0
 https://live-8knsk.cdnvideo.ru/8knsk/stream1/playlist.m3u8
@@ -130,8 +126,9 @@ https://live-8knsk.cdnvideo.ru/8knsk/stream1/playlist.m3u8
 https://stream8.cinerama.uz/1214/tracks-v1a1/mono.m3u8
 #EXTINF:-1 tvg-id="ChannelOneCIS.ru" tvg-name="Channel One CIS" tvg-logo="https://i.imgur.com/RUSX0rX.png" tvg-country="RU" tvg-language="rus" group-title="General" nexus-score="100",Channel One CIS (576p)
 https://fs.uplink.kz/perviy_kanal_sng/mono.m3u8?token=onlinetv
-#EXTINF:-1 tvg-id="Che.ru" tvg-name="Che!" tvg-logo="https://i.imgur.com/ZOcDGpB.png" tvg-country="RU" tvg-language="rus" group-title="Entertainment" nexus-score="100",Che! (576p)
-http://176.118.197.101/Che/index.m3u8
+#EXTINF:-1 tvg-id="Che.ru" tvg-name="Che!" tvg-logo="https://i.imgur.com/ZOcDGpB.png" tvg-country="RU" tvg-language="rus" group-title="Entertainment" nexus-score="100",Che! (540p)
+#EXTVLCOPT:http-user-agent=WINK/1.44.1 (AndroidTV/9) HlsWinkPlayer
+https://zabava-htlive.cdn.ngenix.net/hls/CH_PERETZ/variant.m3u8
 #EXTINF:-1 tvg-id="Cinema.ru" tvg-name="Cinema" tvg-logo="https://i.imgur.com/b5e9qUA.png" tvg-country="RU" tvg-language="rus" group-title="Movies" nexus-score="100",Cinema
 https://stream8.cinerama.uz/1227/tracks-v1a1/mono.m3u8
 #EXTINF:-1 tvg-id="CityEdenAutoGid.ru" tvg-name="City Eden AutoGid" tvg-logo="https://i.imgur.com/qpe8L27.png" tvg-country="RU" tvg-language="rus" group-title="Auto" nexus-score="100",City Eden AutoGid
@@ -579,8 +576,6 @@ http://stream.mcquack.net/69/index.m3u8
 http://s55766.cdn.ngenix.net/s55766-media-origin/rline_high/index.m3u8
 #EXTINF:-1 tvg-id="RENTV.ru" tvg-name="REN TV" tvg-logo="https://i.imgur.com/0Tu5lte.png" tvg-country="RU" tvg-language="rus" group-title="General" nexus-score="100",REN TV (576p)
 http://185.23.80.23:8080/REN/index.m3u8
-#EXTINF:-1 tvg-id="RENTVInternational.ru" tvg-name="REN TV International" tvg-logo="https://i.imgur.com/gBjk9oF.png" tvg-country="RU" tvg-language="rus" group-title="General" nexus-score="100",REN TV International (576p)
-http://178.134.1.158:8081/RENTV/index.m3u8
 #EXTINF:-1 tvg-id="Retro.ru" tvg-name="Retro" tvg-logo="https://xml-epgservice.cdnvideo.ru/EPGService/hs/xmldata/852f4b92-cae5-463e-aad6-cd8844c5a49/logo/69.png" tvg-country="RU" tvg-language="rus" group-title="Classic" nexus-score="100",Retro (576p)
 http://176.118.197.101/Retro/index.m3u8
 #EXTINF:-1 tvg-id="RodnoeKino.ru" tvg-name="Rodnoe Kino" tvg-logo="https://i.imgur.com/H70LxoZ.png" tvg-country="RU" tvg-language="rus" group-title="Movies" nexus-score="100",Rodnoe Kino (576p)
@@ -727,8 +722,6 @@ https://fs.uplink.kz/start_world/mono.m3u8?token=onlinetv
 https://live-stranafm.cdnvideo.ru/stranafm/smil:stranafm.smil/playlist.m3u8
 #EXTINF:-1 tvg-id="STS.ru" tvg-name="STS" tvg-logo="https://i.imgur.com/ilUzAeb.png" tvg-country="RU" tvg-language="rus" group-title="Family" nexus-score="100",STS (1080p)
 http://stream.mcquack.net/138/index.m3u8
-#EXTINF:-1 tvg-id="STSInternational.ru" tvg-name="STS International" tvg-logo="https://i.imgur.com/mwiC0RG.png" tvg-country="RU" tvg-language="rus" group-title="Undefined" nexus-score="100",STS International (576p)
-http://178.134.1.158:8081/CTC/index.m3u8
 #EXTINF:-1 tvg-id="STSkids.ru" tvg-name="STS kids" tvg-logo="https://i.imgur.com/o9kLpAL.png" tvg-country="RU" tvg-language="rus" group-title="Kids" nexus-score="100",STS kids (1080p)
 http://stream.mcquack.net/197/index.m3u8
 #EXTINF:-1 tvg-id="STSLove.ru" tvg-name="STS Love" tvg-logo="https://upload.wikimedia.org/wikipedia/ru/thumb/3/35/%D0%A1%D0%A2%D0%A1_Love_%282023%29.svg/1920px-%D0%A1%D0%A2%D0%A1_Love_%282023%29.svg.png" tvg-country="RU" tvg-language="rus" group-title="Family" nexus-score="100",STS Love (720p)
