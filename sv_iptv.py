@@ -28,13 +28,14 @@ import time
 import unicodedata
 from functools import lru_cache
 import placeholder_filter
+from expansion_check import Campaign
 from urllib.error import HTTPError, URLError
 from urllib.parse import urljoin, urlparse
 from urllib.request import Request, urlopen
 
 ROOT = Path(__file__).resolve().parent
 VALIDATION_ROOT = ROOT
-CHECKER_VERSION = "3.1-visual"
+CHECKER_VERSION = "3.2-wide-checks"
 ATTR = re.compile(r'([\w-]+)=(?:"([^"]*)"|\'([^\']*)\')')
 QUALITY = re.compile(r'^(?:SD|HD|FHD|UHD|4K|8K|\d{3,4}[pi])$', re.I)
 HOST_LOCKS: dict[str, threading.Semaphore] = {}
@@ -808,6 +809,9 @@ def prune_confirmed_placeholders(path: Path, results: dict) -> int:
 
 def build(cfg: dict, *, tester=check_stream, now: str | None = None, inventory=False) -> dict:
     now = now or utcnow()
+    campaign_options = cfg.get("expansion_campaign", {})
+    if campaign_options.get("enabled") and cfg.get("check_environment") in campaign_options.get("environments", ["ru-vps"]):
+        cfg = {**cfg, "skip_tagged_not_24_7": not campaign_options.get("include_part_time", True)}
     mode = cfg.get("publication_mode", "automatic")
     if mode not in ("automatic", "reviewed-local"):
         raise ValueError("unknown publication mode")
@@ -843,22 +847,40 @@ def build(cfg: dict, *, tester=check_stream, now: str | None = None, inventory=F
         raise RuntimeError("Install ffmpeg and ffprobe before checking streams")
     historic = read_json(ROOT / "history.json", {"streams": {}, "last_selected": {}})
     old, previous = historic.get("streams", {}), historic.get("last_selected", {})
-    chosen = {cid: select_candidates(items, old, previous.get(cid), cfg, now) for cid, items in found.items()}
+    campaign = None
+    campaign_cfg = cfg.get("expansion_campaign", {})
+    if campaign_cfg.get("enabled") and cfg.get("check_environment") in campaign_cfg.get("environments", ["ru-vps"]):
+        evidence_name = campaign_cfg.get("evidence_file", "")
+        evidence_path = (VALIDATION_ROOT / evidence_name).resolve()
+        if not evidence_name or not evidence_path.is_relative_to(VALIDATION_ROOT.resolve()):
+            raise ValueError("invalid campaign evidence path")
+        evidence = read_json(evidence_path, {})
+        if evidence.get("campaign_id") != campaign_cfg.get("id"):
+            raise ValueError("campaign evidence is missing or mismatched")
+        campaign = Campaign({**campaign_cfg, "environment": cfg["check_environment"]},
+                            historic.get("expansion_campaign", {}), found, old, evidence, stream_key, now)
+        chosen = {cid: campaign.choose(items, old, previous.get(cid), cfg, select_candidates)
+                  for cid, items in found.items()}
+    else:
+        chosen = {cid: select_candidates(items, old, previous.get(cid), cfg, now) for cid, items in found.items()}
     all_items = {stream_key(i): i for items in chosen.values() for i in items}
     print(f'Testing {len(all_items)} streams for {sum(bool(v) for v in chosen.values())} channels', flush=True)
     results = {}
-    signature = hashlib.sha256(json.dumps({"checker": CHECKER_VERSION, "visual_criteria": visual_signature(), **{k: cfg.get(k) for k in
+    signature = hashlib.sha256(json.dumps({"checker": CHECKER_VERSION, "visual_criteria": visual_signature(),
+        "environment": cfg.get("check_environment"), "campaign": campaign_cfg.get("id") if campaign else None,
+        "queue": sorted(all_items), **{k: cfg.get(k) for k in
         ("test_seconds", "preferred_max_height", "preferred_max_bitrate", "network_timeout_seconds",
          "max_download_duration_ratio", "decode_timeout_seconds")}}, sort_keys=True).encode()).hexdigest()
     if tester is check_stream and cfg.get("resume_checks"):
         checkpoint = read_json(ROOT / "probe-progress.json", {})
-        if checkpoint.get("signature") == signature:
+        if checkpoint.get("signature") == signature and not checkpoint.get("completed"):
             for key, result in checkpoint.get("results", {}).items():
                 if result.get("reason") in ("insufficient live sample", "separate audio rendition: not supported by this checker"):
                     continue  # Compatible extension: retry formats older checks could not test.
                 if result.get("ok") and result.get("played_seconds", 0) < cfg.get("test_seconds", 12):
                     continue
-                if key in all_items and result.get("checked_utc") and time.time() - timestamp(result["checked_utc"]) < 3600:
+                age_limit = 48 * 3600 if campaign else 3600
+                if key in all_items and result.get("checked_utc") and 0 <= time.time() - timestamp(result["checked_utc"]) < age_limit:
                     results[key] = result
             print(f'Resumed {len(results)} recent probe results', flush=True)
     by_host = {}
@@ -887,7 +909,13 @@ def build(cfg: dict, *, tester=check_stream, now: str | None = None, inventory=F
     updated = {k: v for k, v in old.items() if k in all_items or
                (v.get("last_checked") and timestamp(now) - timestamp(v["last_checked"]) < cfg.get("history_days", 14) * 86400)}
     for key, result in results.items():
-        updated[key] = observation(old.get(key, {}), result, result.get("checked_utc", now), cfg)
+        at = result.get("checked_utc", now)
+        if old.get(key, {}).get("last_checked") and timestamp(old[key]["last_checked"]) >= timestamp(at):
+            updated[key] = old[key]
+        else:
+            updated[key] = observation(old.get(key, {}), result, at, cfg)
+    if campaign:
+        campaign.record(results)
     pairs, selected, unavailable, backups, used_urls, used_media = [], [], [], {}, set(), set()
     next_previous = {}
     for channel in catalog:
@@ -897,6 +925,8 @@ def build(cfg: dict, *, tester=check_stream, now: str | None = None, inventory=F
             key = stream_key(item)
             h, result = updated[key], results[key]
             if not result["ok"]:
+                continue
+            if campaign and not campaign.publishable(key):
                 continue
             if h["samples"] >= cfg.get("minimum_samples_for_rating", 4) and h["success_rate"] < cfg.get("minimum_success_rate", .9):
                 continue
@@ -972,17 +1002,28 @@ def build(cfg: dict, *, tester=check_stream, now: str | None = None, inventory=F
               "source_reports": source_reports, "excluded": excluded,
               "failure_reasons": dict(Counter(r["reason"] for r in results.values() if not r["ok"])),
               "selected": selected, "unavailable": unavailable}
+    if campaign:
+        report["expansion_campaign"] = campaign.report()
     if mode == "reviewed-local":
         home = read_json(ROOT / "home-review.json", {})
         report["reviewed_local_playlist"] = {k: v for k, v in home.items()
             if k not in ("channel_ids", "stability_rules", "source_archive_sha256")}
     # Always save failed observations. Otherwise a bad day would disappear from ratings.
-    write_json(ROOT / "history.json", {"version": 3, "streams": updated,
-               "last_selected": previous if guard else next_previous})
+    next_history = {"version": 3, "streams": updated,
+                    "last_selected": previous if guard else next_previous}
+    if campaign:
+        next_history["expansion_campaign"] = campaign.state
+    elif historic.get("expansion_campaign"):
+        next_history["expansion_campaign"] = historic["expansion_campaign"]
+    write_json(ROOT / "history.json", next_history)
     if not guard:
         atomic_write(ROOT / playlist_path, render_m3u(pairs, cfg))
         write_json(ROOT / "backups.json", {"checked_utc": finished, "channels": backups})
     write_json(ROOT / "status.json", report)
+    if tester is check_stream:
+        # A finished pass is never reused as the next independent observation.
+        write_json(ROOT / "probe-progress.json", {"signature": signature, "started_utc": now,
+                   "completed": True, "completed_utc": finished, "results": {}})
     print(f'{report["publication"].upper()}: {len(pairs)} unique channels; {report["stable_channels"]} with accumulated history', flush=True)
     return report
 
