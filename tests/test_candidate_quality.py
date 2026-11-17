@@ -162,5 +162,53 @@ class CandidateQualityTests(unittest.TestCase):
         with (self.root/'input.m3u').open('a') as f:f.write('\n')
         with self.assertRaisesRegex(ValueError,'hash mismatch'):self.run_at()
 
+    def add_extra_queue(self):
+        extra={'url':'https://example.com/new-extra.m3u8','headers':{}}
+        data=sv.render_m3u([(self.channels[0],extra)],{}).encode()
+        (self.root/'extra.m3u').write_bytes(data)
+        campaign=self.cfg['expansion_campaign']
+        campaign['additional_frozen_queues']=[{'path':'extra.m3u','sha256':hashlib.sha256(data).hexdigest(),'request_count':1,'batch_id':'extra-test'}]
+        campaign['frozen_union_request_count']=6
+        self.cfg['sources'].append('extra.m3u')
+        return extra
+
+    def test_completed_old_cohort_does_not_complete_additional_queue(self):
+        self.configure_frozen()
+        self.run_at('2026-11-17T00:00:00Z',ok=False)
+        r,_=self.run_at('2026-11-17T03:00:00Z',ok=False)
+        self.assertEqual(r['expansion_campaign']['completed_frozen_queue_passes'],2)
+        extra=self.add_extra_queue()
+        r,tested=self.run_at('2026-11-17T06:00:00Z',ok=False)
+        e=r['expansion_campaign']
+        self.assertEqual(tested,[extra['url']])
+        self.assertEqual((e['completed_cohort_passes'],e['completed_frozen_queue_passes']),(2,1))
+        self.assertEqual((e['cohort_requests'],e['frozen_queue_requests']),(5,6))
+        self.assertEqual(len(e['frozen_queues']),2)
+        r,_=self.run_at('2026-11-17T07:00:00Z',ok=False)
+        self.assertEqual(r['expansion_campaign']['completed_frozen_queue_passes'],1)
+        r,_=self.run_at('2026-11-17T09:00:00Z',ok=False)
+        self.assertEqual(r['expansion_campaign']['completed_frozen_queue_passes'],2)
+        history=sv.read_json(self.root/'history.json',{})['expansion_campaign']
+        self.assertTrue(all(v['samples']==2 for v in history['requests'].values()))
+        self.assertEqual(r['expansion_campaign']['request_categories']['pc_only'],1)
+
+    def test_additional_queue_hash_and_union_count_are_validated(self):
+        self.configure_frozen();self.add_extra_queue()
+        campaign=self.cfg['expansion_campaign']
+        campaign['frozen_union_request_count']=7
+        with self.assertRaisesRegex(ValueError,'union count mismatch'):self.run_at()
+        campaign['frozen_union_request_count']=6
+        with (self.root/'extra.m3u').open('a') as f:f.write('\n')
+        with self.assertRaisesRegex(ValueError,'hash mismatch'):self.run_at()
+
+    def test_overlapping_queue_does_not_create_duplicate_trials(self):
+        self.configure_frozen()
+        campaign=self.cfg['expansion_campaign']
+        campaign['additional_frozen_queues']=[dict(campaign['frozen_queue'])]
+        campaign['frozen_union_request_count']=5
+        r,tested=self.run_at(ok=False)
+        self.assertEqual(len(tested),5)
+        self.assertEqual(r['expansion_campaign']['frozen_queue_requests'],5)
+
 
 if __name__=='__main__':unittest.main()
