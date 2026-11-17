@@ -87,6 +87,30 @@ class CatalogDiscoveryCase(unittest.TestCase):
         self.assertEqual(catalog, self.base)
         self.assertEqual(report["state"], "failed")
 
+    def test_domestic_playlist_adds_national_language_and_deduplicates_ids(self):
+        self.cfg['catalog_discovery']['additional_playlist_urls'] = ['https://example.com/ru.m3u']
+        payloads = {
+            'https://example.com/channels.json': json.dumps([
+                {'id': 'B.ru', 'name': 'Национальный тест', 'country': 'RU'},
+                {'id': 'C.ru', 'name': 'Foreign edition', 'country': 'RU'}]).encode(),
+            'https://example.com/russian.m3u': b'#EXTM3U\n',
+            'https://example.com/ru.m3u': b'#EXTM3U\n#EXTINF:-1 tvg-id="B.ru@HD",B\nhttps://example.com/b\n#EXTINF:-1 tvg-id="B.ru@SD",B\nhttps://example.com/b2\n#EXTINF:-1 tvg-id="C.ru",C\nhttps://example.com/c\n'}
+        self.cfg['channel_scope'] = {'excluded_ids': ['C.ru']}
+        with patch.object(sv, 'fetch_bytes', side_effect=lambda url, **kw: payloads[url]):
+            catalog, report = sv.discover_catalog(self.base, self.cfg, self.now)
+        self.assertEqual(report['added'], 1)
+        self.assertEqual(catalog[-1]['id'], 'B.ru')
+        self.assertEqual(catalog[-1]['catalog_source'], 'https://example.com/ru.m3u')
+        self.assertTrue(catalog[-1]['identity_review_required'])
+
+    def test_russian_only_snapshot_is_not_full_domestic_coverage(self):
+        self.discover([{'id': 'B.by', 'name': 'Second'}], ['B.by@HD'])
+        self.cfg['catalog_discovery']['additional_playlist_urls'] = ['https://example.com/ru.m3u']
+        with patch.object(sv, 'fetch_bytes', side_effect=OSError('offline')):
+            catalog, report = sv.discover_catalog(self.base, self.cfg, self.now)
+        self.assertEqual(catalog, self.base)
+        self.assertEqual(report['state'], 'failed')
+
     def test_local_check_does_not_inherit_or_modify_cloud_history(self):
         (self.root / "channels.json").write_text(json.dumps(self.base))
         (self.root / "custom.m3u").write_text("#EXTM3U\n")

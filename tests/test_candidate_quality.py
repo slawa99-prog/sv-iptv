@@ -93,6 +93,28 @@ class CandidateQualityTests(unittest.TestCase):
         report, _ = self.run_at('2026-11-17T03:00:00Z')
         self.assertEqual([c['id'] for c in report['selected']],['B.ru'])
 
+    def test_domestic_national_language_requires_explicit_identity_and_audio_review(self):
+        channel = {**self.channels[0], 'country': 'RU'}
+        quality = self.cfg['candidate_quality']
+        quality['allow_domestic_languages'] = True
+        review = {**self.review(), 'russian_audio': False,
+                  'domestic_channel_confirmed': True, 'domestic_language_audio': True,
+                  'audio_language': 'bua'}
+        quality['identity_reviews'] = [review]
+        now = '2026-11-17T00:00:00Z'
+        self.assertIsNone(sv.candidate_review_reason(channel, self.items[0], {'stable': True}, self.cfg, now))
+        for changes in ({'domestic_channel_confirmed': False}, {'domestic_language_audio': False},
+                        {'audio_language': ''}, {'audio_language': None}, {'identity_matches': False},
+                        {'evidence': ''}, {'no_placeholder': False}, {'environment': 'github-actions'}):
+            with self.subTest(changes=changes):
+                quality['identity_reviews'] = [{**review, **changes}]
+                self.assertIsNotNone(sv.candidate_review_reason(channel, self.items[0], {'stable': True}, self.cfg, now))
+        quality['identity_reviews'] = [review]
+        for country in ('MN', None):
+            self.assertIsNotNone(sv.candidate_review_reason({**channel, 'country': country}, self.items[0], {'stable': True}, self.cfg, now))
+        self.assertEqual(sv.candidate_review_reason(channel, self.items[0], {'stable': False}, self.cfg, now),
+                         'independent_stability_history_required')
+
     def test_merged_variant_of_existing_channel_still_requires_review(self):
         q=self.cfg['candidate_quality'];q['review_required_request_keys']=[sv.stream_key(self.items[1])]
         self.assertIsNotNone(sv.candidate_review_reason(self.channels[1], self.items[1], {'stable':True}, self.cfg, '2026-11-17T00:00:00Z'))
