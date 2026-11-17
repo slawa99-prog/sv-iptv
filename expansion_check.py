@@ -18,6 +18,24 @@ def passed_before(history):
         isinstance(c, dict) and c.get('ok') for c in history.get('checks', [])))
 
 
+def compact_failed_history(history, campaign):
+    """Keep all dated failures, while removing duplicated derived/debug fields.
+
+    A former VPS success or any protected PC success prevents this compaction.
+    Normal observation() reconstructs the derived fields on the next trial.
+    """
+    for key, entry in list(history.items()):
+        if (campaign.category(key) != 'quarantined' or key in campaign.pc
+                or key in campaign.baseline or passed_before(entry)):
+            continue
+        history[key] = {'checks': [{k: v for k, v in c.items() if v is not None}
+                                  for c in entry.get('checks', []) if isinstance(c, dict)],
+                        'last_checked': entry.get('last_checked'),
+                        'last_result': {'ok': False, 'reason': entry.get('last_result', {}).get('reason', '')},
+                        'samples': entry.get('samples', 0), 'success_rate': 0, 'stable': False}
+    return history
+
+
 class Campaign:
     def __init__(self, config, saved, found, history, evidence, key, now, verification_items=()):
         self.config, self.key, self.now = config, key, now
@@ -115,6 +133,25 @@ class Campaign:
         return [self.items[k] for k in sorted(self.verification_keys - self.eligible_keys)
                 if self.category(k) == 'pending' or
                 epoch(self.now) - epoch(self.stats[k]['last_checked']) >= self.retry]
+
+    def batch(self, items):
+        """Bound a very large intake without treating a batch as a full pass.
+
+        Pending keys with fewer observations come first. A short timer cannot
+        manufacture the second independent attempt. Existing samples stay in
+        state even when their keys are outside this batch.
+        """
+        limit = int(self.config.get('max_requests_per_run', 0))
+        if limit <= 0:
+            return items
+        due = {k: v for k, v in items.items() if
+               not self.stats.get(k, {}).get('last_checked') or
+               epoch(self.now) - epoch(self.stats[k]['last_checked']) >= self.spacing}
+        controls = sorted(self.controls & due.keys(), key=lambda k: (self.stats.get(k, {}).get('last_checked', ''), k))[:min(16, limit // 10)]
+        ordered = sorted(due.keys() - set(controls), key=lambda k: (
+            self.category(k) != 'pending', self.stats.get(k, {}).get('samples', 0),
+            k not in self.eligible_keys, self.stats.get(k, {}).get('last_checked', ''), k))
+        return {k: due[k] for k in controls + ordered[:limit-len(controls)]}
 
     def publishable(self, key):
         # Old proven sources retain service during the broad pass. A genuinely

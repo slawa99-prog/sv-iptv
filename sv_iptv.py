@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import argparse
 from collections import Counter
+from collections import deque
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime, timezone
 import gzip
@@ -28,7 +29,7 @@ import time
 import unicodedata
 from functools import lru_cache
 import placeholder_filter
-from expansion_check import Campaign
+from expansion_check import Campaign, compact_failed_history
 from urllib.error import HTTPError, URLError
 from urllib.parse import urljoin, urlparse
 from urllib.request import Request, urlopen
@@ -485,41 +486,43 @@ def check_stream(item: dict, cfg: dict) -> dict:
 
 
 def discover_catalog(catalog: list[dict], cfg: dict, now: str) -> tuple[list[dict], dict]:
-    """Expand only from identified Russian-language feeds, never publish untested media."""
+    """Discover identified feeds, including Russia's domestic national languages."""
     discovery = cfg.get("catalog_discovery", {})
     if not discovery.get("enabled"):
         return catalog, {"state": "disabled", "added": 0}
     snapshot_path = ROOT / "seed/catalog-discovery.json"
     excluded = Counter()
     candidates = []
-    report = {"state": "fresh", "added": 0, "source": discovery["playlist_url"]}
+    sources = list(dict.fromkeys([discovery["playlist_url"]] + discovery.get("additional_playlist_urls", [])))
+    report = {"state": "fresh", "added": 0, "source": discovery["playlist_url"], "sources": sources}
     try:
         metadata = json.loads(fetch_bytes(discovery["metadata_url"], timeout=30,
                                           limit=20_000_000).decode("utf-8-sig"))
-        text = fetch_bytes(discovery["playlist_url"], timeout=30,
-                           limit=5_000_000).decode("utf-8-sig")
-        if not isinstance(metadata, list) or not text.lstrip().startswith("#EXTM3U"):
+        if not isinstance(metadata, list):
             raise ValueError("invalid discovery catalog")
         by_id = {c["id"].casefold(): c for c in metadata if isinstance(c, dict) and c.get("id")}
         seen = set()
-        for item in parse_m3u(text):
-            identity = item["attrs"].get("tvg-id", "")
-            cid = base_id(identity)
-            meta = by_id.get(cid)
-            if not meta:
-                excluded["unknown_id_or_nonmain_feed"] += 1
-                continue
-            if cid in seen:
-                continue
-            seen.add(cid)
-            if meta.get("is_nsfw") or meta.get("closed") or meta.get("replaced_by"):
-                excluded["adult_closed_or_replaced"] += 1
-                continue
-            candidates.append({**meta, "logo": item["attrs"].get("tvg-logo", "")})
+        for source in sources:
+            text = fetch_bytes(source, timeout=30, limit=5_000_000).decode("utf-8-sig")
+            for item in parse_m3u(text):
+                identity = item["attrs"].get("tvg-id", "")
+                cid = base_id(identity)
+                meta = by_id.get(cid)
+                if not meta:
+                    excluded["unknown_id_or_nonmain_feed"] += 1
+                    continue
+                if cid in seen:
+                    continue
+                seen.add(cid)
+                if meta.get("is_nsfw") or meta.get("closed") or meta.get("replaced_by"):
+                    excluded["adult_closed_or_replaced"] += 1
+                    continue
+                candidates.append({**meta, "logo": item["attrs"].get("tvg-logo", ""),
+                                   "catalog_source": source})
         # Save a small, bounded snapshot instead of the worldwide metadata database.
         if len(candidates) > discovery.get("max_candidate_channels", 1500):
             raise ValueError("unexpected discovery catalog growth")
-        write_json(snapshot_path, {"fetched_utc": now, "source": discovery["playlist_url"],
+        write_json(snapshot_path, {"fetched_utc": now, "source": discovery["playlist_url"], "sources": sources,
                                    "metadata_url": discovery["metadata_url"], "channels": candidates})
     except Exception as exc:
         report.update(state="failed", error=str(exc)[:160])
@@ -529,6 +532,7 @@ def discover_catalog(catalog: list[dict], cfg: dict, now: str) -> tuple[list[dic
         except (KeyError, ValueError, TypeError):
             age = float("inf")
         if (snapshot.get("source") == discovery["playlist_url"]
+                and snapshot.get("sources", [snapshot.get("source")]) == sources
                 and snapshot.get("metadata_url") == discovery["metadata_url"]
                 and 0 <= age <= cfg.get("source_fallback_hours", 72)):
             candidates = snapshot.get("channels", [])
@@ -538,6 +542,7 @@ def discover_catalog(catalog: list[dict], cfg: dict, now: str) -> tuple[list[dic
     known_ids = {c["id"].casefold() for c in catalog}
     known_names = {name_key(n) for c in catalog for n in [c["name"]] + c.get("aliases", []) if n}
     excluded_ids = {x.casefold() for x in discovery.get("excluded_ids", [])}
+    excluded_ids.update(x.casefold() for x in cfg.get("channel_scope", {}).get("excluded_ids", []))
     groups = {"movies": "Кино и сериалы", "series": "Кино и сериалы", "kids": "Детские", "animation": "Развлекательные",
               "music": "Музыка", "news": "Новости", "sports": "Спорт", "documentary": "Познавательные",
               "science": "Познавательные", "education": "Познавательные", "cooking": "Кулинария",
@@ -567,7 +572,8 @@ def discover_catalog(catalog: list[dict], cfg: dict, now: str) -> tuple[list[dic
         group = next((groups[c] for c in categories if c in groups), "Общие")
         channel = {"id": meta["id"], "name": name, "group": group, "aliases": aliases,
                    "website": meta.get("website") or "", "logo": meta.get("logo") or "",
-                   "country": meta.get("country"), "catalog_source": discovery["playlist_url"]}
+                   "country": meta.get("country"), "catalog_source": meta.get("catalog_source", discovery["playlist_url"]),
+                   "identity_review_required": True}
         expanded.append(channel)
         added.append(channel["id"])
         known_ids.add(cid)
@@ -711,10 +717,18 @@ def candidate_review_reason(channel, item, history, cfg, now, conflicts=()):
             dated = 0 < timestamp(review.get("reviewed_utc", "")) <= timestamp(now)
         except (ValueError, TypeError, AttributeError, OverflowError):
             dated = False
+        # A Russian domestic channel may use a national language. This is an
+        # explicit audiovisual review, not an inference from a .ru URL or name.
+        domestic_audio = bool(quality.get("allow_domestic_languages")
+                              and channel.get("country") == "RU"
+                              and review.get("domestic_channel_confirmed") is True
+                              and review.get("domestic_language_audio") is True
+                              and isinstance(review.get("audio_language"), str)
+                              and review["audio_language"].strip())
         valid = bool(dated and review.get("reviewer") and review.get("evidence")
                      and review.get("environment") in ("ru-vps", "pc", "local-network")
                      and review.get("identity_matches") is True
-                     and review.get("russian_audio") is True
+                     and (review.get("russian_audio") is True or domestic_audio)
                      and review.get("no_placeholder") is True)
         if valid:
             break
@@ -904,6 +918,11 @@ def prune_confirmed_placeholders(path: Path, results: dict) -> int:
 
 def build(cfg: dict, *, tester=check_stream, now: str | None = None, inventory=False) -> dict:
     now = now or utcnow()
+    if cfg.get("candidate_quality", {}).get("enabled"):
+        # Wide intakes contain tens of thousands of request-bound reviews.
+        # Use constant-time membership without mutating the saved config.
+        cfg = {**cfg, "candidate_quality": {**cfg["candidate_quality"],
+            "review_required_request_keys": set(cfg["candidate_quality"].get("review_required_request_keys", ()))}}
     campaign_options = cfg.get("expansion_campaign", {})
     if campaign_options.get("enabled") and cfg.get("check_environment") in campaign_options.get("environments", ["ru-vps"]):
         cfg = {**cfg, "skip_tagged_not_24_7": not campaign_options.get("include_part_time", True)}
@@ -967,6 +986,12 @@ def build(cfg: dict, *, tester=check_stream, now: str | None = None, inventory=F
     all_items = {stream_key(i): i for items in chosen.values() for i in items}
     if campaign:
         all_items.update((stream_key(i), i) for i in campaign.verification_only_due())
+    scheduled_requests = len(all_items)
+    batch_partial = False
+    if campaign:
+        all_items = campaign.batch(all_items)
+        batch_partial = len(all_items) < scheduled_requests
+        chosen = {cid: [i for i in items if stream_key(i) in all_items] for cid, items in chosen.items()}
     print(f'Testing {len(all_items)} streams for {sum(bool(v) for v in chosen.values())} channels', flush=True)
     results = {}
     signature = hashlib.sha256(json.dumps({"checker": CHECKER_VERSION, "visual_criteria": visual_signature(),
@@ -989,12 +1014,13 @@ def build(cfg: dict, *, tester=check_stream, now: str | None = None, inventory=F
     by_host = {}
     for key, item in all_items.items():
         if key not in results:
-            by_host.setdefault(urlparse(item["url"]).hostname, []).append((key, item))
+            by_host.setdefault(urlparse(item["url"]).hostname, deque()).append((key, item))
     queue = []
     while any(by_host.values()):
         for bucket in by_host.values():
             if bucket:
-                queue.append(bucket.pop(0))
+                queue.append(bucket.popleft())
+    last_checkpoint = time.monotonic()
     with ThreadPoolExecutor(max_workers=max(1, min(cfg.get("workers", 8), 16))) as pool:
         check_cfg = {**cfg, "_inspection_dir": str(ROOT / "review-frames")}
         futures = {pool.submit(tester, item, check_cfg): key for key, item in queue}
@@ -1005,11 +1031,12 @@ def build(cfg: dict, *, tester=check_stream, now: str | None = None, inventory=F
             except Exception as exc:
                 results[key] = {"ok": False, "reason": str(exc)[:120], "pixels": 0}
             results[key]["checked_utc"] = utcnow() if tester is check_stream else now
-            if tester is check_stream and (len(results) % 5 == 0 or len(results) == len(all_items)):
+            if tester is check_stream and (time.monotonic() - last_checkpoint >= 60 or len(results) == len(all_items)):
                 write_json(ROOT / "probe-progress.json", {"signature": signature, "started_utc": now, "results": results})
+                last_checkpoint = time.monotonic()
             if len(results) % 25 == 0 or len(results) == len(all_items):
                 print(f'Checked {len(results)}/{len(all_items)}; passed {sum(bool(r["ok"]) for r in results.values())}', flush=True)
-    updated = {k: v for k, v in old.items() if k in all_items or
+    updated = {k: v for k, v in old.items() if k in all_items or (campaign and k in campaign.items) or
                (v.get("last_checked") and timestamp(now) - timestamp(v["last_checked"]) < cfg.get("history_days", 14) * 86400)}
     for key, result in results.items():
         at = result.get("checked_utc", now)
@@ -1019,6 +1046,14 @@ def build(cfg: dict, *, tester=check_stream, now: str | None = None, inventory=F
             updated[key] = observation(old.get(key, {}), result, at, cfg)
     if campaign:
         campaign.record(results)
+        if campaign_cfg.get("compact_research_history"):
+            # Campaign requests retain every counted trial, success, spacing
+            # anchor and weekly-recheck counter. Unidentified research entries
+            # have no publication rating; do not duplicate their decoder detail
+            # into rated stream history. Never discard pre-existing or PC data.
+            for key in campaign.verification_keys - campaign.eligible_keys:
+                if key not in old and key not in campaign.pc:
+                    updated.pop(key, None)
     pairs, selected, unavailable, backups, used_urls, used_media = [], [], [], {}, set(), set()
     held_candidates = []
     next_previous = {}
@@ -1080,7 +1115,9 @@ def build(cfg: dict, *, tester=check_stream, now: str | None = None, inventory=F
     prior_count = old_status.get("last_published_count", old_status.get("channels_published", 0))
     minimum = cfg.get("minimum_channels", 100)
     guard = None
-    if len(pairs) < minimum:
+    if batch_partial:
+        guard = "partial campaign batch; previous playlist retained"
+    elif len(pairs) < minimum:
         guard = f"only {len(pairs)} passed unique channels; minimum is {minimum}"
     elif prior_count and len(pairs) < prior_count * cfg.get("minimum_retained_fraction", .75):
         guard = "large simultaneous loss; previous playlist retained"
@@ -1119,7 +1156,7 @@ def build(cfg: dict, *, tester=check_stream, now: str | None = None, inventory=F
                 for cid, entries in saved_backups["channels"].items() if cid.casefold() in channels_by_id}
             write_json(ROOT / "backups.json", saved_backups)
     report = {"version": CHECKER_VERSION, "started_utc": now, "checked_utc": finished,
-              "candidate_quality": {"policy_version": 1, "enabled": bool(cfg.get("candidate_quality", {}).get("enabled")),
+              "candidate_quality": {"policy_version": cfg.get("candidate_quality", {}).get("policy_version", 1), "enabled": bool(cfg.get("candidate_quality", {}).get("enabled")),
                   "identity_conflict_requests": len(identity_conflicts),
                   "held_channels": len(held_candidates), "held": held_candidates,
                   "retained_playlist_entries_removed": quality_pruned,
@@ -1136,6 +1173,7 @@ def build(cfg: dict, *, tester=check_stream, now: str | None = None, inventory=F
               "published_playlist": playlist_path,
               "publication_reason": guard, "minimum_channels": minimum,
               "candidate_streams_tested": len(results), "streams_passed": sum(bool(r["ok"]) for r in results.values()),
+              "scheduled_requests_before_batch": scheduled_requests, "partial_campaign_batch": batch_partial,
               "unique_channels_passed": len(pairs), "stable_channels": sum(x["rating"] == "observed_stable" for x in selected),
               "probation_channels": sum(x["rating"] == "probation" for x in selected),
               "last_published_count": prior_count if guard else len(pairs),
@@ -1156,7 +1194,15 @@ def build(cfg: dict, *, tester=check_stream, now: str | None = None, inventory=F
         next_history["expansion_campaign"] = campaign.state
     elif historic.get("expansion_campaign"):
         next_history["expansion_campaign"] = historic["expansion_campaign"]
-    write_json(ROOT / "history.json", next_history)
+    if campaign_cfg.get("compact_research_history") and campaign:
+        compact_failed_history(next_history["streams"], campaign)
+        next_history["history_storage"] = {"format": "compact-research-v1",
+            "all_counted_trials_in": "expansion_campaign.requests",
+            "quarantined_failure_dates_retained": True,
+            "pc_and_previous_success_history_preserved": True}
+        atomic_write(ROOT / "history.json", json.dumps(next_history, ensure_ascii=False, separators=(",", ":")) + "\n")
+    else:
+        write_json(ROOT / "history.json", next_history)
     if not guard:
         atomic_write(ROOT / playlist_path, render_m3u(pairs, cfg))
         write_json(ROOT / "backups.json", {"checked_utc": finished, "channels": backups})
