@@ -66,6 +66,8 @@ class Campaign:
 
     def category(self, key):
         stat = self.stats.get(key, {})
+        if stat.get('last_inconclusive') and not (stat.get('successes', 0) or key in self.baseline):
+            return 'pending'
         if stat.get('samples', 0) < self.required:
             return 'pending'
         if stat.get('successes', 0) or key in self.baseline:
@@ -89,10 +91,17 @@ class Campaign:
         return pending + monitored + retry
 
     def record(self, results):
-        controls = self.controls & results.keys()
+        controls = {k for k in self.controls & results.keys() if not results[k].get('inconclusive')}
         self.network_degraded = len(controls) >= 10 and sum(bool(results[k]['ok']) for k in controls) < len(controls) * .5
         for key, result in results.items():
             at = result['checked_utc']
+            if result.get('inconclusive'):
+                stat = self.stats.setdefault(key, {'samples': 0, 'successes': 0})
+                if not stat.get('last_inconclusive') or epoch(at) > epoch(stat['last_inconclusive']):
+                    stat['last_inconclusive'] = at
+                    stat['inconclusive_reason'] = result.get('reason', 'format review required')
+                    stat['inconclusive_attempts'] = stat.get('inconclusive_attempts', 0) + 1
+                continue
             if self.network_degraded and not result['ok']:
                 # Keep the failed VPS observation in normal history, but do not
                 # discard discovery candidates during a broad network outage.
@@ -119,6 +128,8 @@ class Campaign:
                 stat['sample_ok'] = False
                 stat['successes'] -= 1
             stat['last_checked'] = at
+            stat.pop('last_inconclusive', None)
+            stat.pop('inconclusive_reason', None)
             if result['ok']:
                 stat['ever_passed'] = True
                 self.baseline.add(key)
@@ -145,8 +156,11 @@ class Campaign:
         if limit <= 0:
             return items
         due = {k: v for k, v in items.items() if
-               not self.stats.get(k, {}).get('last_checked') or
-               epoch(self.now) - epoch(self.stats[k]['last_checked']) >= self.spacing}
+               (not self.stats.get(k, {}).get('last_checked') or
+                epoch(self.now) - epoch(self.stats[k]['last_checked']) >= self.spacing)
+               and (not self.stats.get(k, {}).get('last_inconclusive') or
+                    epoch(self.now) - epoch(self.stats[k]['last_inconclusive']) >=
+                    max(2, float(self.config.get('inconclusive_retry_hours', 168))) * 3600)}
         controls = sorted(self.controls & due.keys(), key=lambda k: (self.stats.get(k, {}).get('last_checked', ''), k))[:min(16, limit // 10)]
         ordered = sorted(due.keys() - set(controls), key=lambda k: (
             self.category(k) != 'pending', self.stats.get(k, {}).get('samples', 0),
@@ -188,9 +202,13 @@ class Campaign:
                 'frozen_queue_sha256': self.config.get('frozen_queue', {}).get('sha256'),
                 'frozen_queues': ([self.config['frozen_queue']] if self.config.get('frozen_queue') else []) +
                                  self.config.get('additional_frozen_queues', []),
+                'frozen_research_archives': self.config.get('frozen_research_archives', []),
                 'completed_frozen_queue_passes': min((min(self.required, self.stats.get(k, {}).get('samples', 0))
                                                      for k in self.verification_keys), default=0),
                 'request_categories': counts, 'minimum_spacing_hours': self.spacing / 3600,
+                'requests_needing_format_review': sum(bool(s.get('last_inconclusive')) for s in self.stats.values()),
+                'inconclusive_attempts': sum(s.get('inconclusive_attempts', 0) for s in self.stats.values()),
+                'inconclusive_is_playback_failure': False,
                 'retry_rejected_hours': self.retry / 3600,
                 'weekly_rechecked_requests': sum(bool(s.get('weekly_rechecks')) for s in self.stats.values()),
                 'weekly_recheck_observations': sum(s.get('weekly_rechecks', 0) for s in self.stats.values()),

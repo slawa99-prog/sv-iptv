@@ -2997,9 +2997,70 @@
         "batch_id": "2026-11-17-harvest-ru"
       }
     ],
-    "frozen_union_request_count": 83552,
+    "frozen_union_request_count": 232674,
     "max_requests_per_run": 1000,
-    "compact_research_history": true
+    "compact_research_history": true,
+    "frozen_research_archives": [
+      {
+        "path": "harvest-requests-2026-11-17-01.jsonl.gz",
+        "sha256": "0d79a8247063cfeef5c7faee43409fa50d0af8215b1e1eaf652a0bffd46c37b1",
+        "request_count": 29977,
+        "bytes": 4945998,
+        "batch_id": "2026-11-17-full-archive"
+      },
+      {
+        "path": "harvest-requests-2026-11-17-02.jsonl.gz",
+        "sha256": "4b2f5150d79e117930e08eff6a490243f29ee486fd261a19134674540b9fd302",
+        "request_count": 29985,
+        "bytes": 4977069,
+        "batch_id": "2026-11-17-full-archive"
+      },
+      {
+        "path": "harvest-requests-2026-11-17-03.jsonl.gz",
+        "sha256": "9a6e422b522cf53f2629d49c3ba8b623a0d174277436ac3f53f3ef38d0f3c949",
+        "request_count": 29984,
+        "bytes": 5011091,
+        "batch_id": "2026-11-17-full-archive"
+      },
+      {
+        "path": "harvest-requests-2026-11-17-04.jsonl.gz",
+        "sha256": "090b422c7a5547cc83cac9f00082ecad4820735a073a4067ac347082de4dd61a",
+        "request_count": 29978,
+        "bytes": 4974075,
+        "batch_id": "2026-11-17-full-archive"
+      },
+      {
+        "path": "harvest-requests-2026-11-17-05.jsonl.gz",
+        "sha256": "b01ac854c881317dc39a7216968e97ac384df4cf07ab271cdc2fa9cdff141d67",
+        "request_count": 29980,
+        "bytes": 5028486,
+        "batch_id": "2026-11-17-full-archive"
+      },
+      {
+        "path": "harvest-requests-2026-11-17-06.jsonl.gz",
+        "sha256": "70ce1bede15e2dd9a39782393c9cc29e392de26e5fc989f3d1519b73dd67315c",
+        "request_count": 29977,
+        "bytes": 4933748,
+        "batch_id": "2026-11-17-full-archive"
+      },
+      {
+        "path": "harvest-requests-2026-11-17-07.jsonl.gz",
+        "sha256": "eecdbc447f5a3a7eb8db2f7df615b9164f6644273f5d5f7ee4df2a19afdd1cfd",
+        "request_count": 29980,
+        "bytes": 4971308,
+        "batch_id": "2026-11-17-full-archive"
+      },
+      {
+        "path": "harvest-requests-2026-11-17-08.jsonl.gz",
+        "sha256": "99d9d7d86326f907cbd49fdc038f3346fd284db94513f6dcfa20b21940fb0349",
+        "request_count": 22330,
+        "bytes": 3690931,
+        "batch_id": "2026-11-17-full-archive"
+      }
+    ],
+    "intake_scope": "all_archived_candidates_without_country_or_name_prefilter",
+    "history_publication_format": "lossless-parts-if-over-40MiB",
+    "inconclusive_retry_hours": 168
   },
   "candidate_quality": {
     "enabled": true,

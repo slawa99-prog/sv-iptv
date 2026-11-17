@@ -30,6 +30,8 @@ import unicodedata
 from functools import lru_cache
 import placeholder_filter
 from expansion_check import Campaign, compact_failed_history
+from research_queue import archive_items
+from direct_probe import UnsupportedMedia, check_direct
 from urllib.error import HTTPError, URLError
 from urllib.parse import urljoin, urlparse
 from urllib.request import Request, urlopen
@@ -163,7 +165,7 @@ def stream_key(item: dict) -> str:
     return hashlib.sha256(payload.encode()).hexdigest()
 
 
-def fetch_bytes(url: str, headers=None, timeout=12, limit=4_000_000) -> bytes:
+def fetch_bytes(url: str, headers=None, timeout=12, limit=4_000_000, expect_hls=False) -> bytes:
     validate_url(url)
     request_headers = {"User-Agent": "Mozilla/5.0 SV-IPTV/3.0", "Accept-Encoding": "identity"}
     request_headers.update(headers or {})
@@ -180,6 +182,10 @@ def fetch_bytes(url: str, headers=None, timeout=12, limit=4_000_000) -> bytes:
                 break
             chunks.append(chunk)
             size += len(chunk)
+            if expect_hls and size >= 16 and not chunks[0].startswith(b'\x1f\x8b'):
+                prefix = b''.join(chunks)[:512].lstrip(b'\xef\xbb\xbf \t\r\n')
+                if prefix and not prefix.startswith(b'#EXTM3U'):
+                    raise UnsupportedMedia('non-HLS media response')
         data = b''.join(chunks)
     if len(data) > limit:
         raise ValueError("response size limit")
@@ -193,10 +199,15 @@ def fetch_bytes(url: str, headers=None, timeout=12, limit=4_000_000) -> bytes:
 
 
 def manifest(url: str, headers: dict, cfg: dict) -> str:
-    data = fetch_bytes(url, headers, cfg.get("network_timeout_seconds", 10), 2_000_000)
-    text = data.decode("utf-8-sig")
+    try:
+        data = fetch_bytes(url, headers, cfg.get("network_timeout_seconds", 10), 2_000_000, expect_hls=True)
+        text = data.decode("utf-8-sig")
+    except (UnicodeDecodeError, ValueError) as exc:
+        if isinstance(exc, UnicodeDecodeError) or str(exc) in ('response size limit', 'uncompressed size limit'):
+            raise UnsupportedMedia('non-HLS media response') from exc
+        raise
     if not text.lstrip().startswith("#EXTM3U"):
-        raise ValueError("not an HLS manifest")
+        raise UnsupportedMedia('not an HLS manifest')
     return text
 
 
@@ -248,13 +259,13 @@ def media_segments(text: str, url: str) -> dict:
     for line in text.splitlines():
         line = line.strip()
         if line.startswith("#EXT-X-KEY:") and hls_attrs(line).get("METHOD") != "NONE":
-            raise ValueError("encrypted stream: excluded")
+            raise UnsupportedMedia("encrypted media requires an authorized player")
         if line.startswith("#EXT-X-BYTERANGE"):
-            raise ValueError("byte-range HLS: unsupported")
+            raise UnsupportedMedia("byte-range HLS: unsupported")
         if line.startswith("#EXT-X-MAP:"):
             attrs = hls_attrs(line)
             if "BYTERANGE" in attrs:
-                raise ValueError("byte-range initialization: unsupported")
+                raise UnsupportedMedia("byte-range initialization: unsupported")
             init = urljoin(url, attrs["URI"])
         elif line.startswith("#EXT-X-MEDIA-SEQUENCE:"):
             seq = int(line.split(":", 1)[1])
@@ -472,6 +483,23 @@ def check_stream(item: dict, cfg: dict) -> dict:
                     "media_url": media_url, "audio_url": audio_url, "advanced": True,
                     "visual_criteria": visual_criteria,
                     "frame_inspection": {"state": "no_known_placeholder", "frames_checked": len(frames), "frames": frames}}
+        except UnsupportedMedia as initial:
+            try:
+                # Encrypted/byte-range manifests are not direct binary streams.
+                # Do not bypass their player requirements or mislabel them dead.
+                if 'encrypted' in str(initial) or 'byte-range' in str(initial):
+                    raise initial
+                return check_direct(item, cfg)
+            except VisualInspectionError as exc:
+                return {"ok": False, "reason": str(exc), "technical_decode_ok": True, "pixels": 0,
+                        "elapsed": round(time.monotonic() - started, 2), "visual_criteria": visual_criteria,
+                        "frame_inspection": exc.inspection}
+            except (UnsupportedMedia, ValueError) as exc:
+                return {"ok": False, "inconclusive": True, "reason": str(exc)[:160], "pixels": 0,
+                        "elapsed": round(time.monotonic() - started, 2)}
+            except (HTTPError, URLError, TimeoutError):
+                return {"ok": False, "reason": "direct transport network unavailable", "pixels": 0,
+                        "elapsed": round(time.monotonic() - started, 2)}
         except VisualInspectionError as exc:
             return {"ok": False, "reason": str(exc), "technical_decode_ok": True, "pixels": 0,
                     "elapsed": round(time.monotonic() - started, 2), "visual_criteria": visual_criteria,
@@ -703,7 +731,7 @@ def candidate_review_reason(channel, item, history, cfg, now, conflicts=()):
     if not quality.get("enabled"):
         return None
     key = stream_key(item)
-    new_request = bool(channel.get("identity_review_required") or
+    new_request = bool(channel.get("identity_review_required") or history.get('last_result', {}).get('identity_review_required') or
                        key in quality.get("review_required_request_keys", ()))
     required = new_request or key in conflicts
     if not required:
@@ -730,6 +758,8 @@ def candidate_review_reason(channel, item, history, cfg, now, conflicts=()):
                      and review.get("identity_matches") is True
                      and (review.get("russian_audio") is True or domestic_audio)
                      and review.get("no_placeholder") is True)
+        if history.get('last_result', {}).get('live_broadcast_review_required'):
+            valid = valid and review.get('live_broadcast_confirmed') is True
         if valid:
             break
     if not valid:
@@ -780,6 +810,9 @@ def frozen_campaign_items(config):
         if len({stream_key(i) for i in part}) != frozen.get("request_count"):
             raise ValueError("frozen campaign queue request count mismatch")
         items.extend(part)
+    existing = {stream_key(i) for i in items}
+    items.extend(archive_items(VALIDATION_ROOT, config.get('frozen_research_archives', []),
+                               existing, stream_key, validate_url))
     if "frozen_union_request_count" in config and len({stream_key(i) for i in items}) != config["frozen_union_request_count"]:
         raise ValueError("frozen campaign queue union count mismatch")
     return items
@@ -976,9 +1009,13 @@ def build(cfg: dict, *, tester=check_stream, now: str | None = None, inventory=F
         evidence = read_json(evidence_path, {})
         if evidence.get("campaign_id") != campaign_cfg.get("id"):
             raise ValueError("campaign evidence is missing or mismatched")
+        frozen_items = frozen_campaign_items(campaign_cfg)
+        if cfg.get("candidate_quality", {}).get("enabled"):
+            cfg["candidate_quality"]["review_required_request_keys"].update(
+                stream_key(i) for i in frozen_items if i.get("identity_review_required"))
         campaign = Campaign({**campaign_cfg, "environment": cfg["check_environment"]},
                             historic.get("expansion_campaign", {}), found, old, evidence, stream_key, now,
-                            verification_items=frozen_campaign_items(campaign_cfg))
+                            verification_items=frozen_items)
         chosen = {cid: campaign.choose(items, old, previous.get(cid), cfg, select_candidates)
                   for cid, items in found.items()}
     else:
@@ -993,15 +1030,30 @@ def build(cfg: dict, *, tester=check_stream, now: str | None = None, inventory=F
         batch_partial = len(all_items) < scheduled_requests
         chosen = {cid: [i for i in items if stream_key(i) in all_items] for cid, items in chosen.items()}
     print(f'Testing {len(all_items)} streams for {sum(bool(v) for v in chosen.values())} channels', flush=True)
+    if campaign:
+        summary = campaign.report()
+        print(f'Campaign {campaign_cfg["id"]}: {summary["frozen_queue_requests"]} frozen requests; '
+              f'{summary["request_categories"]["pending"]} pending; '
+              f'{summary["completed_frozen_queue_passes"]} complete independent frozen passes', flush=True)
     results = {}
-    signature = hashlib.sha256(json.dumps({"checker": CHECKER_VERSION, "visual_criteria": visual_signature(),
+    signature_options = {"checker": CHECKER_VERSION, "visual_criteria": visual_signature(),
         "environment": cfg.get("check_environment"), "campaign": campaign_cfg.get("id") if campaign else None,
-        "queue": sorted(all_items), **{k: cfg.get(k) for k in
+        **{k: cfg.get(k) for k in
         ("test_seconds", "preferred_max_height", "preferred_max_bitrate", "network_timeout_seconds",
-         "max_download_duration_ratio", "decode_timeout_seconds")}}, sort_keys=True).encode()).hexdigest()
+         "max_download_duration_ratio", "decode_timeout_seconds")}}
+    signature = hashlib.sha256(json.dumps({**signature_options, 'queue': sorted(all_items)}, sort_keys=True).encode()).hexdigest()
+    criteria_signature = hashlib.sha256(json.dumps(signature_options, sort_keys=True).encode()).hexdigest()
     if tester is check_stream and cfg.get("resume_checks"):
         checkpoint = read_json(ROOT / "probe-progress.json", {})
-        if checkpoint.get("signature") == signature and not checkpoint.get("completed"):
+        compatible = checkpoint.get('signature') == signature or checkpoint.get('criteria_signature') == criteria_signature
+        if checkpoint and checkpoint.get('signature') != signature and not checkpoint.get('completed'):
+            previous_signature = checkpoint.get('signature', '')
+            if re.fullmatch(r'[0-9a-f]{64}', previous_signature):
+                archive = ROOT / 'checkpoints' / (previous_signature + '.json')
+                if not archive.exists():
+                    write_json(archive, checkpoint)
+                print('Earlier unfinished checkpoint preserved in checkpoints/; no synthetic samples imported', flush=True)
+        if compatible and not checkpoint.get("completed"):
             for key, result in checkpoint.get("results", {}).items():
                 if result.get("reason") in ("insufficient live sample", "separate audio rendition: not supported by this checker"):
                     continue  # Compatible extension: retry formats older checks could not test.
@@ -1032,7 +1084,9 @@ def build(cfg: dict, *, tester=check_stream, now: str | None = None, inventory=F
                 results[key] = {"ok": False, "reason": str(exc)[:120], "pixels": 0}
             results[key]["checked_utc"] = utcnow() if tester is check_stream else now
             if tester is check_stream and (time.monotonic() - last_checkpoint >= 60 or len(results) == len(all_items)):
-                write_json(ROOT / "probe-progress.json", {"signature": signature, "started_utc": now, "results": results})
+                write_json(ROOT / "probe-progress.json", {"signature": signature, "criteria_signature": criteria_signature,
+                    "started_utc": now, "updated_utc": utcnow(), "queue_requests": len(all_items),
+                    "frozen_requests": len(campaign.verification_keys) if campaign else None, "results": results})
                 last_checkpoint = time.monotonic()
             if len(results) % 25 == 0 or len(results) == len(all_items):
                 print(f'Checked {len(results)}/{len(all_items)}; passed {sum(bool(r["ok"]) for r in results.values())}', flush=True)
@@ -1040,7 +1094,10 @@ def build(cfg: dict, *, tester=check_stream, now: str | None = None, inventory=F
                (v.get("last_checked") and timestamp(now) - timestamp(v["last_checked"]) < cfg.get("history_days", 14) * 86400)}
     for key, result in results.items():
         at = result.get("checked_utc", now)
-        if old.get(key, {}).get("last_checked") and timestamp(old[key]["last_checked"]) >= timestamp(at):
+        if result.get('inconclusive'):
+            updated[key] = {**old.get(key, {}), 'last_inconclusive':
+                            {'at': at, 'reason': result.get('reason', 'format review required')}}
+        elif old.get(key, {}).get("last_checked") and timestamp(old[key]["last_checked"]) >= timestamp(at):
             updated[key] = old[key]
         else:
             updated[key] = observation(old.get(key, {}), result, at, cfg)
@@ -1157,6 +1214,7 @@ def build(cfg: dict, *, tester=check_stream, now: str | None = None, inventory=F
             write_json(ROOT / "backups.json", saved_backups)
     report = {"version": CHECKER_VERSION, "started_utc": now, "checked_utc": finished,
               "candidate_quality": {"policy_version": cfg.get("candidate_quality", {}).get("policy_version", 1), "enabled": bool(cfg.get("candidate_quality", {}).get("enabled")),
+                  "review_required_request_count": len(cfg.get("candidate_quality", {}).get("review_required_request_keys", ())),
                   "identity_conflict_requests": len(identity_conflicts),
                   "held_channels": len(held_candidates), "held": held_candidates,
                   "retained_playlist_entries_removed": quality_pruned,
@@ -1173,6 +1231,7 @@ def build(cfg: dict, *, tester=check_stream, now: str | None = None, inventory=F
               "published_playlist": playlist_path,
               "publication_reason": guard, "minimum_channels": minimum,
               "candidate_streams_tested": len(results), "streams_passed": sum(bool(r["ok"]) for r in results.values()),
+              "inconclusive_requests_this_batch": sum(bool(r.get('inconclusive')) for r in results.values()),
               "scheduled_requests_before_batch": scheduled_requests, "partial_campaign_batch": batch_partial,
               "unique_channels_passed": len(pairs), "stable_channels": sum(x["rating"] == "observed_stable" for x in selected),
               "probation_channels": sum(x["rating"] == "probation" for x in selected),
@@ -1209,7 +1268,7 @@ def build(cfg: dict, *, tester=check_stream, now: str | None = None, inventory=F
     write_json(ROOT / "status.json", report)
     if tester is check_stream:
         # A finished pass is never reused as the next independent observation.
-        write_json(ROOT / "probe-progress.json", {"signature": signature, "started_utc": now,
+        write_json(ROOT / "probe-progress.json", {"signature": signature, "criteria_signature": criteria_signature, "started_utc": now,
                    "completed": True, "completed_utc": finished, "results": {}})
     print(f'{report["publication"].upper()}: {len(pairs)} unique channels; {report["stable_channels"]} with accumulated history', flush=True)
     return report
