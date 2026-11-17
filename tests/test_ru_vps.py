@@ -16,6 +16,10 @@ class FakeGitHub:
         if method == "GET":
             if self.head is None:
                 raise HTTPError("https://api.github.com", 404, "Not found", {}, None)
+            if path.startswith('git/commits/'):
+                return {'tree': {'sha': 'c' * 40}}
+            if path.startswith('git/trees/'):
+                return {'tree': []}
             return {"object": {"sha": self.head}}
         if method == "PATCH" and self.conflict:
             raise HTTPError("https://api.github.com", 422, "Not fast forward", {}, None)
