@@ -635,6 +635,10 @@ def load_sources(cfg: dict, catalog: list[dict] | None = None) -> tuple[list[dic
 def group_candidates(records: list[dict], catalog: list[dict], cfg: dict) -> tuple[dict, dict]:
     found = {c["id"].casefold(): [] for c in catalog}
     scope_excluded = {cid.casefold() for cid in cfg.get("channel_scope", {}).get("excluded_ids", [])}
+    scope_excluded.update(cid.casefold() for cid in cfg.get("check_exclusions", {}).get("channel_ids", []))
+    quality = cfg.get("candidate_quality", {})
+    aliases = {a.casefold(): b.casefold() for a, b in quality.get("id_aliases", {}).items()}
+    rejected_urls = set(quality.get("rejected_urls", {}))
     by_name = {}
     for channel in catalog:
         for name in [channel["name"]] + channel.get("aliases", []):
@@ -648,6 +652,9 @@ def group_candidates(records: list[dict], catalog: list[dict], cfg: dict) -> tup
     tagged_part_time = {i["url"] for i in records if "[not 24/7]" in i["name"].casefold()}
     seen = set()
     for item in records:
+        if item["url"] in rejected_urls:
+            excluded["rejected_placeholder_endpoint"] += 1
+            continue
         if item.get("unsupported"):
             excluded["drm_or_unsupported"] += 1
             continue
@@ -662,6 +669,10 @@ def group_candidates(records: list[dict], catalog: list[dict], cfg: dict) -> tup
             excluded["outside_playlist_scope"] += 1
             continue
         channel_id = base_id(identity) if identity else by_name.get(name_key(item["name"]))
+        channel_id = aliases.get(channel_id, channel_id)
+        if channel_id in scope_excluded:
+            excluded["excluded_canonical_identity"] += 1
+            continue
         if channel_id not in found and item.get("match_by_name") and "@" not in identity:
             channel_id = by_name.get(name_key(item["name"]))
         if channel_id not in found:
@@ -674,6 +685,86 @@ def group_candidates(records: list[dict], catalog: list[dict], cfg: dict) -> tup
         seen.add(key)
         found[channel_id].append(item)
     return found, dict(excluded)
+
+
+def candidate_review_reason(channel, item, history, cfg, now, conflicts=()):
+    """Playback, identity and language are separate evidence, bound to a request.
+
+    A successful decoder or a metadata website never creates an identity approval.
+    In particular, PC evidence protects a request from pruning, not from this gate.
+    """
+    quality = cfg.get("candidate_quality", {})
+    if not quality.get("enabled"):
+        return None
+    key = stream_key(item)
+    new_request = bool(channel.get("identity_review_required") or
+                       key in quality.get("review_required_request_keys", ()))
+    required = new_request or key in conflicts
+    if not required:
+        return None
+    valid = False
+    for review in quality.get("identity_reviews", []):
+        if (review.get("channel_id", "").casefold() != channel["id"].casefold()
+                or review.get("stream_key") != key):
+            continue
+        try:
+            dated = 0 < timestamp(review.get("reviewed_utc", "")) <= timestamp(now)
+        except (ValueError, TypeError, AttributeError, OverflowError):
+            dated = False
+        valid = bool(dated and review.get("reviewer") and review.get("evidence")
+                     and review.get("environment") in ("ru-vps", "pc", "local-network")
+                     and review.get("identity_matches") is True
+                     and review.get("russian_audio") is True
+                     and review.get("no_placeholder") is True)
+        if valid:
+            break
+    if not valid:
+        return "conflicting_channel_identity" if key in conflicts else "identity_and_language_review_required"
+    if new_request and quality.get("require_stable", True) and not history.get("stable"):
+        return "independent_stability_history_required"
+    return None
+
+
+def prune_unreviewed_candidates(path, catalog, history, cfg, now, conflicts):
+    """A retained automatic playlist must not bypass the new quality gate."""
+    if not cfg.get("candidate_quality", {}).get("enabled") or not path.exists():
+        return 0
+    channels = {c["id"].casefold(): c for c in catalog}
+    quality = cfg["candidate_quality"]
+    retired = {x.casefold() for x in quality.get("id_aliases", {})}
+    rejected = set(quality.get("rejected_urls", {}))
+    kept, removed = [], 0
+    for block in re.split(r"(?m)(?=^#EXTINF:)", path.read_text(encoding="utf-8")):
+        items = parse_m3u("#EXTM3U\n" + block) if block.startswith("#EXTINF:") else []
+        if items:
+            item = items[0]
+            cid = base_id(item["attrs"].get("tvg-id", ""))
+            channel = channels.get(cid)
+            if (item["url"] in rejected or cid in retired or channel is None
+                    or candidate_review_reason(channel, item, history.get(stream_key(item), {}), cfg, now, conflicts)):
+                removed += 1
+                continue
+        kept.append(block)
+    if removed:
+        atomic_write(path, "".join(kept))
+    return removed
+
+
+def frozen_campaign_items(config):
+    frozen = config.get("frozen_queue", {})
+    if not frozen:
+        return []
+    name = frozen.get("path", "")
+    path = (VALIDATION_ROOT / name).resolve()
+    if not name or not path.is_relative_to(VALIDATION_ROOT.resolve()):
+        raise ValueError("invalid frozen campaign queue path")
+    data = path.read_bytes()
+    if hashlib.sha256(data).hexdigest() != frozen.get("sha256"):
+        raise ValueError("frozen campaign queue hash mismatch")
+    items = parse_m3u(data.decode("utf-8-sig"))
+    if len({stream_key(i) for i in items}) != frozen.get("request_count"):
+        raise ValueError("frozen campaign queue request count mismatch")
+    return items
 
 
 def observation(old: dict, result: dict, now: str, cfg: dict) -> dict:
@@ -829,6 +920,11 @@ def build(cfg: dict, *, tester=check_stream, now: str | None = None, inventory=F
         raise ValueError("empty catalog or duplicate channel IDs/names")
     records, source_reports = load_sources(cfg, catalog)
     found, excluded = group_candidates(records, catalog, cfg)
+    identities = {}
+    for cid, items in found.items():
+        for item in items:
+            identities.setdefault(stream_key(item), set()).add(cid)
+    identity_conflicts = {key for key, cids in identities.items() if len(cids) > 1}
     if inventory:
         pairs, used = [], set()
         for channel in catalog:
@@ -858,12 +954,15 @@ def build(cfg: dict, *, tester=check_stream, now: str | None = None, inventory=F
         if evidence.get("campaign_id") != campaign_cfg.get("id"):
             raise ValueError("campaign evidence is missing or mismatched")
         campaign = Campaign({**campaign_cfg, "environment": cfg["check_environment"]},
-                            historic.get("expansion_campaign", {}), found, old, evidence, stream_key, now)
+                            historic.get("expansion_campaign", {}), found, old, evidence, stream_key, now,
+                            verification_items=frozen_campaign_items(campaign_cfg))
         chosen = {cid: campaign.choose(items, old, previous.get(cid), cfg, select_candidates)
                   for cid, items in found.items()}
     else:
         chosen = {cid: select_candidates(items, old, previous.get(cid), cfg, now) for cid, items in found.items()}
     all_items = {stream_key(i): i for items in chosen.values() for i in items}
+    if campaign:
+        all_items.update((stream_key(i), i) for i in campaign.verification_only_due())
     print(f'Testing {len(all_items)} streams for {sum(bool(v) for v in chosen.values())} channels', flush=True)
     results = {}
     signature = hashlib.sha256(json.dumps({"checker": CHECKER_VERSION, "visual_criteria": visual_signature(),
@@ -917,20 +1016,33 @@ def build(cfg: dict, *, tester=check_stream, now: str | None = None, inventory=F
     if campaign:
         campaign.record(results)
     pairs, selected, unavailable, backups, used_urls, used_media = [], [], [], {}, set(), set()
+    held_candidates = []
     next_previous = {}
     for channel in catalog:
         cid = channel["id"].casefold()
         eligible = []
+        held = []
+        technical_passed = 0
         for item in chosen[cid]:
             key = stream_key(item)
             h, result = updated[key], results[key]
             if not result["ok"]:
+                continue
+            technical_passed += 1
+            review_reason = candidate_review_reason(channel, item, h, cfg, now, identity_conflicts)
+            if review_reason:
+                held.append({"stream_key": key, "reason": review_reason,
+                             "technically_stable": bool(h.get("stable"))})
                 continue
             if campaign and not campaign.publishable(key):
                 continue
             if h["samples"] >= cfg.get("minimum_samples_for_rating", 4) and h["success_rate"] < cfg.get("minimum_success_rate", .9):
                 continue
             eligible.append(item)
+        if held:
+            held_candidates.append({"id": channel["id"], "channel": channel["name"],
+                                    "candidate_kind": channel.get("candidate_kind", "unclassified"),
+                                    "technical_streams_passed": technical_passed, "held_streams": held})
         def ranking(i):
             h, r = updated[stream_key(i)], results[stream_key(i)]
             return (h["stable"], h["success_rate"], stream_key(i) == previous.get(cid),
@@ -940,7 +1052,8 @@ def build(cfg: dict, *, tester=check_stream, now: str | None = None, inventory=F
                        results[stream_key(i)].get("media_url", i["url"]) not in used_media), None)
         if winner is None:
             unavailable.append({"id": channel["id"], "channel": channel["name"],
-                                "reason": "no eligible unique stream", "candidates": len(chosen[cid])})
+                                "reason": "quality review pending" if held else "no eligible unique stream",
+                                "candidates": len(chosen[cid])})
             continue
         key, h = stream_key(winner), updated[stream_key(winner)]
         # Keep the stable entry URL. A CDN rendition discovered inside a master
@@ -972,6 +1085,11 @@ def build(cfg: dict, *, tester=check_stream, now: str | None = None, inventory=F
         guard = "all remote catalogs unavailable; previous playlist retained"
     finished = utcnow() if tester is check_stream else now
     pruned = prune_confirmed_placeholders(ROOT / playlist_path, results) if guard else 0
+    quality_pruned = prune_unreviewed_candidates(ROOT / playlist_path, catalog, updated, cfg,
+                                                finished, identity_conflicts) if guard else 0
+    if quality_pruned:
+        prior_count = len(parse_m3u((ROOT / playlist_path).read_text(encoding="utf-8")))
+        guard += f"; removed {quality_pruned} entries lacking quality approval"
     if pruned:
         prior_count = len(parse_m3u((ROOT / playlist_path).read_text(encoding="utf-8")))
         guard += f"; removed {pruned} confirmed placeholder streams from retained playlist"
@@ -982,7 +1100,26 @@ def build(cfg: dict, *, tester=check_stream, now: str | None = None, inventory=F
             saved_backups["channels"] = {cid: [e for e in entries if stream_key(e) not in rejected]
                                          for cid,entries in saved_backups["channels"].items()}
             write_json(ROOT / "backups.json", saved_backups)
+    if guard and cfg.get("candidate_quality", {}).get("enabled"):
+        # A retained playlist and its backup list obey the same admission gate.
+        path = ROOT / playlist_path
+        retained_keys = {stream_key(i) for i in parse_m3u(path.read_text(encoding="utf-8"))} if path.exists() else set()
+        previous = {cid: key for cid, key in previous.items() if key in retained_keys}
+        channels_by_id = {c["id"].casefold(): c for c in catalog}
+        rejected_urls = set(cfg["candidate_quality"].get("rejected_urls", {}))
+        saved_backups = read_json(ROOT / "backups.json", {})
+        if "channels" in saved_backups:
+            saved_backups["channels"] = {cid: [e for e in entries if e["url"] not in rejected_urls
+                and not candidate_review_reason(channels_by_id[cid.casefold()], e,
+                    updated.get(stream_key(e), {}), cfg, finished, identity_conflicts)]
+                for cid, entries in saved_backups["channels"].items() if cid.casefold() in channels_by_id}
+            write_json(ROOT / "backups.json", saved_backups)
     report = {"version": CHECKER_VERSION, "started_utc": now, "checked_utc": finished,
+              "candidate_quality": {"policy_version": 1, "enabled": bool(cfg.get("candidate_quality", {}).get("enabled")),
+                  "identity_conflict_requests": len(identity_conflicts),
+                  "held_channels": len(held_candidates), "held": held_candidates,
+                  "retained_playlist_entries_removed": quality_pruned,
+                  "decoder_success_is_identity_approval": False},
               "visual_criteria": visual_signature(),
               "retained_playlist_placeholders_removed": pruned,
               "known_placeholder_streams": sum(r.get("frame_inspection", {}).get("state") == "blocked_frame" for r in results.values()),
@@ -998,7 +1135,7 @@ def build(cfg: dict, *, tester=check_stream, now: str | None = None, inventory=F
               "unique_channels_passed": len(pairs), "stable_channels": sum(x["rating"] == "observed_stable" for x in selected),
               "probation_channels": sum(x["rating"] == "probation" for x in selected),
               "last_published_count": prior_count if guard else len(pairs),
-              "last_published_utc": old_status.get("last_published_utc") if guard and not pruned else finished,
+              "last_published_utc": old_status.get("last_published_utc") if guard and not (pruned or quality_pruned) else finished,
               "source_reports": source_reports, "excluded": excluded,
               "failure_reasons": dict(Counter(r["reason"] for r in results.values() if not r["ok"])),
               "selected": selected, "unavailable": unavailable}

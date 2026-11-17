@@ -19,12 +19,15 @@ def passed_before(history):
 
 
 class Campaign:
-    def __init__(self, config, saved, found, history, evidence, key, now):
+    def __init__(self, config, saved, found, history, evidence, key, now, verification_items=()):
         self.config, self.key, self.now = config, key, now
         self.required = max(2, int(config.get('minimum_passes', 2)))
         self.spacing = max(2, float(config.get('minimum_spacing_hours', 2))) * 3600
         self.retry = max(24, float(config.get('retry_rejected_hours', 168))) * 3600
         self.items = {key(i): i for items in found.values() for i in items}
+        self.eligible_keys = set(self.items)
+        self.verification_keys = {key(i) for i in verification_items}
+        self.items.update((key(i), i) for i in verification_items)
         self.found = found
         self.pc = set(evidence.get('pc_success_request_keys', []))
         self.pc_channels = {c.casefold() for c in evidence.get('pc_success_channel_ids', [])}
@@ -81,6 +84,10 @@ class Campaign:
             # Resuming an interrupted pass must not count the same result twice.
             if last and epoch(at) <= epoch(last):
                 continue
+            if (last and self.category(key) in ('pc_only', 'quarantined')
+                    and epoch(at) - epoch(last) >= self.retry):
+                stat['weekly_rechecks'] = stat.get('weekly_rechecks', 0) + 1
+                stat['last_weekly_recheck'] = at
             anchor = stat.get('sample_at')
             independent = not anchor or epoch(at) - epoch(anchor) >= self.spacing
             if independent:
@@ -98,6 +105,16 @@ class Campaign:
                 stat['ever_passed'] = True
                 self.baseline.add(key)
         self.state['previously_working_keys'] = sorted(self.baseline)
+
+    def verification_only_due(self):
+        """Keep every frozen request auditable even if its channel is retired.
+
+        These requests cannot enter a playlist. Probe them twice independently,
+        then only on the weekly audit; never fabricate observations for a slate.
+        """
+        return [self.items[k] for k in sorted(self.verification_keys - self.eligible_keys)
+                if self.category(k) == 'pending' or
+                epoch(self.now) - epoch(self.stats[k]['last_checked']) >= self.retry]
 
     def publishable(self, key):
         # Old proven sources retain service during the broad pass. A genuinely
@@ -125,8 +142,17 @@ class Campaign:
                 'started_utc': self.state['started_utc'],
                 'required_independent_passes': self.required, 'completed_cohort_passes': passes,
                 'cohort_requests': len(cohort), 'current_requests': len(self.items),
+                'completed_current_passes': min((min(self.required, self.stats.get(k, {}).get('samples', 0))
+                                                 for k in self.items), default=0),
+                'original_cohort_requests_not_current': len(set(cohort) - self.items.keys()),
+                'publication_candidate_requests': len(self.eligible_keys),
+                'frozen_queue_requests': len(self.verification_keys),
+                'verification_only_requests': len(self.verification_keys - self.eligible_keys),
+                'frozen_queue_sha256': self.config.get('frozen_queue', {}).get('sha256'),
                 'request_categories': counts, 'minimum_spacing_hours': self.spacing / 3600,
                 'retry_rejected_hours': self.retry / 3600,
+                'weekly_rechecked_requests': sum(bool(s.get('weekly_rechecks')) for s in self.stats.values()),
+                'weekly_recheck_observations': sum(s.get('weekly_rechecks', 0) for s in self.stats.values()),
                 'channels_pending': sorted(pending_channels),
                 'channels_zero_success_both': sorted(zero_both),
                 'channels_protected_by_pc': sorted(pc_only_channels),
