@@ -149,6 +149,10 @@ class Campaign:
                 'frozen_queue_requests': len(self.verification_keys),
                 'verification_only_requests': len(self.verification_keys - self.eligible_keys),
                 'frozen_queue_sha256': self.config.get('frozen_queue', {}).get('sha256'),
+                'frozen_queues': ([self.config['frozen_queue']] if self.config.get('frozen_queue') else []) +
+                                 self.config.get('additional_frozen_queues', []),
+                'completed_frozen_queue_passes': min((min(self.required, self.stats.get(k, {}).get('samples', 0))
+                                                     for k in self.verification_keys), default=0),
                 'request_categories': counts, 'minimum_spacing_hours': self.spacing / 3600,
                 'retry_rejected_hours': self.retry / 3600,
                 'weekly_rechecked_requests': sum(bool(s.get('weekly_rechecks')) for s in self.stats.values()),

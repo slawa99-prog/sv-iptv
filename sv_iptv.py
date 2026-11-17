@@ -751,19 +751,23 @@ def prune_unreviewed_candidates(path, catalog, history, cfg, now, conflicts):
 
 
 def frozen_campaign_items(config):
-    frozen = config.get("frozen_queue", {})
-    if not frozen:
-        return []
-    name = frozen.get("path", "")
-    path = (VALIDATION_ROOT / name).resolve()
-    if not name or not path.is_relative_to(VALIDATION_ROOT.resolve()):
-        raise ValueError("invalid frozen campaign queue path")
-    data = path.read_bytes()
-    if hashlib.sha256(data).hexdigest() != frozen.get("sha256"):
-        raise ValueError("frozen campaign queue hash mismatch")
-    items = parse_m3u(data.decode("utf-8-sig"))
-    if len({stream_key(i) for i in items}) != frozen.get("request_count"):
-        raise ValueError("frozen campaign queue request count mismatch")
+    queues = ([config["frozen_queue"]] if config.get("frozen_queue") else [])
+    queues += config.get("additional_frozen_queues", [])
+    items = []
+    for frozen in queues:
+        name = frozen.get("path", "")
+        path = (VALIDATION_ROOT / name).resolve()
+        if not name or not path.is_relative_to(VALIDATION_ROOT.resolve()):
+            raise ValueError("invalid frozen campaign queue path")
+        data = path.read_bytes()
+        if hashlib.sha256(data).hexdigest() != frozen.get("sha256"):
+            raise ValueError("frozen campaign queue hash mismatch")
+        part = parse_m3u(data.decode("utf-8-sig"))
+        if len({stream_key(i) for i in part}) != frozen.get("request_count"):
+            raise ValueError("frozen campaign queue request count mismatch")
+        items.extend(part)
+    if "frozen_union_request_count" in config and len({stream_key(i) for i in items}) != config["frozen_union_request_count"]:
+        raise ValueError("frozen campaign queue union count mismatch")
     return items
 
 
