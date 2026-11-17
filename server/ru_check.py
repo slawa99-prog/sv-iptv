@@ -5,6 +5,7 @@ from __future__ import annotations
 import argparse
 import fcntl
 import importlib
+import hashlib
 import json
 import os
 from pathlib import Path
@@ -14,6 +15,10 @@ import sys
 import tempfile
 from urllib.error import HTTPError
 from urllib.request import Request, HTTPRedirectHandler, build_opener
+try:
+    from .history_parts import package_history
+except ImportError:
+    from history_parts import package_history
 
 REPOSITORY = "slawa99-prog/sv-iptv"
 SOURCE_URL = f"https://github.com/{REPOSITORY}.git"
@@ -144,13 +149,29 @@ def publish_report(output: Path, api) -> str:
             raise
         head = None
     entries = []
+    existing_blobs = set()
+    if head:
+        parent = api("GET", f"git/commits/{head}")
+        tree = api("GET", f"git/trees/{parent['tree']['sha']}?recursive=1")
+        existing_blobs = {e['sha'] for e in tree.get('tree', []) if e.get('type') == 'blob'}
+    report_contents = {}
     for name in REPORT_FILES:
         path = output / name
         if path.exists():
+            if name == 'history.json':
+                report_contents.update(package_history(json.loads(path.read_text(encoding='utf-8'))))
+                continue
             if path.stat().st_size > 45 * 1024 * 1024:
                 raise ValueError(f"Report file too large: {name}")
-            blob = api("POST", "git/blobs", {"content": path.read_text(encoding="utf-8"), "encoding": "utf-8"})
-            entries.append({"path": name, "mode": "100644", "type": "blob", "sha": blob["sha"]})
+            report_contents[name] = path.read_text(encoding='utf-8')
+    for name, content in report_contents.items():
+        raw = content.encode('utf-8')
+        if len(raw) > 45 * 1024 * 1024:
+            raise ValueError(f'Report part too large: {name}')
+        blob_sha = hashlib.sha1(b'blob ' + str(len(raw)).encode() + b'\0' + raw).hexdigest()
+        if blob_sha not in existing_blobs:
+            blob_sha = api('POST', 'git/blobs', {'content': content, 'encoding': 'utf-8'})['sha']
+        entries.append({'path': name, 'mode': '100644', 'type': 'blob', 'sha': blob_sha})
     readme = (
         "# SV IPTV — проверка российского VPS\n\n"
         "Это независимые результаты узла в России. Основной `main/tv.m3u` не меняется.\n\n"
@@ -159,6 +180,10 @@ def publish_report(output: Path, api) -> str:
         f"Результат сборки: {status['publication']}.\n\n"
         "При `blocked` сохранённая M3U может относиться к предыдущему проходу: "
         "проверяйте `last_published_utc` и `publication_reason` в status.json.\n"
+        "\nБольшая история публикуется без потерь: `history.json` содержит индекс и SHA256 частей "
+        "из `history-parts/`. Все части нужно брать из этого же коммита. "
+        "Для сборки используйте `server/history_parts.py` из main. "
+        "Пустые поля в индексе не означают отсутствие наблюдений.\n"
     )
     entries.append({"path": "README.md", "mode": "100644", "type": "blob", "content": readme})
     # Own report-only tree: no code, secrets, or observations from main.
@@ -196,6 +221,8 @@ def run(state: Path, workers: int) -> int:
         "environment": "ru-vps", "location": "Moscow, Russia (operator configured)",
         "source_commit": revision, "checked_utc": report["checked_utc"],
         "workers": workers, "main_playlist_modified": False,
+        "report_history_format": "inline-or-lossless-parts-v1",
+        "frozen_queue_requests": report.get('expansion_campaign', {}).get('frozen_queue_requests'),
     })
     token = credential()
     if token:

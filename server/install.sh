@@ -6,7 +6,7 @@ if [[ "$(id -u)" -ne 0 ]]; then
   exit 1
 fi
 SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
-for needed in ru_check.py sv-iptv-ru.service sv-iptv-ru.timer; do
+for needed in ru_check.py history_parts.py sv-iptv-ru.service sv-iptv-ru.timer; do
   test -f "$SCRIPT_DIR/$needed" || { echo "Missing $needed" >&2; exit 1; }
 done
 command -v apt-get >/dev/null
@@ -22,6 +22,7 @@ if [[ ! -e /etc/sv-iptv-ru/github-token ]]; then
   install -o root -g root -m 0600 /dev/null /etc/sv-iptv-ru/github-token
 fi
 install -o root -g root -m 0644 "$SCRIPT_DIR/ru_check.py" /usr/local/lib/sv-iptv-ru/ru_check.py
+install -o root -g root -m 0644 "$SCRIPT_DIR/history_parts.py" /usr/local/lib/sv-iptv-ru/history_parts.py
 install -o root -g root -m 0644 "$SCRIPT_DIR/sv-iptv-ru.service" /etc/systemd/system/sv-iptv-ru.service
 install -o root -g root -m 0644 "$SCRIPT_DIR/sv-iptv-ru.timer" /etc/systemd/system/sv-iptv-ru.timer
 systemctl daemon-reload
