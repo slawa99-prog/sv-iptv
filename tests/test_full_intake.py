@@ -183,3 +183,30 @@ class FullIntakeTests(unittest.TestCase):
         self.assertEqual(set(visited), {self.a['url'], self.unknown['url']})
         self.assertEqual(report['expansion_campaign']['completed_frozen_queue_passes'], 2)
 
+    def test_worker_increase_reuses_unfinished_checkpoint_without_a_second_sample(self):
+        self.attach([self.a])
+        self.cfg['resume_checks'] = True
+        visited = []
+        def checker(item, cfg):
+            visited.append(item['url'])
+            return {'ok': False, 'reason': 'synthetic fixture'}
+        def run(at):
+            with patch.object(sv, 'check_stream', checker), patch.object(sv.shutil, 'which', return_value='/fake/ffmpeg'), \
+                 patch.object(sv, 'utcnow', return_value=at), patch.object(sv.time, 'time', return_value=sv.timestamp(at)), \
+                 contextlib.redirect_stdout(io.StringIO()):
+                return sv.build(self.cfg, tester=checker, now=at)
+        run('2026-11-18T00:00:00Z')
+        checkpoint = sv.read_json(self.root/'probe-progress.json', {})
+        checkpoint.update(completed=False, results={sv.stream_key(self.a):
+            {'ok': False, 'reason': 'synthetic fixture', 'checked_utc': '2026-11-18T00:00:00Z'}})
+        sv.write_json(self.root/'probe-progress.json', checkpoint)
+        self.cfg['workers'] = 6
+        visited.clear()
+        report = run('2026-11-18T03:00:00Z')
+        self.assertEqual(visited, [])
+        history = sv.read_json(self.root/'history.json', {})
+        request = history['expansion_campaign']['requests'][sv.stream_key(self.a)]
+        self.assertEqual(request['samples'], 1)
+        self.assertEqual(request['sample_at'], '2026-11-18T00:00:00Z')
+        self.assertEqual(report['expansion_campaign']['completed_frozen_queue_passes'], 1)
+

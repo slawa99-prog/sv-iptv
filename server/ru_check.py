@@ -25,6 +25,7 @@ SOURCE_URL = f"https://github.com/{REPOSITORY}.git"
 REPORT_BRANCH = "ru-checks"
 REPORT_FILES = ("tv.m3u", "status.json", "history.json", "backups.json", "node.json")
 ENVIRONMENT = {"kind": "sv-iptv-russian-vps", "version": 1}
+MAX_WORKERS = 8
 
 
 def write_json(path: Path, data: dict) -> None:
@@ -59,8 +60,8 @@ def refresh_source(source: Path) -> str:
 
 
 def prepare_workspace(source: Path, output: Path, workers: int) -> dict:
-    if not 1 <= workers <= 4:
-        raise ValueError("workers must be between 1 and 4")
+    if not 1 <= workers <= MAX_WORKERS:
+        raise ValueError(f"workers must be between 1 and {MAX_WORKERS}")
     output.mkdir(parents=True, exist_ok=True)
     marker = output / "environment.json"
     if marker.exists():
@@ -238,7 +239,7 @@ def run(state: Path, workers: int) -> int:
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--state", type=Path, default=Path("/var/lib/sv-iptv-ru"))
-    parser.add_argument("--workers", type=int, default=2)
+    parser.add_argument("--workers", type=int, choices=range(1, MAX_WORKERS + 1), default=2)
     args = parser.parse_args()
     args.state.mkdir(parents=True, exist_ok=True)
     with (args.state / "check.lock").open("w") as lock:

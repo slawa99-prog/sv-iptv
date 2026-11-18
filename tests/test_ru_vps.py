@@ -75,6 +75,33 @@ class RussianVPSTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             ru.prepare_workspace(self.source, self.output, 2)
 
+    def test_more_workers_preserve_vps_history_checkpoint_and_check_criteria(self):
+        ru.prepare_workspace(self.source, self.output, 4)
+        retained = {
+            "history.json": {"network": "ru-vps", "cycles": 7},
+            "probe-progress.json": {"completed": False, "results": {"key": {
+                "checked_utc": "2026-11-18T00:00:00Z", "ok": True}}},
+        }
+        for name, value in retained.items():
+            ru.write_json(self.output / name, value)
+        before = {name: (self.output / name).read_bytes() for name in retained}
+        for workers in (6, 8):
+            with self.subTest(workers=workers):
+                cfg = ru.prepare_workspace(self.source, self.output, workers)
+                self.assertEqual(cfg["workers"], workers)
+                self.assertEqual(cfg["per_host_workers"], 1)
+                self.assertTrue(cfg["resume_checks"])
+                for key in ("test_seconds", "stable_min_samples", "stable_min_hours", "channel_scope"):
+                    self.assertEqual(cfg[key], self.config[key])
+                for name, data in before.items():
+                    self.assertEqual((self.output / name).read_bytes(), data)
+
+    def test_invalid_workers_do_not_create_a_workspace(self):
+        for workers in (0, 9):
+            with self.subTest(workers=workers), self.assertRaises(ValueError):
+                ru.prepare_workspace(self.source, self.output, workers)
+            self.assertFalse(self.output.exists())
+
     def test_allowlist_required_and_catalog_cannot_escape(self):
         for mutation in ({"channel_scope": {}}, {"sources": ["../config.json"]},
                          {"sources": [str(self.source / "custom.m3u")]}):
