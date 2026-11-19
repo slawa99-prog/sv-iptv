@@ -1,38 +1,51 @@
 {
   "version": "3.2-wide-checks",
-  "started_utc": "2026-11-19T19:13:33+00:00",
-  "checked_utc": "2026-11-19T19:28:27+00:00",
+  "started_utc": "2026-11-19T19:30:03+00:00",
+  "checked_utc": "2026-11-19T19:46:15+00:00",
   "candidate_quality": {
     "policy_version": 2,
     "enabled": true,
     "review_required_request_count": 201243,
     "identity_conflict_requests": 303,
-    "held_channels": 0,
-    "held": [],
+    "held_channels": 1,
+    "held": [
+      {
+        "id": "sv.max.e96d6fd93039",
+        "channel": "Океан",
+        "candidate_kind": "thematic_internet_unverified",
+        "technical_streams_passed": 1,
+        "held_streams": [
+          {
+            "stream_key": "4bd978c17db64de2c32473d1fc0fbca563651eaee4aee9c98f129272098bf6ad",
+            "reason": "identity_and_language_review_required",
+            "technically_stable": false
+          }
+        ]
+      }
+    ],
     "retained_playlist_entries_removed": 0,
     "decoder_success_is_identity_approval": false
   },
   "visual_criteria": "1ea12fcdda22709c1a60328e4399a5214d5d7ddf774c261f78f9468c4b77ef16",
   "retained_playlist_placeholders_removed": 0,
   "known_placeholder_streams": 0,
-  "visually_checked_streams": 73,
+  "visually_checked_streams": 94,
   "check_environment": "ru-vps",
   "catalog_channels": 1616,
   "base_catalog_channels": 2381,
   "catalog_discovery": {
-    "state": "fresh",
+    "state": "snapshot",
     "added": 1,
     "source": "https://iptv-org.github.io/iptv/languages/rus.m3u",
     "sources": [
       "https://iptv-org.github.io/iptv/languages/rus.m3u",
       "https://iptv-org.github.io/iptv/countries/ru.m3u"
     ],
+    "error": "total response deadline",
     "added_ids": [
       "MezzoLive.fr"
     ],
     "excluded": {
-      "adult_closed_or_replaced": 16,
-      "unknown_id_or_nonmain_feed": 93,
       "name_collision": 1
     },
     "excluded_by_playlist_scope": 766
@@ -42,9 +55,9 @@
   "publication_reason": "partial campaign batch; previous playlist retained",
   "minimum_channels": 100,
   "candidate_streams_tested": 1000,
-  "streams_passed": 73,
-  "inconclusive_requests_this_batch": 31,
-  "scheduled_requests_before_batch": 232674,
+  "streams_passed": 94,
+  "inconclusive_requests_this_batch": 36,
+  "scheduled_requests_before_batch": 232713,
   "partial_campaign_batch": true,
   "unique_channels_passed": 0,
   "stable_channels": 0,
@@ -130,7 +143,7 @@
     {
       "source": "https://loganettv.github.io/playlists/all.m3u",
       "state": "fresh",
-      "records": 569
+      "records": 470
     },
     {
       "source": "expansion-candidates.m3u",
@@ -179,58 +192,56 @@
     }
   ],
   "excluded": {
-    "outside_catalog_or_nonmain_feed": 42938,
-    "duplicate_candidate": 6231,
+    "outside_catalog_or_nonmain_feed": 42916,
+    "duplicate_candidate": 6113,
     "outside_playlist_scope": 1797,
     "rejected_placeholder_endpoint": 616,
     "excluded_canonical_identity": 23
   },
   "failure_reasons": {
-    "URL can't contain control characters. '/Mr. Sugianto/123456/4828' (found at least ' ')": 1,
-    "HTTP 401": 59,
-    "network timeout or unavailable": 324,
-    "HTTP 403": 69,
-    "HTTP 404": 163,
-    "HTTP 414": 12,
-    "HTTP 400": 180,
-    "decode errors: non-existing SPS 0 referenced in buffering period": 2,
-    "HTTP 405": 2,
-    "'ascii' codec can't encode characters in position 854-861: ordinal not in range(128)": 1,
-    "HTTP 503": 2,
-    "ended stream / VOD": 17,
-    "sample probe failed": 3,
-    "format requires a separate adapter or access review": 22,
-    "decode errors: Last message repeated 2 times": 1,
-    "HTTP 444": 1,
-    "HTTP 412": 13,
-    "HTTP 410": 4,
-    "Remote end closed connection without response": 3,
-    "'ascii' codec can't encode characters in position 17-20: ordinal not in range(128)": 1,
-    "encrypted media requires an authorized player": 7,
-    "HTTP 429": 2,
-    "decode errors: Error submitting packet to decoder: Invalid data found when processing input": 3,
+    "HTTP 404": 139,
+    "HTTP 400": 165,
+    "network timeout or unavailable": 337,
     "missing video or audio": 8,
-    "HTTP 502": 1,
-    "continuous sample decode incomplete; format review required": 2,
-    "decode errors: no frame!": 3,
-    "'ascii' codec can't encode characters in position 30-36: ordinal not in range(128)": 1,
-    "decode errors: mmco: unref short failure": 1,
-    "no media segments": 1,
-    "'ascii' codec can't encode characters in position 98-100: ordinal not in range(128)": 1,
-    "ICY 200 OK\r\n": 1,
-    "insufficient live sample": 1,
-    "'ascii' codec can't encode characters in position 5-7: ordinal not in range(128)": 1,
-    "'ascii' codec can't encode characters in position 87-89: ordinal not in range(128)": 1,
+    "HTTP 403": 72,
+    "format requires a separate adapter or access review": 28,
+    "HTTP 401": 44,
+    "HTTP 414": 12,
+    "HTTP 412": 10,
+    "'ascii' codec can't encode characters in position 270-272: ordinal not in range(128)": 2,
+    "ended stream / VOD": 21,
+    "non-public endpoint": 1,
+    "HLS nesting limit": 1,
+    "'ascii' codec can't encode characters in position 28-30: ordinal not in range(128)": 1,
+    "continuous sample decode incomplete; format review required": 1,
+    "decode errors: no frame!": 2,
+    "HTTP 444": 1,
+    "sample probe failed": 9,
+    "Remote end closed connection without response": 2,
+    "incomplete video/audio decode": 2,
+    "HTTP 503": 4,
+    "'ascii' codec can't encode characters in position 27-29: ordinal not in range(128)": 1,
+    "encrypted media requires an authorized player": 7,
+    "HTTP 405": 1,
     "HTTP 660": 1,
-    "'ascii' codec can't encode characters in position 272-274: ordinal not in range(128)": 1,
-    "HTTP 406": 1,
-    "media download slower than playback": 1,
-    "'ascii' codec can't encode characters in position 120-122: ordinal not in range(128)": 2,
-    "HTTP 419": 3,
-    "'ascii' codec can't encode characters in position 43-45: ordinal not in range(128)": 1,
-    "URL can't contain control characters. '/ntv4/tracks-v3a1/mono.m3u8|User-Agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:117.0; ru-RU) Gecko/20100101 Firefox/": 1,
-    "could not convert string to float: '-1 group-title=\"Каналы от Dmitry-tv\"'": 1,
-    "URL can't contain control characters. '/hls/CH_U/variant.m3u8|User-Agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:117.0; ru-RU) Gecko/20100101 Firefox/117.0": 1
+    "HTTP 410": 5,
+    "HTTP 451": 2,
+    "'ascii' codec can't encode characters in position 30-36: ordinal not in range(128)": 1,
+    "decode errors: Last message repeated 1 times": 8,
+    "live manifest did not advance": 2,
+    "'ascii' codec can't encode character '\\u2122' in position 29: ordinal not in range(128)": 1,
+    "HTTP 567": 1,
+    "decode errors: Error submitting packet to decoder: Invalid data found when processing input": 3,
+    "HTTP 429": 1,
+    "'ascii' codec can't encode characters in position 29-31: ordinal not in range(128)": 1,
+    "HTTP 512": 1,
+    "HTTP 418": 1,
+    "'ascii' codec can't encode characters in position 35-37: ordinal not in range(128)": 2,
+    "HTTP 409": 1,
+    "decode errors: Last message repeated 2 times": 1,
+    "decode errors: number of reference frames (0+5) exceeds max (4; probably corrupt input), discarding one": 1,
+    "decode errors: incomplete frame": 1,
+    "URL can't contain control characters. '/hls/CH_TVC/variant.m3u8|User-Agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:117.0; ru-RU) Gecko/20100101 Firefox/117": 1
   },
   "selected": [],
   "unavailable": [
@@ -238,7 +249,7 @@
       "id": "ChannelOne.ru",
       "channel": "Первый канал",
       "reason": "no eligible unique stream",
-      "candidates": 0
+      "candidates": 1
     },
     {
       "id": "Russia1.ru",
@@ -286,7 +297,7 @@
       "id": "TVCentr.ru",
       "channel": "ТВ Центр",
       "reason": "no eligible unique stream",
-      "candidates": 0
+      "candidates": 1
     },
     {
       "id": "RENTV.ru",
@@ -334,13 +345,13 @@
       "id": "TNT.ru",
       "channel": "ТНТ",
       "reason": "no eligible unique stream",
-      "candidates": 0
+      "candidates": 1
     },
     {
       "id": "MuzTV.ru",
       "channel": "Муз-ТВ",
       "reason": "no eligible unique stream",
-      "candidates": 0
+      "candidates": 1
     },
     {
       "id": "360.ru",
@@ -418,13 +429,13 @@
       "id": "Bollywood.ru",
       "channel": "Bollywood",
       "reason": "no eligible unique stream",
-      "candidates": 0
+      "candidates": 1
     },
     {
       "id": "Cinema.ru",
       "channel": "Cinema",
       "reason": "no eligible unique stream",
-      "candidates": 0
+      "candidates": 1
     },
     {
       "id": "Hollywood.ru",
@@ -436,7 +447,7 @@
       "id": "StarCinema.ru",
       "channel": "Star Cinema",
       "reason": "no eligible unique stream",
-      "candidates": 0
+      "candidates": 1
     },
     {
       "id": "vijuTV1000.ru",
@@ -496,7 +507,7 @@
       "id": "Evrokino.ru",
       "channel": "Еврокино",
       "reason": "no eligible unique stream",
-      "candidates": 0
+      "candidates": 2
     },
     {
       "id": "IndiyskoyeKino.ru",
@@ -514,7 +525,7 @@
       "id": "Kinomix.ru",
       "channel": "Киномикс",
       "reason": "no eligible unique stream",
-      "candidates": 0
+      "candidates": 1
     },
     {
       "id": "Kinopokaz.ru",
@@ -532,13 +543,13 @@
       "id": "Kinosvidanie.ru",
       "channel": "Киносвидание",
       "reason": "no eligible unique stream",
-      "candidates": 0
+      "candidates": 1
     },
     {
       "id": "Kinosemja.ru",
       "channel": "Киносемья",
       "reason": "no eligible unique stream",
-      "candidates": 0
+      "candidates": 1
     },
     {
       "id": "Kinoseriya.ru",
@@ -550,7 +561,7 @@
       "id": "Kinouzhas.ru",
       "channel": "Киноужас",
       "reason": "no eligible unique stream",
-      "candidates": 0
+      "candidates": 1
     },
     {
       "id": "KinoHit.ru",
@@ -652,7 +663,7 @@
       "id": "vijuPlusSerial.ru",
       "channel": "viju+ Serial",
       "reason": "no eligible unique stream",
-      "candidates": 0
+      "candidates": 1
     },
     {
       "id": "Balabol.ru",
@@ -736,7 +747,7 @@
       "id": "Kinokomedija.ru",
       "channel": "Кинокомедия",
       "reason": "no eligible unique stream",
-      "candidates": 0
+      "candidates": 1
     },
     {
       "id": "Komediynoe.ru",
@@ -838,13 +849,13 @@
       "id": "Mama.ru",
       "channel": "Мама",
       "reason": "no eligible unique stream",
-      "candidates": 0
+      "candidates": 1
     },
     {
       "id": "Mult.ru",
       "channel": "Мульт",
       "reason": "no eligible unique stream",
-      "candidates": 0
+      "candidates": 1
     },
     {
       "id": "Multilandia.ru",
@@ -898,7 +909,7 @@
       "id": "STSkids.ru",
       "channel": "СТС Kids",
       "reason": "no eligible unique stream",
-      "candidates": 0
+      "candidates": 1
     },
     {
       "id": "Tamyr.ru",
@@ -1072,7 +1083,7 @@
       "id": "BRIDGE.ru",
       "channel": "BRIDGE",
       "reason": "no eligible unique stream",
-      "candidates": 0
+      "candidates": 1
     },
     {
       "id": "BRIDGEClassic.ru",
@@ -1162,7 +1173,7 @@
       "id": "GlazamiTurista.ru",
       "channel": "Глазами Туриста",
       "reason": "no eligible unique stream",
-      "candidates": 0
+      "candidates": 1
     },
     {
       "id": "Moyastikhiya.ru",
@@ -1324,7 +1335,7 @@
       "id": "Dikayaokhota.ru",
       "channel": "Дикая охота",
       "reason": "no eligible unique stream",
-      "candidates": 0
+      "candidates": 1
     },
     {
       "id": "Dikayarybalka.ru",
@@ -1366,7 +1377,7 @@
       "id": "ZhivayaPlaneta.ru",
       "channel": "Живая Планета",
       "reason": "no eligible unique stream",
-      "candidates": 0
+      "candidates": 1
     },
     {
       "id": "Zhivayapriroda.ru",
@@ -1432,7 +1443,7 @@
       "id": "NST.ru",
       "channel": "НСТ",
       "reason": "no eligible unique stream",
-      "candidates": 0
+      "candidates": 1
     },
     {
       "id": "OsetiyaIryston.ru",
@@ -1486,7 +1497,7 @@
       "id": "Retro.ru",
       "channel": "Ретро",
       "reason": "no eligible unique stream",
-      "candidates": 0
+      "candidates": 1
     },
     {
       "id": "Rus.ru",
@@ -1882,7 +1893,7 @@
       "id": "MatchFutbol3.ru",
       "channel": "Матч! Футбол 3",
       "reason": "no eligible unique stream",
-      "candidates": 0
+      "candidates": 1
     },
     {
       "id": "Mordoviya24.ru",
@@ -2074,7 +2085,7 @@
       "id": "Kineko.ru",
       "channel": "Кинеко",
       "reason": "no eligible unique stream",
-      "candidates": 0
+      "candidates": 1
     },
     {
       "id": "Kino24.ru",
@@ -2098,7 +2109,7 @@
       "id": "NasheLubimoeKino.ru",
       "channel": "Наше Любимое Кино",
       "reason": "no eligible unique stream",
-      "candidates": 0
+      "candidates": 1
     },
     {
       "id": "Ostrosyuzhetnoye.ru",
@@ -2278,13 +2289,13 @@
       "id": "TopSecret.ru",
       "channel": "Совершенно секретно",
       "reason": "no eligible unique stream",
-      "candidates": 0
+      "candidates": 1
     },
     {
       "id": "Tochkarf.ru",
       "channel": "Точка РФ",
       "reason": "no eligible unique stream",
-      "candidates": 0
+      "candidates": 1
     },
     {
       "id": "OkkoPrajmSport.ru",
@@ -2428,7 +2439,7 @@
       "id": "NTVMir.ru",
       "channel": "НТВ Мир",
       "reason": "no eligible unique stream",
-      "candidates": 0
+      "candidates": 1
     },
     {
       "id": "Teatr.ru",
@@ -2662,7 +2673,7 @@
       "id": "Nostalgia.ru",
       "channel": "Ностальгия",
       "reason": "no eligible unique stream",
-      "candidates": 0
+      "candidates": 1
     },
     {
       "id": "NTVLaw.ru",
@@ -2854,7 +2865,7 @@
       "id": "Match.ru",
       "channel": "Матч ТВ",
       "reason": "no eligible unique stream",
-      "candidates": 0
+      "candidates": 1
     },
     {
       "id": "Start.ru",
@@ -3292,7 +3303,7 @@
       "id": "Konniymir.ru",
       "channel": "Конный мир",
       "reason": "no eligible unique stream",
-      "candidates": 0
+      "candidates": 1
     },
     {
       "id": "sv.zhivi-aktivno",
@@ -3448,13 +3459,13 @@
       "id": "AnimalPlanet.ru",
       "channel": "Animal Planet",
       "reason": "no eligible unique stream",
-      "candidates": 0
+      "candidates": 1
     },
     {
       "id": "FoodNetwork.ru",
       "channel": "Food Network",
       "reason": "no eligible unique stream",
-      "candidates": 0
+      "candidates": 1
     },
     {
       "id": "NicktoonsCIS.ru",
@@ -3466,7 +3477,7 @@
       "id": "TLC.ru",
       "channel": "TLC",
       "reason": "no eligible unique stream",
-      "candidates": 0
+      "candidates": 1
     },
     {
       "id": "VoyenTV.by",
@@ -3586,7 +3597,7 @@
       "id": "Kinoman.ru",
       "channel": "Киноман",
       "reason": "no eligible unique stream",
-      "candidates": 0
+      "candidates": 1
     },
     {
       "id": "MovieClassic.ru",
@@ -3604,7 +3615,7 @@
       "id": "Detskimir.ru",
       "channel": "Детский мир",
       "reason": "no eligible unique stream",
-      "candidates": 0
+      "candidates": 1
     },
     {
       "id": "Leva.ru",
@@ -5319,8 +5330,8 @@
     {
       "id": "sv.max.e96d6fd93039",
       "channel": "Океан",
-      "reason": "no eligible unique stream",
-      "candidates": 0
+      "reason": "quality review pending",
+      "candidates": 1
     },
     {
       "id": "sv.max.5ddf801a452c",
@@ -9939,12 +9950,12 @@
     "required_independent_passes": 2,
     "completed_cohort_passes": 1,
     "cohort_requests": 19517,
-    "current_requests": 232674,
+    "current_requests": 232713,
     "completed_current_passes": 0,
     "original_cohort_requests_not_current": 0,
-    "publication_candidate_requests": 44220,
+    "publication_candidate_requests": 44261,
     "frozen_queue_requests": 232674,
-    "verification_only_requests": 188454,
+    "verification_only_requests": 188452,
     "frozen_queue_sha256": "b10f0990256d78e012ab9302421452201fd944f994e80592cdf9b44869860121",
     "frozen_queues": [
       {
@@ -10056,14 +10067,14 @@
     ],
     "completed_frozen_queue_passes": 0,
     "request_categories": {
-      "pending": 232674,
+      "pending": 232713,
       "monitor": 0,
       "pc_only": 0,
       "quarantined": 0
     },
     "minimum_spacing_hours": 2.0,
-    "requests_needing_format_review": 6699,
-    "inconclusive_attempts": 6699,
+    "requests_needing_format_review": 6735,
+    "inconclusive_attempts": 6735,
     "inconclusive_is_playback_failure": false,
     "retry_rejected_hours": 168.0,
     "weekly_rechecked_requests": 0,
