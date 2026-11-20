@@ -1,7 +1,7 @@
 {
   "version": "3.2-wide-checks",
-  "started_utc": "2026-11-20T00:23:21+00:00",
-  "checked_utc": "2026-11-20T00:38:36+00:00",
+  "started_utc": "2026-11-20T00:41:03+00:00",
+  "checked_utc": "2026-11-20T00:54:43+00:00",
   "candidate_quality": {
     "policy_version": 2,
     "enabled": true,
@@ -15,7 +15,7 @@
   "visual_criteria": "1ea12fcdda22709c1a60328e4399a5214d5d7ddf774c261f78f9468c4b77ef16",
   "retained_playlist_placeholders_removed": 0,
   "known_placeholder_streams": 0,
-  "visually_checked_streams": 93,
+  "visually_checked_streams": 94,
   "check_environment": "ru-vps",
   "catalog_channels": 1616,
   "base_catalog_channels": 2381,
@@ -45,8 +45,8 @@
   "publication_reason": "partial campaign batch; previous playlist retained",
   "minimum_channels": 100,
   "candidate_streams_tested": 1000,
-  "streams_passed": 93,
-  "inconclusive_requests_this_batch": 28,
+  "streams_passed": 94,
+  "inconclusive_requests_this_batch": 34,
   "scheduled_requests_before_batch": 232721,
   "partial_campaign_batch": true,
   "unique_channels_passed": 0,
@@ -189,45 +189,52 @@
     "excluded_canonical_identity": 23
   },
   "failure_reasons": {
-    "network timeout or unavailable": 313,
-    "HTTP 400": 186,
-    "HTTP 401": 43,
-    "HTTP 404": 150,
-    "HTTP 444": 4,
-    "decode errors: Error submitting packet to decoder: Invalid data found when processing input": 6,
-    "'ascii' codec can't encode characters in position 26-28: ordinal not in range(128)": 1,
-    "HTTP 403": 75,
-    "format requires a separate adapter or access review": 20,
-    "missing video or audio": 6,
-    "ended stream / VOD": 23,
-    "sample probe failed": 4,
-    "URL can't contain control characters. '/ndr/hls/ndr_fs/ndr_hh/master.m3u8|User-Agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0; de-DE) Gecko/20100101 F": 1,
-    "HTTP 441": 1,
-    "HTTP 412": 19,
-    "'ascii' codec can't encode characters in position 51-53: ordinal not in range(128)": 1,
-    "encrypted media requires an authorized player": 5,
-    "decode errors: non-existing SPS 0 referenced in buffering period": 3,
-    "decode errors: no frame!": 4,
-    "incomplete video/audio decode": 8,
-    "HTTP 410": 6,
-    "HTTP 512": 1,
-    "finite media: live status requires review": 1,
-    "live manifest did not advance": 1,
-    "HTTP 502": 3,
+    "'ascii' codec can't encode characters in position 23-25: ordinal not in range(128)": 1,
+    "HTTP 412": 15,
+    "HTTP 400": 182,
+    "HTTP 404": 162,
+    "ICY 200 OK\r\n": 1,
+    "network timeout or unavailable": 308,
+    "ended stream / VOD": 17,
+    "format requires a separate adapter or access review": 30,
+    "HTTP 401": 42,
+    "HTTP 403": 85,
+    "continuous sample decode incomplete; format review required": 3,
+    "HTTP 503": 5,
+    "decode errors: Warning MVs not available": 1,
+    "HLS nesting limit": 1,
+    "HTTP 414": 9,
+    "'ascii' codec can't encode characters in position 29-31: ordinal not in range(128)": 2,
+    "HTTP 302": 1,
+    "missing video or audio": 4,
+    "HTTP 574": 1,
+    "HTTP 660": 1,
+    "media download slower than playback": 1,
+    "'ascii' codec can't encode characters in position 20-22: ordinal not in range(128)": 1,
+    "'ascii' codec can't encode characters in position 5-7: ordinal not in range(128)": 2,
+    "HTTP 405": 1,
+    "'ascii' codec can't encode character '\\u2122' in position 40: ordinal not in range(128)": 1,
+    "HTTP 410": 3,
+    "decode errors: non-existing SPS 0 referenced in buffering period": 2,
+    "URL can't contain control characters. '/hls/CH_U_7/variant.m3u8|User-Agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:117.0; ru-RU) Gecko/20100101 Firefox/117": 1,
+    "decode errors: error while decoding MB 20 65, bytestream -7": 1,
+    "HTTP 502": 2,
     "'ascii' codec can't encode characters in position 56-58: ordinal not in range(128)": 1,
-    "HTTP 301": 1,
-    "decode errors: co located POCs unavailable": 1,
-    "'ascii' codec can't encode characters in position 29-31: ordinal not in range(128)": 1,
-    "'ascii' codec can't encode characters in position 268-270: ordinal not in range(128)": 1,
-    "'ascii' codec can't encode characters in position 64-66: ordinal not in range(128)": 1,
-    "decode errors: Last message repeated 10 times": 1,
-    "HTTP 414": 8,
-    "direct transport network unavailable": 1,
-    "URL can't contain control characters. '/hls/CH_TV3_7/variant.m3u8|User-Agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:117.0; ru-RU) Gecko/20100101 Firefox/1": 1,
-    "URL can't contain control characters. '/hls/CH_RUSSIAK_2/variant.m3u8|User-Agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:117.0; ru-RU) Gecko/20100101 Firef": 1,
-    "continuous sample decode incomplete; format review required": 2,
-    "URL can't contain control characters. '/ott-cdn.ucom.am/s24/04.m3u8<br />' (found at least ' ')": 1,
-    "'ascii' codec can't encode characters in position 624-631: ordinal not in range(128)": 1
+    "'ascii' codec can't encode characters in position 35-37: ordinal not in range(128)": 2,
+    "incomplete video/audio decode": 1,
+    "'ascii' codec can't encode characters in position 27-29: ordinal not in range(128)": 2,
+    "'ascii' codec can't encode characters in position 32-34: ordinal not in range(128)": 1,
+    "HTTP 512": 2,
+    "'ascii' codec can't encode characters in position 87-89: ordinal not in range(128)": 1,
+    "sample probe failed": 2,
+    "decode errors: 0: 8 >= 8": 1,
+    "'ascii' codec can't encode characters in position 25-27: ordinal not in range(128)": 1,
+    "decode errors: no frame!": 1,
+    "decode errors: number of reference frames (0+4) exceeds max (3; probably corrupt input), discarding one": 1,
+    "decode errors: Missing reference picture, default is 65574": 1,
+    "encrypted media requires an authorized player": 1,
+    "URL can't contain control characters. '/ott-cdn.ucom.am/s36/index.m3u8<br />' (found at least ' ')": 1,
+    "'ascii' codec can't encode characters in position 644-651: ordinal not in range(128)": 1
   },
   "selected": [],
   "unavailable": [
@@ -265,7 +272,7 @@
       "id": "Russia24.ru",
       "channel": "Россия 24",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "Carousel.ru",
@@ -697,13 +704,13 @@
       "id": "black.ru",
       "channel": ".black",
       "reason": "no eligible unique stream",
-      "candidates": 2
+      "candidates": 0
     },
     {
       "id": "red.ru",
       "channel": ".red",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "2x2.ru",
@@ -913,7 +920,7 @@
       "id": "scifi.ru",
       "channel": ".sci-fi",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "365daysTV.ru",
@@ -925,7 +932,7 @@
       "id": "DaVinci.ru",
       "channel": "Da Vinci",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "vijuExplore.ru",
@@ -2215,13 +2222,13 @@
       "id": "Smotrim100Lyubov.ru",
       "channel": "Смотрим 100% Любовь",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "Smotrim100Muzhskoe.ru",
       "channel": "Смотрим 100% Мужское",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "Channel8.ru",
@@ -10059,8 +10066,8 @@
       "quarantined": 0
     },
     "minimum_spacing_hours": 2.0,
-    "requests_needing_format_review": 7377,
-    "inconclusive_attempts": 7377,
+    "requests_needing_format_review": 7411,
+    "inconclusive_attempts": 7411,
     "inconclusive_is_playback_failure": false,
     "retry_rejected_hours": 168.0,
     "weekly_rechecked_requests": 0,
