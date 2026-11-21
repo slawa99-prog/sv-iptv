@@ -1,7 +1,7 @@
 {
   "version": "3.2-wide-checks",
-  "started_utc": "2026-11-21T11:39:59+00:00",
-  "checked_utc": "2026-11-21T11:54:17+00:00",
+  "started_utc": "2026-11-21T11:56:53+00:00",
+  "checked_utc": "2026-11-21T12:11:55+00:00",
   "candidate_quality": {
     "policy_version": 2,
     "enabled": true,
@@ -15,19 +15,18 @@
   "visual_criteria": "1ea12fcdda22709c1a60328e4399a5214d5d7ddf774c261f78f9468c4b77ef16",
   "retained_playlist_placeholders_removed": 0,
   "known_placeholder_streams": 0,
-  "visually_checked_streams": 70,
+  "visually_checked_streams": 82,
   "check_environment": "ru-vps",
   "catalog_channels": 1616,
   "base_catalog_channels": 2381,
   "catalog_discovery": {
-    "state": "snapshot",
+    "state": "fresh",
     "added": 4,
     "source": "https://iptv-org.github.io/iptv/languages/rus.m3u",
     "sources": [
       "https://iptv-org.github.io/iptv/languages/rus.m3u",
       "https://iptv-org.github.io/iptv/countries/ru.m3u"
     ],
-    "error": "total response deadline",
     "added_ids": [
       "MezzoLive.fr",
       "Smotrim100Gorkogo.ru",
@@ -35,6 +34,8 @@
       "Smotrim100Talkshow.ru"
     ],
     "excluded": {
+      "adult_closed_or_replaced": 16,
+      "unknown_id_or_nonmain_feed": 99,
       "name_collision": 1
     },
     "excluded_by_playlist_scope": 769
@@ -44,9 +45,9 @@
   "publication_reason": "partial campaign batch; previous playlist retained",
   "minimum_channels": 100,
   "candidate_streams_tested": 1000,
-  "streams_passed": 70,
-  "inconclusive_requests_this_batch": 213,
-  "scheduled_requests_before_batch": 112853,
+  "streams_passed": 82,
+  "inconclusive_requests_this_batch": 5,
+  "scheduled_requests_before_batch": 112069,
   "partial_campaign_batch": true,
   "unique_channels_passed": 0,
   "stable_channels": 0,
@@ -56,9 +57,8 @@
   "source_reports": [
     {
       "source": "https://iptv-org.github.io/api/streams.json",
-      "state": "snapshot",
-      "records": 1221,
-      "error": "total response deadline"
+      "state": "fresh",
+      "records": 1221
     },
     {
       "source": "https://iptv-org.github.io/iptv/languages/rus.m3u",
@@ -189,46 +189,51 @@
     "excluded_canonical_identity": 23
   },
   "failure_reasons": {
+    "HTTP 412": 17,
+    "'ascii' codec can't encode characters in position 21-23: ordinal not in range(128)": 3,
+    "HTTP 400": 177,
+    "network timeout or unavailable": 302,
+    "HTTP 404": 186,
+    "HTTP 403": 94,
+    "'ascii' codec can't encode characters in position 17-20: ordinal not in range(128)": 1,
+    "HTTP 429": 2,
+    "HTTP 401": 37,
     "ended stream / VOD": 22,
-    "network timeout or unavailable": 301,
-    "HTTP 401": 39,
-    "HTTP 404": 119,
-    "'ascii' codec can't encode characters in position 28-30: ordinal not in range(128)": 1,
-    "HTTP 503": 1,
-    "format requires a separate adapter or access review": 213,
-    "HTTP 403": 71,
-    "HTTP 412": 11,
-    "HTTP 400": 90,
-    "'ascii' codec can't encode characters in position 19-21: ordinal not in range(128)": 2,
-    "HTTP 414": 10,
-    "'ascii' codec can't encode characters in position 249-251: ordinal not in range(128)": 1,
-    "incomplete video/audio decode": 3,
-    "missing video or audio": 5,
-    "'ascii' codec can't encode characters in position 25-27: ordinal not in range(128)": 1,
-    "'ascii' codec can't encode characters in position 39-41: ordinal not in range(128)": 2,
-    "HTTP 444": 1,
-    "decode errors: Last message repeated 1 times": 2,
-    "HTTP 405": 5,
+    "HTTP 503": 6,
+    "decode errors: non-existing SPS 0 referenced in buffering period": 2,
+    "HTTP 410": 7,
+    "media download slower than playback": 2,
+    "HTTP 414": 13,
+    "'ascii' codec can't encode characters in position 35-37: ordinal not in range(128)": 1,
     "HTTP 512": 2,
-    "decode errors: error while decoding MB 31 31, bytestream -31": 1,
-    "'ascii' codec can't encode character '\\u2122' in position 46: ordinal not in range(128)": 1,
-    "'ascii' codec can't encode character '\\u2122' in position 49: ordinal not in range(128)": 1,
-    "HLS nesting limit": 1,
-    "HTTP 410": 2,
+    "decode errors: no frame!": 3,
+    "'ascii' codec can't encode characters in position 19-21: ordinal not in range(128)": 1,
+    "HTTP 419": 1,
+    "decode errors: incomplete frame": 1,
+    "ICY 200 OK\r\n": 1,
+    "HTTP 405": 1,
+    "Remote end closed connection without response": 2,
+    "sample probe failed": 2,
+    "'ascii' codec can't encode characters in position 64-66: ordinal not in range(128)": 1,
+    "decode errors: mmco: unref short failure": 2,
+    "live manifest did not advance": 5,
+    "missing video or audio": 5,
     "'ascii' codec can't encode characters in position 31-33: ordinal not in range(128)": 1,
-    "decode errors: no frame!": 4,
-    "'ascii' codec can't encode characters in position 26-28: ordinal not in range(128)": 1,
-    "'ascii' codec can't encode characters in position 30-32: ordinal not in range(128)": 2,
-    "Remote end closed connection without response": 1,
-    "decode errors: non-existing SPS 0 referenced in buffering period": 1,
-    "'ascii' codec can't encode characters in position 89-91: ordinal not in range(128)": 1,
-    "HTTP 301": 1,
-    "HTTP 502": 3,
     "decode errors: Error submitting packet to decoder: Invalid data found when processing input": 1,
-    "'ascii' codec can't encode characters in position 32-34: ordinal not in range(128)": 1,
-    "media download slower than playback": 1,
-    "sample probe failed": 3,
-    "direct transport network unavailable": 1
+    "incomplete video/audio decode": 1,
+    "'ascii' codec can't encode characters in position 43-45: ordinal not in range(128)": 1,
+    "'ascii' codec can't encode characters in position 87-89: ordinal not in range(128)": 1,
+    "HTTP 502": 1,
+    "HTTP 421": 1,
+    "HTTP 301": 1,
+    "HTTP 444": 1,
+    "format requires a separate adapter or access review": 3,
+    "'ascii' codec can't encode character '\\u2122' in position 47: ordinal not in range(128)": 1,
+    "'ascii' codec can't encode character '\\u2122' in position 40: ordinal not in range(128)": 1,
+    "'ascii' codec can't encode characters in position 655-662: ordinal not in range(128)": 1,
+    "continuous sample decode incomplete; format review required": 2,
+    "URL can't contain control characters. '/hls/CH_TVC_2/variant.m3u8|User-Agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:117.0; ru-RU) Gecko/20100101 Firefox/1": 1,
+    "'ascii' codec can't encode characters in position 640-647: ordinal not in range(128)": 1
   },
   "selected": [],
   "unavailable": [
@@ -404,73 +409,73 @@
       "id": "AmediaHit.ru",
       "channel": "Amedia Hit",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "AmediaPremium.ru",
       "channel": "Amedia Premium",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "Bollywood.ru",
       "channel": "Bollywood",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "Cinema.ru",
       "channel": "Cinema",
       "reason": "no eligible unique stream",
-      "candidates": 2
+      "candidates": 0
     },
     {
       "id": "Hollywood.ru",
       "channel": "Hollywood",
       "reason": "no eligible unique stream",
-      "candidates": 2
+      "candidates": 0
     },
     {
       "id": "StarCinema.ru",
       "channel": "Star Cinema",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "vijuTV1000.ru",
       "channel": "viju TV1000",
       "reason": "no eligible unique stream",
-      "candidates": 3
+      "candidates": 0
     },
     {
       "id": "vijuTV1000action.ru",
       "channel": "viju TV1000 action",
       "reason": "no eligible unique stream",
-      "candidates": 2
+      "candidates": 0
     },
     {
       "id": "vijuTV1000russkoe.ru",
       "channel": "viju TV1000 русское",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "vijuPlusMegahit.ru",
       "channel": "viju+ Megahit",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "vijuPlusPremiere.ru",
       "channel": "viju+ Premiere",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "Blokbaster.ru",
       "channel": "Блокбастер",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "Domkino.ru",
@@ -488,73 +493,73 @@
       "id": "Dorama.ru",
       "channel": "Дорама",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "Evrokino.ru",
       "channel": "Еврокино",
       "reason": "no eligible unique stream",
-      "candidates": 2
+      "candidates": 0
     },
     {
       "id": "IndiyskoyeKino.ru",
       "channel": "Индийское кино",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "KinoTV.ru",
       "channel": "Кино ТВ",
       "reason": "no eligible unique stream",
-      "candidates": 2
+      "candidates": 0
     },
     {
       "id": "Kinomix.ru",
       "channel": "Киномикс",
       "reason": "no eligible unique stream",
-      "candidates": 2
+      "candidates": 0
     },
     {
       "id": "Kinopokaz.ru",
       "channel": "Кинопоказ",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "Kinopremyera.ru",
       "channel": "Кинопремьера",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "Kinosvidanie.ru",
       "channel": "Киносвидание",
       "reason": "no eligible unique stream",
-      "candidates": 2
+      "candidates": 0
     },
     {
       "id": "Kinosemja.ru",
       "channel": "Киносемья",
       "reason": "no eligible unique stream",
-      "candidates": 2
+      "candidates": 0
     },
     {
       "id": "Kinoseriya.ru",
       "channel": "Киносерия",
       "reason": "no eligible unique stream",
-      "candidates": 2
+      "candidates": 0
     },
     {
       "id": "Kinouzhas.ru",
       "channel": "Киноужас",
       "reason": "no eligible unique stream",
-      "candidates": 2
+      "candidates": 0
     },
     {
       "id": "KinoHit.ru",
       "channel": "Кинохит",
       "reason": "no eligible unique stream",
-      "candidates": 2
+      "candidates": 0
     },
     {
       "id": "MosfilmGoldCollection.ru",
@@ -566,25 +571,25 @@
       "id": "Muzhskoekino.ru",
       "channel": "Мужское кино",
       "reason": "no eligible unique stream",
-      "candidates": 2
+      "candidates": 0
     },
     {
       "id": "Nashe.ru",
       "channel": "Наше",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "Nashemuzhskoe.ru",
       "channel": "Наше мужское",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "NasheNovoeKino.ru",
       "channel": "Наше новое кино",
       "reason": "no eligible unique stream",
-      "candidates": 2
+      "candidates": 0
     },
     {
       "id": "NTVSeries.ru",
@@ -596,13 +601,13 @@
       "id": "Premialnoe.ru",
       "channel": "Премиальное",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "RodnoeKino.ru",
       "channel": "Родное Кино",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "RusskiyBestseller.ru",
@@ -632,7 +637,7 @@
       "id": "Hit.ru",
       "channel": "Хит",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "HorosheeKino.ru",
@@ -644,13 +649,13 @@
       "id": "Shokiruyushchee.ru",
       "channel": "Шокирующее",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "vijuPlusSerial.ru",
       "channel": "viju+ Serial",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "Balabol.ru",
@@ -698,13 +703,13 @@
       "id": "black.ru",
       "channel": ".black",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "red.ru",
       "channel": ".red",
       "reason": "no eligible unique stream",
-      "candidates": 2
+      "candidates": 0
     },
     {
       "id": "2x2.ru",
@@ -716,7 +721,7 @@
       "id": "vijuPlusComedy.ru",
       "channel": "viju+ Comedy",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "VoprosyiOtvety.ru",
@@ -734,19 +739,19 @@
       "id": "Kinokomedija.ru",
       "channel": "Кинокомедия",
       "reason": "no eligible unique stream",
-      "candidates": 2
+      "candidates": 0
     },
     {
       "id": "Komediynoe.ru",
       "channel": "Комедийное",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "Komedia.ru",
       "channel": "Комедия",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "OTVPrim.ru",
@@ -794,7 +799,7 @@
       "id": "FAN.ru",
       "channel": "FAN",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "GulliGirl.ru",
@@ -914,7 +919,7 @@
       "id": "scifi.ru",
       "channel": ".sci-fi",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "365daysTV.ru",
@@ -980,7 +985,7 @@
       "id": "Nauka.ru",
       "channel": "Наука",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "Smotrim100Fakty.ru",
@@ -1010,7 +1015,7 @@
       "id": "vijuPlusSport.ru",
       "channel": "viju+ Sport",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "AstrahanRuSport.ru",
@@ -1022,43 +1027,43 @@
       "id": "BoksTV.ru",
       "channel": "Бокс ТВ",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "KHL.ru",
       "channel": "КХЛ",
       "reason": "no eligible unique stream",
-      "candidates": 2
+      "candidates": 0
     },
     {
       "id": "MatchArena.ru",
       "channel": "Матч! Арена",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "MatchBoets.ru",
       "channel": "Матч! Боец",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "MatchIgra.ru",
       "channel": "Матч! Игра",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "MatchPlaneta.ru",
       "channel": "Матч! Планета",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "MatchStrana.ru",
       "channel": "Матч! Страна",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "MatchUltra.ru",
@@ -1208,7 +1213,7 @@
       "id": "AutoPlus.ru",
       "channel": "Авто Плюс",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "Avto24.ru",
@@ -1346,7 +1351,7 @@
       "id": "Dushevnoe.ru",
       "channel": "Душевное",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "Eurasia.ru",
@@ -1430,7 +1435,7 @@
       "id": "NST.ru",
       "channel": "НСТ",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "OsetiyaIryston.ru",
@@ -1550,7 +1555,7 @@
       "id": "Tochkaotryva.ru",
       "channel": "Точка отрыва",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "Usadba.ru",
@@ -1634,7 +1639,7 @@
       "id": "Belarus5.by",
       "channel": "Беларусь 5",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "CGTNRussian.cn",
@@ -1712,7 +1717,7 @@
       "id": "MatchPremier.ru",
       "channel": "Матч! Премьер",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "NashaTema.ru",
@@ -1862,7 +1867,7 @@
       "id": "IllusionPlus.ru",
       "channel": "Иллюзион+",
       "reason": "no eligible unique stream",
-      "candidates": 4
+      "candidates": 0
     },
     {
       "id": "InvestigationDiscovery.ru",
@@ -1874,13 +1879,13 @@
       "id": "Kinoliving.ru",
       "channel": "KinoLiving",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "MatchFutbol3.ru",
       "channel": "Матч! Футбол 3",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "Mordoviya24.ru",
@@ -1910,7 +1915,7 @@
       "id": "Roman.ru",
       "channel": "Роман",
       "reason": "no eligible unique stream",
-      "candidates": 2
+      "candidates": 0
     },
     {
       "id": "RTN.us",
@@ -1970,7 +1975,7 @@
       "id": "TV21.ru",
       "channel": "ТВ 21",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "TV3.ru",
@@ -2048,31 +2053,31 @@
       "id": "StarFamily.ru",
       "channel": "Star Family",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "STARTAir.ru",
       "channel": "START Air",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "STARTWorld.ru",
       "channel": "START World",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "vijuTV1000novella.ru",
       "channel": "viju TV1000 новелла",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "Kineko.ru",
       "channel": "Кинеко",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "Kino24.ru",
@@ -2090,19 +2095,19 @@
       "id": "NashKinopokaz.ru",
       "channel": "Наш Кинопоказ",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "NasheLubimoeKino.ru",
       "channel": "Наше Любимое Кино",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "Ostrosyuzhetnoye.ru",
       "channel": "Остросюжетное",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "Patriot.ru",
@@ -2174,25 +2179,25 @@
       "id": "FeniksplusKino.ru",
       "channel": "Феникс плюс кино",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "vijuTV1000romantica.ru",
       "channel": "viju TV1000 romantica",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "A2.ru",
       "channel": "А2",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "MirSeriala.ru",
       "channel": "Мир Сериала",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "NTVHit.ru",
@@ -2240,7 +2245,7 @@
       "id": "India.ru",
       "channel": "Индия",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "Poehali.ru",
@@ -2300,13 +2305,13 @@
       "id": "SetantaSports1.ru",
       "channel": "Setanta Sports 1",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "SetantaSports2.ru",
       "channel": "Setanta Sports 2",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "VitalDrive.ru",
@@ -2702,7 +2707,7 @@
       "id": "ProLyubov.ru",
       "channel": "Про Любовь",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "Radio1.ru",
@@ -2852,13 +2857,13 @@
       "id": "Match.ru",
       "channel": "Матч ТВ",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "Start.ru",
       "channel": "Старт",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "Psikhologiya.ru",
@@ -3254,7 +3259,7 @@
       "id": "ViasatKinoWorld.ua",
       "channel": "Viasat Kino World",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "VitrinaTV.ru",
@@ -3548,13 +3553,13 @@
       "id": "MatchFutbol1.ru",
       "channel": "Матч! Футбол 1",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "MatchFutbol2.ru",
       "channel": "Матч! Футбол 2",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "ducktv.ru",
@@ -3584,7 +3589,7 @@
       "id": "Kinoman.ru",
       "channel": "Киноман",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "MovieClassic.ru",
@@ -3614,13 +3619,13 @@
       "id": "Football.ru",
       "channel": "Футбол",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "Scream.ru",
       "channel": "Scream",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "DomashniyInternational.ru",
@@ -3632,13 +3637,13 @@
       "id": "FX.ru",
       "channel": "FX",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "FXLife.ru",
       "channel": "FX Life",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "VseTV.ru",
@@ -3926,13 +3931,13 @@
       "id": "Kamedi.ru",
       "channel": "Камеди",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "Romantichnoe.ru",
       "channel": "Романтичное",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "KidsTV.ru",
@@ -4004,7 +4009,7 @@
       "id": "FamilyJam.ru",
       "channel": "FamilyJam",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "FirstRussiannationalchannel.ru",
@@ -4064,7 +4069,7 @@
       "id": "KinoJam2.ru",
       "channel": "KinoJam 2",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "KinoMult.ru",
@@ -4136,7 +4141,7 @@
       "id": "SerialUHD.ru",
       "channel": "Сериал",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "SGDF24RU.ru",
@@ -4166,7 +4171,7 @@
       "id": "StrashnoeHD.ru",
       "channel": "Страшное",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "STRK.ru",
@@ -4220,7 +4225,7 @@
       "id": "UltraHDCinema.ru",
       "channel": "Ultra HD Cinema",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "VHSTV.ru",
@@ -4316,7 +4321,7 @@
       "id": "Kanal7.ee",
       "channel": "Канал 7",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "FONTV.ru",
@@ -5060,7 +5065,7 @@
       "id": "sv.max.f4af432351e1",
       "channel": "CineMan Marvel",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "sv.max.7aa93db3bc5e",
@@ -5072,7 +5077,7 @@
       "id": "sv.max.4f663acd7e29",
       "channel": "CineMan VHS",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "sv.max.bdd324ecad9b",
@@ -5138,13 +5143,13 @@
       "id": "sv.max.a77b3497affc",
       "channel": "BCU Stars",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "sv.max.8f4b95deb43c",
       "channel": "CineMan",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "sv.max.dfb299ac1f3d",
@@ -5168,7 +5173,7 @@
       "id": "sv.max.a442069fc3fa",
       "channel": "CineMan Top",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "sv.max.fc998964bca2",
@@ -5192,7 +5197,7 @@
       "id": "sv.max.2df71408f054",
       "channel": "CineMan Action",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "sv.max.91f35c71249c",
@@ -5216,13 +5221,13 @@
       "id": "sv.max.63412ce3370c",
       "channel": "BCU Catastrophe",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "sv.max.22832f77d54c",
       "channel": "BCU Cinema",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "sv.max.62de7131bdc3",
@@ -5240,37 +5245,37 @@
       "id": "sv.max.0bde15fe2a1c",
       "channel": "BCU Romantic",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "sv.max.481f6861b6f5",
       "channel": "CineMan Катастрофы",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "sv.max.f8e19c23961e",
       "channel": "CineMan Комедия",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "sv.max.cf4f45075583",
       "channel": "CineMan Мелодрама",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "sv.max.12b2a6d4a0f4",
       "channel": "CineMan Сваты",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "sv.max.5e59abfb1524",
       "channel": "CineMan Ужасы",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "sv.max.eaf6bd75ba80",
@@ -5342,7 +5347,7 @@
       "id": "sv.max.becdac62bd3d",
       "channel": "BCU History",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "sv.max.77e75f8ba692",
@@ -5360,25 +5365,25 @@
       "id": "sv.max.2dc070179e7b",
       "channel": "BCU VHS",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "sv.max.c4d7610888f1",
       "channel": "BCU Сваты",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "sv.max.bca966ab4682",
       "channel": "CineMan Premium",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "sv.max.2e2d8ac66f06",
       "channel": "CineMan Thriller",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "sv.max.f1f52f3c2234",
@@ -5420,13 +5425,13 @@
       "id": "sv.max.c78902009a3a",
       "channel": "BCU Marvel",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "sv.max.77a1e37261a4",
       "channel": "BCU Russian",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "sv.max.bee6eb2d8ea0",
@@ -5438,13 +5443,13 @@
       "id": "sv.max.fa6b00e5ab08",
       "channel": "CineMan MiniSeries",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "sv.max.32cbae29e7c1",
       "channel": "CineMan Скорая Помощь",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "sv.max.bf4b64f052b6",
@@ -5486,7 +5491,7 @@
       "id": "sv.max.f660dbf62874",
       "channel": "BCU Criminal",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "sv.max.fa3eeae741a8",
@@ -5498,25 +5503,25 @@
       "id": "sv.max.6075cf3116d2",
       "channel": "BCU Reality",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "sv.max.7d691181670d",
       "channel": "BCU RuSerial",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "sv.max.57a691edadd4",
       "channel": "BCU TruMotion",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "sv.max.61d3f42f0a8f",
       "channel": "CineMan РуКино",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "sv.max.4b6d131deb6b",
@@ -5540,25 +5545,25 @@
       "id": "sv.max.7707bedd116a",
       "channel": "BCU Media",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "sv.max.748660306a6c",
       "channel": "BCU Survival",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "sv.max.5e16f531c3a4",
       "channel": "CineMan Лесник",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "sv.max.6129e8193a47",
       "channel": "CineMan Ментовские войны",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "sv.max.78cb122487ee",
@@ -5612,7 +5617,7 @@
       "id": "sv.max.21ee6a579927",
       "channel": "BCU СССР",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "sv.max.4f67c2319d57",
@@ -6554,7 +6559,7 @@
       "id": "sv.max.4efa81b79b72",
       "channel": "CineMan Фитнес",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "sv.max.0c23ad4756a3",
@@ -6614,7 +6619,7 @@
       "id": "sv.max.37071e8ca291",
       "channel": "MM Celebrity",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "sv.max.8c9509be5932",
@@ -6626,7 +6631,7 @@
       "id": "sv.max.d1fcdf189855",
       "channel": "MM Драма",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "sv.max.01d820c263e5",
@@ -6638,7 +6643,7 @@
       "id": "sv.max.23b5ee0e0d87",
       "channel": "MM Скорость",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "sv.max.40868718f040",
@@ -6806,7 +6811,7 @@
       "id": "sv.max.e356d6e5e290",
       "channel": "BCU Ultra",
       "reason": "no eligible unique stream",
-      "candidates": 2
+      "candidates": 0
     },
     {
       "id": "sv.max.4df3a9f591d3",
@@ -6914,25 +6919,25 @@
       "id": "sv.max.7ca75d91b32d",
       "channel": "MM Classic",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "sv.max.f9e226f040bd",
       "channel": "MM Love",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "sv.max.32a255177d59",
       "channel": "MM NewFilm 3",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "sv.max.77222b48bf07",
       "channel": "MM OldSchool",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "sv.max.7fcdbb3cae32",
@@ -6944,25 +6949,25 @@
       "id": "sv.max.a2c4e54f668a",
       "channel": "MM Translation",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "sv.max.b7e5566e055c",
       "channel": "MM USSR Детектив",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "sv.max.82c3c1c754ee",
       "channel": "MM USSR Драма",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "sv.max.a2d6d14a4b1c",
       "channel": "MM USSR Комедия",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "sv.max.27895184aa38",
@@ -6974,7 +6979,7 @@
       "id": "sv.max.c657a5d8cbaa",
       "channel": "MM USSR Приключения",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "sv.max.a99b357b1d77",
@@ -6986,37 +6991,37 @@
       "id": "sv.max.ef6ffdd3af92",
       "channel": "MM Агата Кристи",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "sv.max.242e07994f29",
       "channel": "MM Воронины",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "sv.max.d43e8eceed2c",
       "channel": "MM Грайндхаус",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "sv.max.e40baf878ec8",
       "channel": "MM Затмение",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "sv.max.4a9842735fb0",
       "channel": "MM История",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "sv.max.26b724900c55",
       "channel": "MM Катастрофа",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "sv.max.10e587e6a22c",
@@ -7034,7 +7039,7 @@
       "id": "sv.max.384fcc479edf",
       "channel": "MM Ужасы",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "sv.max.46059f87a23b",
@@ -7526,7 +7531,7 @@
       "id": "sv.max.6a682dbe788b",
       "channel": "MM 007",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "sv.max.4b4342b74c82",
@@ -7538,7 +7543,7 @@
       "id": "sv.max.ed909e159847",
       "channel": "MM Flip",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "sv.max.8db3bcfe0538",
@@ -7556,19 +7561,19 @@
       "id": "sv.max.7c696d9db146",
       "channel": "MM NewFilm 1",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "sv.max.41d8d33ee247",
       "channel": "MM NewFilm 2",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "sv.max.c29fdde8531d",
       "channel": "MM NewFilm RU",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "sv.max.9e14e76b102f",
@@ -7592,7 +7597,7 @@
       "id": "sv.max.5c5c10ef0937",
       "channel": "MM UFO",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "sv.max.8ed4b1ef9979",
@@ -7610,175 +7615,175 @@
       "id": "sv.max.d64c434ba451",
       "channel": "MM Боевик",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "sv.max.eb4d22588b57",
       "channel": "MM Боевик Classic",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "sv.max.8e331b35d722",
       "channel": "MM Вестерн",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "sv.max.7351441bd3b1",
       "channel": "MM Киберпанк",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "sv.max.0b87e8685e49",
       "channel": "MM Кинофестиваль",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "sv.max.2d1de70f467a",
       "channel": "MM Комедия",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "sv.max.d94b9c5017d8",
       "channel": "MM Комедия Classic",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "sv.max.9548e5d6c227",
       "channel": "MM Криминал",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "sv.max.6020a03acbdb",
       "channel": "MM Крутые 90-е",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "sv.max.dd7e6add8be6",
       "channel": "MM Кунг-Фу",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "sv.max.3fe7cdee7018",
       "channel": "MM Мифология",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "sv.max.8ea4300e58ee",
       "channel": "MM Нуар",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "sv.max.cfaaa4841e32",
       "channel": "MM Погружение",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "sv.max.ef84bc8e6211",
       "channel": "MM Полицейский с Рублевки",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "sv.max.1e0ac53b3440",
       "channel": "MM Приключения",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "sv.max.e13bba21e066",
       "channel": "MM Роскино",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "sv.max.9b8a8bea220a",
       "channel": "MM Сваты",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "sv.max.89b533eac0e9",
       "channel": "MM Семейный 1",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "sv.max.73fe4aaa5cde",
       "channel": "MM Семейный 2",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "sv.max.e56c65ae9e09",
       "channel": "MM Синематограф",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "sv.max.e85198920810",
       "channel": "MM Ситком",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "sv.max.32ade7edad58",
       "channel": "MM Ситком 2.0",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "sv.max.9551e2993a95",
       "channel": "MM Спорт",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "sv.max.fcfeb805a6ef",
       "channel": "MM Стивен Кинг",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "sv.max.54f1345925de",
       "channel": "MM Триллер",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "sv.max.bcba7d9519b8",
       "channel": "MM Ужастик",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "sv.max.a218c71bd698",
       "channel": "MM Ужасы Classic",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "sv.max.4114fb1d67b0",
       "channel": "MM Фантастика",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "sv.max.c57c18e90f80",
       "channel": "MM Фобия",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "sv.max.6c7e06c1f1b8",
@@ -7964,7 +7969,7 @@
       "id": "sv.max.3e8b2ead8967",
       "channel": "CineMan ПеС + Лихач",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "sv.max.d36930c99f53",
@@ -8042,7 +8047,7 @@
       "id": "sv.max.0551033204e7",
       "channel": "MM Квартирник",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "sv.max.0aec5760a31d",
@@ -8054,7 +8059,7 @@
       "id": "sv.max.43b7470037f5",
       "channel": "MM Супергерои",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "sv.max.52ba83690a5a",
@@ -8294,13 +8299,13 @@
       "id": "sv.max.0e2347ab44a5",
       "channel": "CineMan Комедийные Сериалы",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "sv.max.9ff5f17a7e60",
       "channel": "CineMan Криминальные Сериалы",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "sv.max.70c528e7ba0a",
@@ -10054,14 +10059,14 @@
     ],
     "completed_frozen_queue_passes": 0,
     "request_categories": {
-      "pending": 108805,
-      "monitor": 19087,
+      "pending": 107810,
+      "monitor": 19183,
       "pc_only": 499,
-      "quarantined": 104548
+      "quarantined": 105447
     },
     "minimum_spacing_hours": 2.0,
-    "requests_needing_format_review": 9072,
-    "inconclusive_attempts": 9072,
+    "requests_needing_format_review": 9077,
+    "inconclusive_attempts": 9077,
     "inconclusive_is_playback_failure": false,
     "retry_rejected_hours": 168.0,
     "weekly_rechecked_requests": 0,
