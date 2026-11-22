@@ -1,61 +1,74 @@
 {
   "version": "3.2-wide-checks",
-  "started_utc": "2026-11-22T05:31:50+00:00",
-  "checked_utc": "2026-11-22T05:47:46+00:00",
+  "started_utc": "2026-11-22T05:49:53+00:00",
+  "checked_utc": "2026-11-22T06:06:57+00:00",
   "candidate_quality": {
     "policy_version": 2,
     "enabled": true,
     "review_required_request_count": 201243,
     "identity_conflict_requests": 303,
-    "held_channels": 4,
+    "held_channels": 5,
     "held": [
       {
-        "id": "sv.max.5e16f531c3a4",
-        "channel": "CineMan Лесник",
+        "id": "sv.max.f4af432351e1",
+        "channel": "CineMan Marvel",
         "candidate_kind": "thematic_internet_unverified",
         "technical_streams_passed": 1,
         "held_streams": [
           {
-            "stream_key": "8496a19ab74fe323c845cc3cb12601f612d1e5924f32b076fc9e7517c0d2379d",
+            "stream_key": "999596554096667d3475b055bd9127ffe98ed5c8ad5fd98f99481a5fb41d0102",
             "reason": "identity_and_language_review_required",
             "technically_stable": false
           }
         ]
       },
       {
-        "id": "sv.max.4efa81b79b72",
-        "channel": "CineMan Фитнес",
+        "id": "sv.max.8f4b95deb43c",
+        "channel": "CineMan",
         "candidate_kind": "thematic_internet_unverified",
         "technical_streams_passed": 1,
         "held_streams": [
           {
-            "stream_key": "9ce7530ee897335a573a183f0e1faffa3662d8460eeba922a6773cb2e72f89a8",
+            "stream_key": "f4bc65179327c0806b5209ce7e944a1f2584ab2806337cd780baba487a10d426",
             "reason": "identity_and_language_review_required",
             "technically_stable": false
           }
         ]
       },
       {
-        "id": "sv.max.91739f133ac9",
-        "channel": "BOX Spy",
+        "id": "sv.max.57a691edadd4",
+        "channel": "BCU TruMotion",
         "candidate_kind": "thematic_internet_unverified",
         "technical_streams_passed": 1,
         "held_streams": [
           {
-            "stream_key": "863df0eb2dc1f2eb9169a611d7bf6b521f22503becfe4e459f96e3426d6334bb",
+            "stream_key": "fcc43349d6b96d9d0180ce0a17e2ed4db344d67c9f37a9e129a1192e98b955a5",
             "reason": "identity_and_language_review_required",
             "technically_stable": false
           }
         ]
       },
       {
-        "id": "sv.max.3e8b2ead8967",
-        "channel": "CineMan ПеС + Лихач",
+        "id": "sv.max.0835620875f5",
+        "channel": "BCU Premiere 1",
         "candidate_kind": "thematic_internet_unverified",
         "technical_streams_passed": 1,
         "held_streams": [
           {
-            "stream_key": "a7fcf9bac41f7b2ce973527f615d92987bd3a3f2bc2c0b2aca7520dfeb01c835",
+            "stream_key": "fb5155e9a8680577ded30a046815040df99649b3003473e1cd70ddf75606d0c8",
+            "reason": "identity_and_language_review_required",
+            "technically_stable": false
+          }
+        ]
+      },
+      {
+        "id": "sv.max.4df3a9f591d3",
+        "channel": "BOX Anime",
+        "candidate_kind": "thematic_internet_unverified",
+        "technical_streams_passed": 1,
+        "held_streams": [
+          {
+            "stream_key": "f650f00fa8cadd18a3ee6353af5ff6b9d8207f7bd9945a4a71547718ca2cc1cf",
             "reason": "identity_and_language_review_required",
             "technically_stable": false
           }
@@ -68,7 +81,7 @@
   "visual_criteria": "1ea12fcdda22709c1a60328e4399a5214d5d7ddf774c261f78f9468c4b77ef16",
   "retained_playlist_placeholders_removed": 0,
   "known_placeholder_streams": 0,
-  "visually_checked_streams": 97,
+  "visually_checked_streams": 99,
   "check_environment": "ru-vps",
   "catalog_channels": 1616,
   "base_catalog_channels": 2381,
@@ -98,13 +111,13 @@
   "publication_reason": "partial campaign batch; previous playlist retained",
   "minimum_channels": 100,
   "candidate_streams_tested": 1000,
-  "streams_passed": 97,
-  "inconclusive_requests_this_batch": 1,
-  "scheduled_requests_before_batch": 52414,
+  "streams_passed": 99,
+  "inconclusive_requests_this_batch": 2,
+  "scheduled_requests_before_batch": 51437,
   "partial_campaign_batch": true,
-  "unique_channels_passed": 8,
+  "unique_channels_passed": 11,
   "stable_channels": 0,
-  "probation_channels": 8,
+  "probation_channels": 11,
   "last_published_count": 471,
   "last_published_utc": "2026-11-17T11:05:08+00:00",
   "source_reports": [
@@ -242,61 +255,74 @@
     "excluded_canonical_identity": 23
   },
   "failure_reasons": {
-    "HTTP 400": 186,
-    "HTTP 401": 46,
-    "network timeout or unavailable": 277,
-    "HTTP 404": 162,
-    "HTTP 403": 78,
-    "Remote end closed connection without response": 55,
-    "HTTP 412": 10,
-    "missing video or audio": 8,
-    "'ascii' codec can't encode characters in position 49-51: ordinal not in range(128)": 1,
-    "decode errors: Error submitting packet to decoder: Invalid data found when processing input": 1,
-    "'ascii' codec can't encode characters in position 64-66: ordinal not in range(128)": 1,
-    "decode errors: Last message repeated 1 times": 4,
-    "'ascii' codec can't encode characters in position 29-31: ordinal not in range(128)": 3,
-    "HTTP 410": 8,
-    "'ascii' codec can't encode characters in position 32-34: ordinal not in range(128)": 2,
-    "HTTP 503": 2,
-    "'ascii' codec can't encode characters in position 35-37: ordinal not in range(128)": 2,
-    "decode errors: no frame!": 5,
-    "ended stream / VOD": 13,
-    "'ascii' codec can't encode characters in position 19-21: ordinal not in range(128)": 2,
-    "'ascii' codec can't encode characters in position 87-89: ordinal not in range(128)": 2,
-    "sample probe failed": 2,
-    "'ascii' codec can't encode characters in position 17-20: ordinal not in range(128)": 1,
-    "'ascii' codec can't encode characters in position 75-77: ordinal not in range(128)": 1,
-    "incomplete video/audio decode": 2,
-    "'ascii' codec can't encode characters in position 86-88: ordinal not in range(128)": 1,
-    "decode errors: Missing reference picture, default is 65544": 1,
-    "ICY 200 OK\r\n": 1,
-    "HTTP 414": 11,
-    "URL can't contain control characters. '/hls/CH_TNT4_7/variant.m3u8|User-Agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:117.0; ru-RU) Gecko/20100101 Firefox/": 1,
-    "'ascii' codec can't encode characters in position 691-698: ordinal not in range(128)": 1,
-    "URL can't contain control characters. '/zabava-htlive.cdn.ngenix.net/hls/CH_RUSSIA24/variant.m3u8<br />' (found at least ' ')": 1,
-    "decode errors: non-existing SPS 0 referenced in buffering period": 11,
-    "continuous sample decode incomplete; format review required": 1
+    "HTTP 400": 189,
+    "HTTP 401": 47,
+    "HTTP 404": 165,
+    "HTTP 403": 79,
+    "network timeout or unavailable": 305,
+    "Remote end closed connection without response": 5,
+    "HTTP 414": 9,
+    "HTTP 412": 13,
+    "'ascii' codec can't encode characters in position 5-7: ordinal not in range(128)": 1,
+    "ended stream / VOD": 21,
+    "HTTP 504": 1,
+    "missing video or audio": 5,
+    "URL can't contain control characters. '/th_style/playlist.m3u8|User-Agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:117.0; ru-RU) Gecko/20100101 Firefox/117.": 1,
+    "HTTP 503": 3,
+    "sample probe failed": 5,
+    "decode errors: no frame!": 4,
+    "'ascii' codec can't encode characters in position 272-274: ordinal not in range(128)": 1,
+    "'ascii' codec can't encode characters in position 40-42: ordinal not in range(128)": 1,
+    "[Errno 104] Connection reset by peer": 3,
+    "'ascii' codec can't encode characters in position 24-26: ordinal not in range(128)": 1,
+    "decode errors: Missing reference picture, default is 65668": 1,
+    "format requires a separate adapter or access review": 2,
+    "HTTP 410": 7,
+    "insufficient live sample": 1,
+    "HTTP 444": 3,
+    "decode errors: mmco: unref short failure": 1,
+    "'ascii' codec can't encode characters in position 35-37: ordinal not in range(128)": 1,
+    "'ascii' codec can't encode characters in position 87-89: ordinal not in range(128)": 1,
+    "HTTP 500": 1,
+    "'ascii' codec can't encode characters in position 661-668: ordinal not in range(128)": 1,
+    "decode errors: non-existing SPS 0 referenced in buffering period": 4,
+    "decode errors: Last message repeated 1 times": 2,
+    "HTTP 419": 1,
+    "'ascii' codec can't encode characters in position 29-31: ordinal not in range(128)": 2,
+    "'ascii' codec can't encode characters in position 249-251: ordinal not in range(128)": 1,
+    "live manifest did not advance": 2,
+    "'ascii' codec can't encode characters in position 120-122: ordinal not in range(128)": 1,
+    "no media segments": 1,
+    "'ascii' codec can't encode characters in position 25-27: ordinal not in range(128)": 1,
+    "media download slower than playback": 1,
+    "'ascii' codec can't encode character '\\u2122' in position 64: ordinal not in range(128)": 1,
+    "could not convert string to float: '-1 tvg-id=\"\" tvg-logo=\"https://i.imgur.com/viR1wZh.png\" tvg-country=\"FR\"'": 1,
+    "'ascii' codec can't encode characters in position 34-36: ordinal not in range(128)": 1,
+    "URL can't contain control characters. '/cdnmg.secure.live.rtr-vesti.ru/live/smil:r24.smil/chunklist_b1200000.m3u8<br />' (found at least ' ')": 1,
+    "'ascii' codec can't encode characters in position 656-663: ordinal not in range(128)": 1,
+    "'ascii' codec can't encode characters in position 677-684: ordinal not in range(128)": 1,
+    "'ascii' codec can't encode characters in position 851-858: ordinal not in range(128)": 1
   },
   "selected": [
     {
-      "id": "vijuTV1000russkoe.ru",
-      "channel": "viju TV1000 русское",
+      "id": "vijuTV1000.ru",
+      "channel": "viju TV1000",
       "group": "Кино и сериалы",
-      "url": "https://live.uspeh.my/8050/video.m3u8?token=EHFHvNjTwqcqsiKN",
-      "source_url": "https://live.uspeh.my/8050/video.m3u8?token=EHFHvNjTwqcqsiKN",
+      "url": "https://live.uspeh.my/8048/video.m3u8?token=EHFHvNjTwqcqsiKN",
+      "source_url": "https://live.uspeh.my/8048/video.m3u8?token=EHFHvNjTwqcqsiKN",
       "ok_last_check": true,
       "rating": "probation",
       "success_rate": 1.0,
       "samples": 2,
-      "observation_hours": 2.37,
+      "observation_hours": 2.41,
       "test": {
         "ok": true,
         "reason": "decoded live samples; manifest advancing; sampled frames checked",
         "pixels": 2073600,
         "played_seconds": 17.96,
-        "elapsed": 14.14,
-        "download_seconds": 2.67,
-        "media_url": "https://live.uspeh.my/8050/tracks-v1a1a2/mono.m3u8?token=EHFHvNjTwqcqsiKN",
+        "elapsed": 15.4,
+        "download_seconds": 2.73,
+        "media_url": "https://live.uspeh.my/8048/tracks-v1a1a2/mono.m3u8?token=EHFHvNjTwqcqsiKN",
         "audio_url": null,
         "advanced": true,
         "visual_criteria": "1ea12fcdda22709c1a60328e4399a5214d5d7ddf774c261f78f9468c4b77ef16",
@@ -307,308 +333,152 @@
             {
               "state": "no_known_placeholder",
               "sample_time_seconds": 2,
-              "frame": "review-frames/9021b68475a9f38f1a3b6465ad526f56c98edba538d889d47b0026408d686dd9-01.jpg"
+              "frame": "review-frames/f22f06ccec4572600774b0e34d3fd0c41b699b30b60211980c6aa3bc51da333e-01.jpg"
             },
             {
               "state": "no_known_placeholder",
-              "sample_time_seconds": 10.968,
-              "frame": "review-frames/9021b68475a9f38f1a3b6465ad526f56c98edba538d889d47b0026408d686dd9-02.jpg"
+              "sample_time_seconds": 10.989,
+              "frame": "review-frames/f22f06ccec4572600774b0e34d3fd0c41b699b30b60211980c6aa3bc51da333e-02.jpg"
             },
             {
               "state": "no_known_placeholder",
-              "sample_time_seconds": 1.998,
-              "frame": "review-frames/9021b68475a9f38f1a3b6465ad526f56c98edba538d889d47b0026408d686dd9-03.jpg"
+              "sample_time_seconds": 1.991,
+              "frame": "review-frames/f22f06ccec4572600774b0e34d3fd0c41b699b30b60211980c6aa3bc51da333e-03.jpg"
             },
             {
               "state": "no_known_placeholder",
-              "sample_time_seconds": 4.995,
-              "frame": "review-frames/9021b68475a9f38f1a3b6465ad526f56c98edba538d889d47b0026408d686dd9-04.jpg"
+              "sample_time_seconds": 4.973,
+              "frame": "review-frames/f22f06ccec4572600774b0e34d3fd0c41b699b30b60211980c6aa3bc51da333e-04.jpg"
             }
           ]
         },
-        "checked_utc": "2026-11-22T05:41:38+00:00"
+        "checked_utc": "2026-11-22T05:58:07+00:00"
       },
       "alternatives_passed": 0
     },
     {
-      "id": "Nashemuzhskoe.ru",
-      "channel": "Наше мужское",
+      "id": "vijuPlusMegahit.ru",
+      "channel": "viju+ Megahit",
       "group": "Кино и сериалы",
-      "url": "https://live.uspeh.my/8740/video.m3u8?token=EHFHvNjTwqcqsiKN",
-      "source_url": "https://live.uspeh.my/8740/video.m3u8?token=EHFHvNjTwqcqsiKN",
+      "url": "https://live.uspeh.my/8109/video.m3u8?token=EHFHvNjTwqcqsiKN",
+      "source_url": "https://live.uspeh.my/8109/video.m3u8?token=EHFHvNjTwqcqsiKN",
+      "ok_last_check": true,
+      "rating": "probation",
+      "success_rate": 1.0,
+      "samples": 2,
+      "observation_hours": 2.41,
+      "test": {
+        "ok": true,
+        "reason": "decoded live samples; manifest advancing; sampled frames checked",
+        "pixels": 2073600,
+        "played_seconds": 17.96,
+        "elapsed": 15.23,
+        "download_seconds": 2.53,
+        "media_url": "https://live.uspeh.my/8109/tracks-v1a1a2/mono.m3u8?token=EHFHvNjTwqcqsiKN",
+        "audio_url": null,
+        "advanced": true,
+        "visual_criteria": "1ea12fcdda22709c1a60328e4399a5214d5d7ddf774c261f78f9468c4b77ef16",
+        "frame_inspection": {
+          "state": "no_known_placeholder",
+          "frames_checked": 4,
+          "frames": [
+            {
+              "state": "no_known_placeholder",
+              "sample_time_seconds": 2,
+              "frame": "review-frames/f25685936cfdf308da018765bd4902778d6d6d3a543c9e3cfe9973473898e40a-01.jpg"
+            },
+            {
+              "state": "no_known_placeholder",
+              "sample_time_seconds": 10.989,
+              "frame": "review-frames/f25685936cfdf308da018765bd4902778d6d6d3a543c9e3cfe9973473898e40a-02.jpg"
+            },
+            {
+              "state": "no_known_placeholder",
+              "sample_time_seconds": 1.991,
+              "frame": "review-frames/f25685936cfdf308da018765bd4902778d6d6d3a543c9e3cfe9973473898e40a-03.jpg"
+            },
+            {
+              "state": "no_known_placeholder",
+              "sample_time_seconds": 4.973,
+              "frame": "review-frames/f25685936cfdf308da018765bd4902778d6d6d3a543c9e3cfe9973473898e40a-04.jpg"
+            }
+          ]
+        },
+        "checked_utc": "2026-11-22T05:58:22+00:00"
+      },
+      "alternatives_passed": 0
+    },
+    {
+      "id": "Dorama.ru",
+      "channel": "Дорама",
+      "group": "Кино и сериалы",
+      "url": "https://live.uspeh.my/8937/video.m3u8?token=EHFHvNjTwqcqsiKN",
+      "source_url": "https://live.uspeh.my/8937/video.m3u8?token=EHFHvNjTwqcqsiKN",
+      "ok_last_check": true,
+      "rating": "probation",
+      "success_rate": 1.0,
+      "samples": 2,
+      "observation_hours": 2.41,
+      "test": {
+        "ok": true,
+        "reason": "decoded live samples; manifest advancing; sampled frames checked",
+        "pixels": 2073600,
+        "played_seconds": 17.96,
+        "elapsed": 22.4,
+        "download_seconds": 2.46,
+        "media_url": "https://live.uspeh.my/8937/tracks-v1a1a2/mono.m3u8?token=EHFHvNjTwqcqsiKN",
+        "audio_url": null,
+        "advanced": true,
+        "visual_criteria": "1ea12fcdda22709c1a60328e4399a5214d5d7ddf774c261f78f9468c4b77ef16",
+        "frame_inspection": {
+          "state": "no_known_placeholder",
+          "frames_checked": 4,
+          "frames": [
+            {
+              "state": "no_known_placeholder",
+              "sample_time_seconds": 2,
+              "frame": "review-frames/f9f1df1d30cece9f63f2d35f98264c33195cffd21dca8fa53debba9863113bea-01.jpg"
+            },
+            {
+              "state": "no_known_placeholder",
+              "sample_time_seconds": 10.989,
+              "frame": "review-frames/f9f1df1d30cece9f63f2d35f98264c33195cffd21dca8fa53debba9863113bea-02.jpg"
+            },
+            {
+              "state": "no_known_placeholder",
+              "sample_time_seconds": 1.991,
+              "frame": "review-frames/f9f1df1d30cece9f63f2d35f98264c33195cffd21dca8fa53debba9863113bea-03.jpg"
+            },
+            {
+              "state": "no_known_placeholder",
+              "sample_time_seconds": 4.973,
+              "frame": "review-frames/f9f1df1d30cece9f63f2d35f98264c33195cffd21dca8fa53debba9863113bea-04.jpg"
+            }
+          ]
+        },
+        "checked_utc": "2026-11-22T05:59:56+00:00"
+      },
+      "alternatives_passed": 0
+    },
+    {
+      "id": "IndiyskoyeKino.ru",
+      "channel": "Индийское кино",
+      "group": "Кино и сериалы",
+      "url": "https://live.uspeh.my/8038/video.m3u8?token=EHFHvNjTwqcqsiKN",
+      "source_url": "https://live.uspeh.my/8038/video.m3u8?token=EHFHvNjTwqcqsiKN",
       "ok_last_check": true,
       "rating": "probation",
       "success_rate": 0.5,
       "samples": 2,
-      "observation_hours": 2.37,
-      "test": {
-        "ok": true,
-        "reason": "decoded live samples; manifest advancing; sampled frames checked",
-        "pixels": 2073600,
-        "played_seconds": 17.94,
-        "elapsed": 15.44,
-        "download_seconds": 2.66,
-        "media_url": "https://live.uspeh.my/8740/tracks-v1a1a2/mono.m3u8?token=EHFHvNjTwqcqsiKN",
-        "audio_url": null,
-        "advanced": true,
-        "visual_criteria": "1ea12fcdda22709c1a60328e4399a5214d5d7ddf774c261f78f9468c4b77ef16",
-        "frame_inspection": {
-          "state": "no_known_placeholder",
-          "frames_checked": 4,
-          "frames": [
-            {
-              "state": "no_known_placeholder",
-              "sample_time_seconds": 2,
-              "frame": "review-frames/a6b354ecc5cf4651442a50f19b0b7c94fac3556aa8dc336ad433058c666c0d70-01.jpg"
-            },
-            {
-              "state": "no_known_placeholder",
-              "sample_time_seconds": 10.968,
-              "frame": "review-frames/a6b354ecc5cf4651442a50f19b0b7c94fac3556aa8dc336ad433058c666c0d70-02.jpg"
-            },
-            {
-              "state": "no_known_placeholder",
-              "sample_time_seconds": 1.991,
-              "frame": "review-frames/a6b354ecc5cf4651442a50f19b0b7c94fac3556aa8dc336ad433058c666c0d70-03.jpg"
-            },
-            {
-              "state": "no_known_placeholder",
-              "sample_time_seconds": 4.973,
-              "frame": "review-frames/a6b354ecc5cf4651442a50f19b0b7c94fac3556aa8dc336ad433058c666c0d70-04.jpg"
-            }
-          ]
-        },
-        "checked_utc": "2026-11-22T05:45:15+00:00"
-      },
-      "alternatives_passed": 0
-    },
-    {
-      "id": "Premialnoe.ru",
-      "channel": "Премиальное",
-      "group": "Кино и сериалы",
-      "url": "https://live.uspeh.my/8028/video.m3u8?token=EHFHvNjTwqcqsiKN",
-      "source_url": "https://live.uspeh.my/8028/video.m3u8?token=EHFHvNjTwqcqsiKN",
-      "ok_last_check": true,
-      "rating": "probation",
-      "success_rate": 1.0,
-      "samples": 2,
-      "observation_hours": 2.36,
-      "test": {
-        "ok": true,
-        "reason": "decoded live samples; manifest advancing; sampled frames checked",
-        "pixels": 2073600,
-        "played_seconds": 17.96,
-        "elapsed": 16.52,
-        "download_seconds": 2.39,
-        "media_url": "https://live.uspeh.my/8028/tracks-v1a1a2/mono.m3u8?token=EHFHvNjTwqcqsiKN",
-        "audio_url": null,
-        "advanced": true,
-        "visual_criteria": "1ea12fcdda22709c1a60328e4399a5214d5d7ddf774c261f78f9468c4b77ef16",
-        "frame_inspection": {
-          "state": "no_known_placeholder",
-          "frames_checked": 4,
-          "frames": [
-            {
-              "state": "no_known_placeholder",
-              "sample_time_seconds": 2,
-              "frame": "review-frames/90552e5de8bfb59268e30b6b785b958234ac8c24f8cf059ff0c311e4e696c037-01.jpg"
-            },
-            {
-              "state": "no_known_placeholder",
-              "sample_time_seconds": 10.968,
-              "frame": "review-frames/90552e5de8bfb59268e30b6b785b958234ac8c24f8cf059ff0c311e4e696c037-02.jpg"
-            },
-            {
-              "state": "no_known_placeholder",
-              "sample_time_seconds": 1.998,
-              "frame": "review-frames/90552e5de8bfb59268e30b6b785b958234ac8c24f8cf059ff0c311e4e696c037-03.jpg"
-            },
-            {
-              "state": "no_known_placeholder",
-              "sample_time_seconds": 4.995,
-              "frame": "review-frames/90552e5de8bfb59268e30b6b785b958234ac8c24f8cf059ff0c311e4e696c037-04.jpg"
-            }
-          ]
-        },
-        "checked_utc": "2026-11-22T05:42:04+00:00"
-      },
-      "alternatives_passed": 0
-    },
-    {
-      "id": "Shokiruyushchee.ru",
-      "channel": "Шокирующее",
-      "group": "Кино и сериалы",
-      "url": "https://live.uspeh.my/8322/video.m3u8?token=EHFHvNjTwqcqsiKN",
-      "source_url": "https://live.uspeh.my/8322/video.m3u8?token=EHFHvNjTwqcqsiKN",
-      "ok_last_check": true,
-      "rating": "probation",
-      "success_rate": 1.0,
-      "samples": 2,
-      "observation_hours": 2.36,
-      "test": {
-        "ok": true,
-        "reason": "decoded live samples; manifest advancing; sampled frames checked",
-        "pixels": 2073600,
-        "played_seconds": 17.98,
-        "elapsed": 22.2,
-        "download_seconds": 2.52,
-        "media_url": "https://live.uspeh.my/8322/tracks-v1a1/mono.m3u8?token=EHFHvNjTwqcqsiKN",
-        "audio_url": null,
-        "advanced": true,
-        "visual_criteria": "1ea12fcdda22709c1a60328e4399a5214d5d7ddf774c261f78f9468c4b77ef16",
-        "frame_inspection": {
-          "state": "no_known_placeholder",
-          "frames_checked": 4,
-          "frames": [
-            {
-              "state": "no_known_placeholder",
-              "sample_time_seconds": 2,
-              "frame": "review-frames/8a3cb05c6bfd580ba010cc87bc9e13badac505d9025a3f437819343723adafdc-01.jpg"
-            },
-            {
-              "state": "no_known_placeholder",
-              "sample_time_seconds": 10.989,
-              "frame": "review-frames/8a3cb05c6bfd580ba010cc87bc9e13badac505d9025a3f437819343723adafdc-02.jpg"
-            },
-            {
-              "state": "no_known_placeholder",
-              "sample_time_seconds": 1.998,
-              "frame": "review-frames/8a3cb05c6bfd580ba010cc87bc9e13badac505d9025a3f437819343723adafdc-03.jpg"
-            },
-            {
-              "state": "no_known_placeholder",
-              "sample_time_seconds": 4.995,
-              "frame": "review-frames/8a3cb05c6bfd580ba010cc87bc9e13badac505d9025a3f437819343723adafdc-04.jpg"
-            }
-          ]
-        },
-        "checked_utc": "2026-11-22T05:40:41+00:00"
-      },
-      "alternatives_passed": 0
-    },
-    {
-      "id": "red.ru",
-      "channel": ".red",
-      "group": "Кино и сериалы",
-      "url": "https://live.uspeh.my/8929/video.m3u8?token=EHFHvNjTwqcqsiKN",
-      "source_url": "https://live.uspeh.my/8929/video.m3u8?token=EHFHvNjTwqcqsiKN",
-      "ok_last_check": true,
-      "rating": "probation",
-      "success_rate": 1.0,
-      "samples": 2,
-      "observation_hours": 2.36,
-      "test": {
-        "ok": true,
-        "reason": "decoded live samples; manifest advancing; sampled frames checked",
-        "pixels": 2073600,
-        "played_seconds": 17.96,
-        "elapsed": 21.9,
-        "download_seconds": 2.64,
-        "media_url": "https://live.uspeh.my/8929/tracks-v1a1a2/mono.m3u8?token=EHFHvNjTwqcqsiKN",
-        "audio_url": null,
-        "advanced": true,
-        "visual_criteria": "1ea12fcdda22709c1a60328e4399a5214d5d7ddf774c261f78f9468c4b77ef16",
-        "frame_inspection": {
-          "state": "no_known_placeholder",
-          "frames_checked": 4,
-          "frames": [
-            {
-              "state": "no_known_placeholder",
-              "sample_time_seconds": 2,
-              "frame": "review-frames/908856ff334f7e3ff8928abf293b93172cfaa91d6134783dcd71bc95cb35dcc7-01.jpg"
-            },
-            {
-              "state": "no_known_placeholder",
-              "sample_time_seconds": 10.989,
-              "frame": "review-frames/908856ff334f7e3ff8928abf293b93172cfaa91d6134783dcd71bc95cb35dcc7-02.jpg"
-            },
-            {
-              "state": "no_known_placeholder",
-              "sample_time_seconds": 1.991,
-              "frame": "review-frames/908856ff334f7e3ff8928abf293b93172cfaa91d6134783dcd71bc95cb35dcc7-03.jpg"
-            },
-            {
-              "state": "no_known_placeholder",
-              "sample_time_seconds": 4.973,
-              "frame": "review-frames/908856ff334f7e3ff8928abf293b93172cfaa91d6134783dcd71bc95cb35dcc7-04.jpg"
-            }
-          ]
-        },
-        "checked_utc": "2026-11-22T05:42:26+00:00"
-      },
-      "alternatives_passed": 0
-    },
-    {
-      "id": "STARTAir.ru",
-      "channel": "START Air",
-      "group": "Кино и сериалы",
-      "url": "https://live.uspeh.my/8398/video.m3u8?token=EHFHvNjTwqcqsiKN",
-      "source_url": "https://live.uspeh.my/8398/video.m3u8?token=EHFHvNjTwqcqsiKN",
-      "ok_last_check": true,
-      "rating": "probation",
-      "success_rate": 1.0,
-      "samples": 2,
-      "observation_hours": 2.36,
-      "test": {
-        "ok": true,
-        "reason": "decoded live samples; manifest advancing; sampled frames checked",
-        "pixels": 2073600,
-        "played_seconds": 17.94,
-        "elapsed": 14.42,
-        "download_seconds": 2.63,
-        "media_url": "https://live.uspeh.my/8398/tracks-v1a1/mono.m3u8?token=EHFHvNjTwqcqsiKN",
-        "audio_url": null,
-        "advanced": true,
-        "visual_criteria": "1ea12fcdda22709c1a60328e4399a5214d5d7ddf774c261f78f9468c4b77ef16",
-        "frame_inspection": {
-          "state": "no_known_placeholder",
-          "frames_checked": 4,
-          "frames": [
-            {
-              "state": "no_known_placeholder",
-              "sample_time_seconds": 2,
-              "frame": "review-frames/85d922ab453d4a502bb9693f6590d75a08f9d31d7495b6a37b53ae76fc03c22c-01.jpg"
-            },
-            {
-              "state": "no_known_placeholder",
-              "sample_time_seconds": 10.968,
-              "frame": "review-frames/85d922ab453d4a502bb9693f6590d75a08f9d31d7495b6a37b53ae76fc03c22c-02.jpg"
-            },
-            {
-              "state": "no_known_placeholder",
-              "sample_time_seconds": 1.991,
-              "frame": "review-frames/85d922ab453d4a502bb9693f6590d75a08f9d31d7495b6a37b53ae76fc03c22c-03.jpg"
-            },
-            {
-              "state": "no_known_placeholder",
-              "sample_time_seconds": 4.973,
-              "frame": "review-frames/85d922ab453d4a502bb9693f6590d75a08f9d31d7495b6a37b53ae76fc03c22c-04.jpg"
-            }
-          ]
-        },
-        "checked_utc": "2026-11-22T05:39:39+00:00"
-      },
-      "alternatives_passed": 0
-    },
-    {
-      "id": "FeniksplusKino.ru",
-      "channel": "Феникс плюс кино",
-      "group": "Кино и сериалы",
-      "url": "https://live.uspeh.my/8412/video.m3u8?token=EHFHvNjTwqcqsiKN",
-      "source_url": "https://live.uspeh.my/8412/video.m3u8?token=EHFHvNjTwqcqsiKN",
-      "ok_last_check": true,
-      "rating": "probation",
-      "success_rate": 1.0,
-      "samples": 2,
-      "observation_hours": 2.36,
+      "observation_hours": 2.41,
       "test": {
         "ok": true,
         "reason": "decoded live samples; manifest advancing; sampled frames checked",
         "pixels": 414720,
         "played_seconds": 17.96,
-        "elapsed": 10.89,
-        "download_seconds": 2.31,
-        "media_url": "https://live.uspeh.my/8412/tracks-v1a1/mono.m3u8?token=EHFHvNjTwqcqsiKN",
+        "elapsed": 11.35,
+        "download_seconds": 2.44,
+        "media_url": "https://live.uspeh.my/8038/tracks-v1a1/mono.m3u8?token=EHFHvNjTwqcqsiKN",
         "audio_url": null,
         "advanced": true,
         "visual_criteria": "1ea12fcdda22709c1a60328e4399a5214d5d7ddf774c261f78f9468c4b77ef16",
@@ -619,48 +489,48 @@
             {
               "state": "no_known_placeholder",
               "sample_time_seconds": 2,
-              "frame": "review-frames/8c2f4d89b0f8a7f8a7585f4e6d0de659ee88f08794bb7a03e7c7c171823caf21-01.jpg"
+              "frame": "review-frames/f74364b13bcfe61127a84129cdb09edb0497a7a03cccc0be804b5b4cbba1707f-01.jpg"
             },
             {
               "state": "no_known_placeholder",
-              "sample_time_seconds": 10.989,
-              "frame": "review-frames/8c2f4d89b0f8a7f8a7585f4e6d0de659ee88f08794bb7a03e7c7c171823caf21-02.jpg"
+              "sample_time_seconds": 10.983,
+              "frame": "review-frames/f74364b13bcfe61127a84129cdb09edb0497a7a03cccc0be804b5b4cbba1707f-02.jpg"
             },
             {
               "state": "no_known_placeholder",
-              "sample_time_seconds": 1.991,
-              "frame": "review-frames/8c2f4d89b0f8a7f8a7585f4e6d0de659ee88f08794bb7a03e7c7c171823caf21-03.jpg"
+              "sample_time_seconds": 1.994,
+              "frame": "review-frames/f74364b13bcfe61127a84129cdb09edb0497a7a03cccc0be804b5b4cbba1707f-03.jpg"
             },
             {
               "state": "no_known_placeholder",
-              "sample_time_seconds": 4.973,
-              "frame": "review-frames/8c2f4d89b0f8a7f8a7585f4e6d0de659ee88f08794bb7a03e7c7c171823caf21-04.jpg"
+              "sample_time_seconds": 4.983,
+              "frame": "review-frames/f74364b13bcfe61127a84129cdb09edb0497a7a03cccc0be804b5b4cbba1707f-04.jpg"
             }
           ]
         },
-        "checked_utc": "2026-11-22T05:41:06+00:00"
+        "checked_utc": "2026-11-22T05:59:33+00:00"
       },
       "alternatives_passed": 0
     },
     {
-      "id": "Sumiko.ru",
-      "channel": "Sumiko",
-      "group": "Детские",
-      "url": "https://live.uspeh.my/8968/video.m3u8?token=EHFHvNjTwqcqsiKN",
-      "source_url": "https://live.uspeh.my/8968/video.m3u8?token=EHFHvNjTwqcqsiKN",
+      "id": "KinoHit.ru",
+      "channel": "Кинохит",
+      "group": "Кино и сериалы",
+      "url": "https://live.uspeh.my/8039/video.m3u8?token=EHFHvNjTwqcqsiKN",
+      "source_url": "https://live.uspeh.my/8039/video.m3u8?token=EHFHvNjTwqcqsiKN",
       "ok_last_check": true,
       "rating": "probation",
       "success_rate": 1.0,
       "samples": 2,
-      "observation_hours": 2.37,
+      "observation_hours": 2.4,
       "test": {
         "ok": true,
         "reason": "decoded live samples; manifest advancing; sampled frames checked",
         "pixels": 2073600,
         "played_seconds": 17.96,
-        "elapsed": 19.2,
-        "download_seconds": 2.29,
-        "media_url": "https://live.uspeh.my/8968/tracks-v1a1/mono.m3u8?token=EHFHvNjTwqcqsiKN",
+        "elapsed": 14.73,
+        "download_seconds": 2.51,
+        "media_url": "https://live.uspeh.my/8039/tracks-v1a1a2/mono.m3u8?token=EHFHvNjTwqcqsiKN",
         "audio_url": null,
         "advanced": true,
         "visual_criteria": "1ea12fcdda22709c1a60328e4399a5214d5d7ddf774c261f78f9468c4b77ef16",
@@ -671,26 +541,338 @@
             {
               "state": "no_known_placeholder",
               "sample_time_seconds": 2,
-              "frame": "review-frames/a05ea466f5707d58bccb2f826a200b734cb2b30afc113794b881e7b044d82834-01.jpg"
+              "frame": "review-frames/ee71db3477e423d31081786e84e1d9a8412b312f9f7a91bf45e41b831bda04ae-01.jpg"
             },
             {
               "state": "no_known_placeholder",
               "sample_time_seconds": 10.968,
-              "frame": "review-frames/a05ea466f5707d58bccb2f826a200b734cb2b30afc113794b881e7b044d82834-02.jpg"
+              "frame": "review-frames/ee71db3477e423d31081786e84e1d9a8412b312f9f7a91bf45e41b831bda04ae-02.jpg"
             },
             {
               "state": "no_known_placeholder",
               "sample_time_seconds": 1.998,
-              "frame": "review-frames/a05ea466f5707d58bccb2f826a200b734cb2b30afc113794b881e7b044d82834-03.jpg"
+              "frame": "review-frames/ee71db3477e423d31081786e84e1d9a8412b312f9f7a91bf45e41b831bda04ae-03.jpg"
             },
             {
               "state": "no_known_placeholder",
               "sample_time_seconds": 4.995,
-              "frame": "review-frames/a05ea466f5707d58bccb2f826a200b734cb2b30afc113794b881e7b044d82834-04.jpg"
+              "frame": "review-frames/ee71db3477e423d31081786e84e1d9a8412b312f9f7a91bf45e41b831bda04ae-04.jpg"
             }
           ]
         },
-        "checked_utc": "2026-11-22T05:44:52+00:00"
+        "checked_utc": "2026-11-22T05:56:36+00:00"
+      },
+      "alternatives_passed": 0
+    },
+    {
+      "id": "Russkiyroman.ru",
+      "channel": "Русский роман",
+      "group": "Кино и сериалы",
+      "url": "https://live.uspeh.my/8010/video.m3u8?token=EHFHvNjTwqcqsiKN",
+      "source_url": "https://live.uspeh.my/8010/video.m3u8?token=EHFHvNjTwqcqsiKN",
+      "ok_last_check": true,
+      "rating": "probation",
+      "success_rate": 1.0,
+      "samples": 2,
+      "observation_hours": 2.41,
+      "test": {
+        "ok": true,
+        "reason": "decoded live samples; manifest advancing; sampled frames checked",
+        "pixels": 2073600,
+        "played_seconds": 17.94,
+        "elapsed": 15.97,
+        "download_seconds": 2.54,
+        "media_url": "https://live.uspeh.my/8010/tracks-v1a1/mono.m3u8?token=EHFHvNjTwqcqsiKN",
+        "audio_url": null,
+        "advanced": true,
+        "visual_criteria": "1ea12fcdda22709c1a60328e4399a5214d5d7ddf774c261f78f9468c4b77ef16",
+        "frame_inspection": {
+          "state": "no_known_placeholder",
+          "frames_checked": 4,
+          "frames": [
+            {
+              "state": "no_known_placeholder",
+              "sample_time_seconds": 2,
+              "frame": "review-frames/f16b68ddbac7461a32abc44b7539515614b6255f67bfdf19f190539ea6381f51-01.jpg"
+            },
+            {
+              "state": "no_known_placeholder",
+              "sample_time_seconds": 10.968,
+              "frame": "review-frames/f16b68ddbac7461a32abc44b7539515614b6255f67bfdf19f190539ea6381f51-02.jpg"
+            },
+            {
+              "state": "no_known_placeholder",
+              "sample_time_seconds": 1.991,
+              "frame": "review-frames/f16b68ddbac7461a32abc44b7539515614b6255f67bfdf19f190539ea6381f51-03.jpg"
+            },
+            {
+              "state": "no_known_placeholder",
+              "sample_time_seconds": 4.973,
+              "frame": "review-frames/f16b68ddbac7461a32abc44b7539515614b6255f67bfdf19f190539ea6381f51-04.jpg"
+            }
+          ]
+        },
+        "checked_utc": "2026-11-22T05:57:29+00:00"
+      },
+      "alternatives_passed": 0
+    },
+    {
+      "id": "vijuPlusSerial.ru",
+      "channel": "viju+ Serial",
+      "group": "Кино и сериалы",
+      "url": "https://live.uspeh.my/9222/video.m3u8?token=EHFHvNjTwqcqsiKN",
+      "source_url": "https://live.uspeh.my/9222/video.m3u8?token=EHFHvNjTwqcqsiKN",
+      "ok_last_check": true,
+      "rating": "probation",
+      "success_rate": 1.0,
+      "samples": 2,
+      "observation_hours": 2.41,
+      "test": {
+        "ok": true,
+        "reason": "decoded live samples; manifest advancing; sampled frames checked",
+        "pixels": 2073600,
+        "played_seconds": 17.93,
+        "elapsed": 22.13,
+        "download_seconds": 2.76,
+        "media_url": "https://live.uspeh.my/9222/tracks-v1a1a2/mono.m3u8?token=EHFHvNjTwqcqsiKN",
+        "audio_url": null,
+        "advanced": true,
+        "visual_criteria": "1ea12fcdda22709c1a60328e4399a5214d5d7ddf774c261f78f9468c4b77ef16",
+        "frame_inspection": {
+          "state": "no_known_placeholder",
+          "frames_checked": 4,
+          "frames": [
+            {
+              "state": "no_known_placeholder",
+              "sample_time_seconds": 2,
+              "frame": "review-frames/f2065083142e016551a08f89c2ad7607279b86bc5f3a70a5606ab53197aa043c-01.jpg"
+            },
+            {
+              "state": "no_known_placeholder",
+              "sample_time_seconds": 10.971,
+              "frame": "review-frames/f2065083142e016551a08f89c2ad7607279b86bc5f3a70a5606ab53197aa043c-02.jpg"
+            },
+            {
+              "state": "no_known_placeholder",
+              "sample_time_seconds": 1.987,
+              "frame": "review-frames/f2065083142e016551a08f89c2ad7607279b86bc5f3a70a5606ab53197aa043c-03.jpg"
+            },
+            {
+              "state": "no_known_placeholder",
+              "sample_time_seconds": 4.96,
+              "frame": "review-frames/f2065083142e016551a08f89c2ad7607279b86bc5f3a70a5606ab53197aa043c-04.jpg"
+            }
+          ]
+        },
+        "checked_utc": "2026-11-22T05:57:51+00:00"
+      },
+      "alternatives_passed": 0
+    },
+    {
+      "id": "IllusionPlus.ru",
+      "channel": "Иллюзион+",
+      "group": "Кино и сериалы",
+      "url": "https://live.uspeh.my/8134/video.m3u8?token=EHFHvNjTwqcqsiKN",
+      "source_url": "https://live.uspeh.my/8134/video.m3u8?token=EHFHvNjTwqcqsiKN",
+      "ok_last_check": true,
+      "rating": "probation",
+      "success_rate": 1.0,
+      "samples": 2,
+      "observation_hours": 2.39,
+      "test": {
+        "ok": true,
+        "reason": "decoded live samples; manifest advancing; sampled frames checked",
+        "pixels": 414720,
+        "played_seconds": 17.96,
+        "elapsed": 11.2,
+        "download_seconds": 2.17,
+        "media_url": "https://live.uspeh.my/8134/tracks-v1a1/mono.m3u8?token=EHFHvNjTwqcqsiKN",
+        "audio_url": null,
+        "advanced": true,
+        "visual_criteria": "1ea12fcdda22709c1a60328e4399a5214d5d7ddf774c261f78f9468c4b77ef16",
+        "frame_inspection": {
+          "state": "no_known_placeholder",
+          "frames_checked": 4,
+          "frames": [
+            {
+              "state": "no_known_placeholder",
+              "sample_time_seconds": 2,
+              "frame": "review-frames/960d4ff4250679118ad716a33cc102fd67237fff59fb6ff80563b7f5f5493c1f-01.jpg"
+            },
+            {
+              "state": "no_known_placeholder",
+              "sample_time_seconds": 10.989,
+              "frame": "review-frames/960d4ff4250679118ad716a33cc102fd67237fff59fb6ff80563b7f5f5493c1f-02.jpg"
+            },
+            {
+              "state": "no_known_placeholder",
+              "sample_time_seconds": 1.991,
+              "frame": "review-frames/960d4ff4250679118ad716a33cc102fd67237fff59fb6ff80563b7f5f5493c1f-03.jpg"
+            },
+            {
+              "state": "no_known_placeholder",
+              "sample_time_seconds": 4.973,
+              "frame": "review-frames/960d4ff4250679118ad716a33cc102fd67237fff59fb6ff80563b7f5f5493c1f-04.jpg"
+            }
+          ]
+        },
+        "checked_utc": "2026-11-22T06:01:16+00:00"
+      },
+      "alternatives_passed": 0
+    },
+    {
+      "id": "StarFamily.ru",
+      "channel": "Star Family",
+      "group": "Кино и сериалы",
+      "url": "https://live.uspeh.my/8936/video.m3u8?token=EHFHvNjTwqcqsiKN",
+      "source_url": "https://live.uspeh.my/8936/video.m3u8?token=EHFHvNjTwqcqsiKN",
+      "ok_last_check": true,
+      "rating": "probation",
+      "success_rate": 1.0,
+      "samples": 2,
+      "observation_hours": 2.41,
+      "test": {
+        "ok": true,
+        "reason": "decoded live samples; manifest advancing; sampled frames checked",
+        "pixels": 2073600,
+        "played_seconds": 17.94,
+        "elapsed": 13.18,
+        "download_seconds": 2.62,
+        "media_url": "https://live.uspeh.my/8936/tracks-v1a1a2/mono.m3u8?token=EHFHvNjTwqcqsiKN",
+        "audio_url": null,
+        "advanced": true,
+        "visual_criteria": "1ea12fcdda22709c1a60328e4399a5214d5d7ddf774c261f78f9468c4b77ef16",
+        "frame_inspection": {
+          "state": "no_known_placeholder",
+          "frames_checked": 4,
+          "frames": [
+            {
+              "state": "no_known_placeholder",
+              "sample_time_seconds": 2,
+              "frame": "review-frames/ff932e947f9c40038f4d4e1b518d9660a8fb3e0962c73f7e44a62d93cc0419bb-01.jpg"
+            },
+            {
+              "state": "no_known_placeholder",
+              "sample_time_seconds": 10.96,
+              "frame": "review-frames/ff932e947f9c40038f4d4e1b518d9660a8fb3e0962c73f7e44a62d93cc0419bb-02.jpg"
+            },
+            {
+              "state": "no_known_placeholder",
+              "sample_time_seconds": 1.992,
+              "frame": "review-frames/ff932e947f9c40038f4d4e1b518d9660a8fb3e0962c73f7e44a62d93cc0419bb-03.jpg"
+            },
+            {
+              "state": "no_known_placeholder",
+              "sample_time_seconds": 4.976,
+              "frame": "review-frames/ff932e947f9c40038f4d4e1b518d9660a8fb3e0962c73f7e44a62d93cc0419bb-04.jpg"
+            }
+          ]
+        },
+        "checked_utc": "2026-11-22T06:01:05+00:00"
+      },
+      "alternatives_passed": 0
+    },
+    {
+      "id": "Kineko.ru",
+      "channel": "Кинеко",
+      "group": "Кино и сериалы",
+      "url": "https://live.uspeh.my/8370/video.m3u8?token=EHFHvNjTwqcqsiKN",
+      "source_url": "https://live.uspeh.my/8370/video.m3u8?token=EHFHvNjTwqcqsiKN",
+      "ok_last_check": true,
+      "rating": "probation",
+      "success_rate": 1.0,
+      "samples": 2,
+      "observation_hours": 2.39,
+      "test": {
+        "ok": true,
+        "reason": "decoded live samples; manifest advancing; sampled frames checked",
+        "pixels": 414720,
+        "played_seconds": 17.96,
+        "elapsed": 11.14,
+        "download_seconds": 2.4,
+        "media_url": "https://live.uspeh.my/8370/tracks-v1a1a2/mono.m3u8?token=EHFHvNjTwqcqsiKN",
+        "audio_url": null,
+        "advanced": true,
+        "visual_criteria": "1ea12fcdda22709c1a60328e4399a5214d5d7ddf774c261f78f9468c4b77ef16",
+        "frame_inspection": {
+          "state": "no_known_placeholder",
+          "frames_checked": 4,
+          "frames": [
+            {
+              "state": "no_known_placeholder",
+              "sample_time_seconds": 2,
+              "frame": "review-frames/961de5876fe44f6dc849b48aac2a3bee49a6e6bdafa2d3adcb27333cdf05578b-01.jpg"
+            },
+            {
+              "state": "no_known_placeholder",
+              "sample_time_seconds": 10.989,
+              "frame": "review-frames/961de5876fe44f6dc849b48aac2a3bee49a6e6bdafa2d3adcb27333cdf05578b-02.jpg"
+            },
+            {
+              "state": "no_known_placeholder",
+              "sample_time_seconds": 1.991,
+              "frame": "review-frames/961de5876fe44f6dc849b48aac2a3bee49a6e6bdafa2d3adcb27333cdf05578b-03.jpg"
+            },
+            {
+              "state": "no_known_placeholder",
+              "sample_time_seconds": 4.973,
+              "frame": "review-frames/961de5876fe44f6dc849b48aac2a3bee49a6e6bdafa2d3adcb27333cdf05578b-04.jpg"
+            }
+          ]
+        },
+        "checked_utc": "2026-11-22T06:00:07+00:00"
+      },
+      "alternatives_passed": 1
+    },
+    {
+      "id": "MovieClassic.ru",
+      "channel": "Классика Кино",
+      "group": "Кино и сериалы",
+      "url": "https://live.uspeh.my/9487/video.m3u8?token=EHFHvNjTwqcqsiKN",
+      "source_url": "https://live.uspeh.my/9487/video.m3u8?token=EHFHvNjTwqcqsiKN",
+      "ok_last_check": true,
+      "rating": "probation",
+      "success_rate": 1.0,
+      "samples": 2,
+      "observation_hours": 2.41,
+      "test": {
+        "ok": true,
+        "reason": "decoded live samples; manifest advancing; sampled frames checked",
+        "pixels": 2073600,
+        "played_seconds": 17.96,
+        "elapsed": 17.07,
+        "download_seconds": 2.34,
+        "media_url": "https://live.uspeh.my/9487/tracks-v1a1/mono.m3u8?token=EHFHvNjTwqcqsiKN",
+        "audio_url": null,
+        "advanced": true,
+        "visual_criteria": "1ea12fcdda22709c1a60328e4399a5214d5d7ddf774c261f78f9468c4b77ef16",
+        "frame_inspection": {
+          "state": "no_known_placeholder",
+          "frames_checked": 4,
+          "frames": [
+            {
+              "state": "no_known_placeholder",
+              "sample_time_seconds": 2,
+              "frame": "review-frames/f4f9c59dc566a36bd95f1c365e2de50ed31c90dab573153e0537dae2f7111d82-01.jpg"
+            },
+            {
+              "state": "no_known_placeholder",
+              "sample_time_seconds": 10.989,
+              "frame": "review-frames/f4f9c59dc566a36bd95f1c365e2de50ed31c90dab573153e0537dae2f7111d82-02.jpg"
+            },
+            {
+              "state": "no_known_placeholder",
+              "sample_time_seconds": 1.991,
+              "frame": "review-frames/f4f9c59dc566a36bd95f1c365e2de50ed31c90dab573153e0537dae2f7111d82-03.jpg"
+            },
+            {
+              "state": "no_known_placeholder",
+              "sample_time_seconds": 4.973,
+              "frame": "review-frames/f4f9c59dc566a36bd95f1c365e2de50ed31c90dab573153e0537dae2f7111d82-04.jpg"
+            }
+          ]
+        },
+        "checked_utc": "2026-11-22T05:59:00+00:00"
       },
       "alternatives_passed": 0
     }
@@ -868,13 +1050,13 @@
       "id": "AmediaHit.ru",
       "channel": "Amedia Hit",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "AmediaPremium.ru",
       "channel": "Amedia Premium",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "Bollywood.ru",
@@ -901,20 +1083,14 @@
       "candidates": 0
     },
     {
-      "id": "vijuTV1000.ru",
-      "channel": "viju TV1000",
-      "reason": "no eligible unique stream",
-      "candidates": 0
-    },
-    {
       "id": "vijuTV1000action.ru",
       "channel": "viju TV1000 action",
       "reason": "no eligible unique stream",
       "candidates": 0
     },
     {
-      "id": "vijuPlusMegahit.ru",
-      "channel": "viju+ Megahit",
+      "id": "vijuTV1000russkoe.ru",
+      "channel": "viju TV1000 русское",
       "reason": "no eligible unique stream",
       "candidates": 0
     },
@@ -922,29 +1098,23 @@
       "id": "vijuPlusPremiere.ru",
       "channel": "viju+ Premiere",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "Blokbaster.ru",
       "channel": "Блокбастер",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "Domkino.ru",
       "channel": "Дом кино",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "DomkinoPremium.ru",
       "channel": "Дом кино Премиум",
-      "reason": "no eligible unique stream",
-      "candidates": 1
-    },
-    {
-      "id": "Dorama.ru",
-      "channel": "Дорама",
       "reason": "no eligible unique stream",
       "candidates": 0
     },
@@ -955,16 +1125,10 @@
       "candidates": 0
     },
     {
-      "id": "IndiyskoyeKino.ru",
-      "channel": "Индийское кино",
-      "reason": "no eligible unique stream",
-      "candidates": 0
-    },
-    {
       "id": "KinoTV.ru",
       "channel": "Кино ТВ",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "Kinomix.ru",
@@ -976,7 +1140,7 @@
       "id": "Kinopokaz.ru",
       "channel": "Кинопоказ",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "Kinopremyera.ru",
@@ -1000,17 +1164,11 @@
       "id": "Kinoseriya.ru",
       "channel": "Киносерия",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "Kinouzhas.ru",
       "channel": "Киноужас",
-      "reason": "no eligible unique stream",
-      "candidates": 1
-    },
-    {
-      "id": "KinoHit.ru",
-      "channel": "Кинохит",
       "reason": "no eligible unique stream",
       "candidates": 0
     },
@@ -1024,13 +1182,19 @@
       "id": "Muzhskoekino.ru",
       "channel": "Мужское кино",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "Nashe.ru",
       "channel": "Наше",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
+    },
+    {
+      "id": "Nashemuzhskoe.ru",
+      "channel": "Наше мужское",
+      "reason": "no eligible unique stream",
+      "candidates": 0
     },
     {
       "id": "NasheNovoeKino.ru",
@@ -1045,6 +1209,12 @@
       "candidates": 0
     },
     {
+      "id": "Premialnoe.ru",
+      "channel": "Премиальное",
+      "reason": "no eligible unique stream",
+      "candidates": 0
+    },
+    {
       "id": "RodnoeKino.ru",
       "channel": "Родное Кино",
       "reason": "no eligible unique stream",
@@ -1054,17 +1224,11 @@
       "id": "RusskiyBestseller.ru",
       "channel": "Русский бестселлер",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "RusskiyDetektiv.ru",
       "channel": "Русский детектив",
-      "reason": "no eligible unique stream",
-      "candidates": 0
-    },
-    {
-      "id": "Russkiyroman.ru",
-      "channel": "Русский роман",
       "reason": "no eligible unique stream",
       "candidates": 0
     },
@@ -1078,7 +1242,7 @@
       "id": "Hit.ru",
       "channel": "Хит",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "HorosheeKino.ru",
@@ -1087,8 +1251,8 @@
       "candidates": 0
     },
     {
-      "id": "vijuPlusSerial.ru",
-      "channel": "viju+ Serial",
+      "id": "Shokiruyushchee.ru",
+      "channel": "Шокирующее",
       "reason": "no eligible unique stream",
       "candidates": 0
     },
@@ -1141,6 +1305,12 @@
       "candidates": 0
     },
     {
+      "id": "red.ru",
+      "channel": ".red",
+      "reason": "no eligible unique stream",
+      "candidates": 0
+    },
+    {
       "id": "2x2.ru",
       "channel": "2x2",
       "reason": "no eligible unique stream",
@@ -1150,7 +1320,7 @@
       "id": "vijuPlusComedy.ru",
       "channel": "viju+ Comedy",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "VoprosyiOtvety.ru",
@@ -1180,7 +1350,7 @@
       "id": "Komedia.ru",
       "channel": "Комедия",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "OTVPrim.ru",
@@ -1780,7 +1950,7 @@
       "id": "Dushevnoe.ru",
       "channel": "Душевное",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "Eurasia.ru",
@@ -2293,12 +2463,6 @@
       "candidates": 0
     },
     {
-      "id": "IllusionPlus.ru",
-      "channel": "Иллюзион+",
-      "reason": "no eligible unique stream",
-      "candidates": 0
-    },
-    {
       "id": "InvestigationDiscovery.ru",
       "channel": "Investigation Discovery",
       "reason": "no eligible unique stream",
@@ -2479,8 +2643,8 @@
       "candidates": 0
     },
     {
-      "id": "StarFamily.ru",
-      "channel": "Star Family",
+      "id": "STARTAir.ru",
+      "channel": "START Air",
       "reason": "no eligible unique stream",
       "candidates": 0
     },
@@ -2488,17 +2652,11 @@
       "id": "STARTWorld.ru",
       "channel": "START World",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "vijuTV1000novella.ru",
       "channel": "viju TV1000 новелла",
-      "reason": "no eligible unique stream",
-      "candidates": 0
-    },
-    {
-      "id": "Kineko.ru",
-      "channel": "Кинеко",
       "reason": "no eligible unique stream",
       "candidates": 0
     },
@@ -2599,6 +2757,12 @@
       "candidates": 0
     },
     {
+      "id": "FeniksplusKino.ru",
+      "channel": "Феникс плюс кино",
+      "reason": "no eligible unique stream",
+      "candidates": 0
+    },
+    {
       "id": "vijuTV1000romantica.ru",
       "channel": "viju TV1000 romantica",
       "reason": "no eligible unique stream",
@@ -2608,7 +2772,7 @@
       "id": "A2.ru",
       "channel": "А2",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "MirSeriala.ru",
@@ -2740,7 +2904,7 @@
       "id": "RussianExtreme.ru",
       "channel": "Русский Экстрим",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "Sportivnyy.ru",
@@ -3124,7 +3288,7 @@
       "id": "ProLyubov.ru",
       "channel": "Про Любовь",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "Radio1.ru",
@@ -4009,12 +4173,6 @@
       "candidates": 0
     },
     {
-      "id": "MovieClassic.ru",
-      "channel": "Классика Кино",
-      "reason": "no eligible unique stream",
-      "candidates": 0
-    },
-    {
       "id": "TaynyGalaktiki.ru",
       "channel": "Тайны Галактики",
       "reason": "no eligible unique stream",
@@ -4054,7 +4212,7 @@
       "id": "FX.ru",
       "channel": "FX",
       "reason": "no eligible unique stream",
-      "candidates": 2
+      "candidates": 0
     },
     {
       "id": "FXLife.ru",
@@ -4348,7 +4506,7 @@
       "id": "Kamedi.ru",
       "channel": "Камеди",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "Romantichnoe.ru",
@@ -4588,7 +4746,7 @@
       "id": "StrashnoeHD.ru",
       "channel": "Страшное",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "STRK.ru",
@@ -4605,6 +4763,12 @@
     {
       "id": "STV24.ru",
       "channel": "СТВ 24",
+      "reason": "no eligible unique stream",
+      "candidates": 0
+    },
+    {
+      "id": "Sumiko.ru",
+      "channel": "Sumiko",
       "reason": "no eligible unique stream",
       "candidates": 0
     },
@@ -5475,8 +5639,8 @@
     {
       "id": "sv.max.f4af432351e1",
       "channel": "CineMan Marvel",
-      "reason": "no eligible unique stream",
-      "candidates": 0
+      "reason": "quality review pending",
+      "candidates": 1
     },
     {
       "id": "sv.max.7aa93db3bc5e",
@@ -5488,7 +5652,7 @@
       "id": "sv.max.4f663acd7e29",
       "channel": "CineMan VHS",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "sv.max.bdd324ecad9b",
@@ -5542,7 +5706,7 @@
       "id": "sv.max.0a1faaf74354",
       "channel": "BCU Kinorating",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "sv.max.b7f1ecc09308",
@@ -5559,8 +5723,8 @@
     {
       "id": "sv.max.8f4b95deb43c",
       "channel": "CineMan",
-      "reason": "no eligible unique stream",
-      "candidates": 0
+      "reason": "quality review pending",
+      "candidates": 1
     },
     {
       "id": "sv.max.dfb299ac1f3d",
@@ -5626,7 +5790,7 @@
       "id": "sv.max.a366eca82d64",
       "channel": "BCU Action",
       "reason": "no eligible unique stream",
-      "candidates": 0
+      "candidates": 1
     },
     {
       "id": "sv.max.63412ce3370c",
@@ -5638,13 +5802,13 @@
       "id": "sv.max.22832f77d54c",
       "channel": "BCU Cinema",
       "reason": "no eligible unique stream",
-      "candidates": 2
+      "candidates": 0
     },
     {
       "id": "sv.max.62de7131bdc3",
       "channel": "BCU Comedy",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "sv.max.20e38bd98647",
@@ -5686,7 +5850,7 @@
       "id": "sv.max.5e59abfb1524",
       "channel": "CineMan Ужасы",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "sv.max.eaf6bd75ba80",
@@ -5752,13 +5916,13 @@
       "id": "sv.max.dd0117c259e9",
       "channel": "BCU FilMystic",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "sv.max.becdac62bd3d",
       "channel": "BCU History",
       "reason": "no eligible unique stream",
-      "candidates": 0
+      "candidates": 1
     },
     {
       "id": "sv.max.77e75f8ba692",
@@ -5770,13 +5934,13 @@
       "id": "sv.max.8a27fddf76f1",
       "channel": "BCU Premiere",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "sv.max.2dc070179e7b",
       "channel": "BCU VHS",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "sv.max.c4d7610888f1",
@@ -5836,7 +6000,7 @@
       "id": "sv.max.c78902009a3a",
       "channel": "BCU Marvel",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "sv.max.77a1e37261a4",
@@ -5914,7 +6078,7 @@
       "id": "sv.max.6075cf3116d2",
       "channel": "BCU Reality",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "sv.max.7d691181670d",
@@ -5925,8 +6089,8 @@
     {
       "id": "sv.max.57a691edadd4",
       "channel": "BCU TruMotion",
-      "reason": "no eligible unique stream",
-      "candidates": 0
+      "reason": "quality review pending",
+      "candidates": 1
     },
     {
       "id": "sv.max.61d3f42f0a8f",
@@ -5956,7 +6120,7 @@
       "id": "sv.max.7707bedd116a",
       "channel": "BCU Media",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "sv.max.748660306a6c",
@@ -5967,8 +6131,8 @@
     {
       "id": "sv.max.5e16f531c3a4",
       "channel": "CineMan Лесник",
-      "reason": "quality review pending",
-      "candidates": 1
+      "reason": "no eligible unique stream",
+      "candidates": 0
     },
     {
       "id": "sv.max.6129e8193a47",
@@ -6712,7 +6876,7 @@
       "id": "sv.max.2e5e7125e2f9",
       "channel": "BOX Gangster",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "sv.max.0b55bbee7cda",
@@ -6946,7 +7110,7 @@
       "id": "sv.max.6ba4e951ee96",
       "channel": "BOX Serial",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "sv.max.553775e846c0",
@@ -6969,8 +7133,8 @@
     {
       "id": "sv.max.4efa81b79b72",
       "channel": "CineMan Фитнес",
-      "reason": "quality review pending",
-      "candidates": 1
+      "reason": "no eligible unique stream",
+      "candidates": 0
     },
     {
       "id": "sv.max.0c23ad4756a3",
@@ -7030,7 +7194,7 @@
       "id": "sv.max.37071e8ca291",
       "channel": "MM Celebrity",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "sv.max.8c9509be5932",
@@ -7042,7 +7206,7 @@
       "id": "sv.max.d1fcdf189855",
       "channel": "MM Драма",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "sv.max.01d820c263e5",
@@ -7054,7 +7218,7 @@
       "id": "sv.max.23b5ee0e0d87",
       "channel": "MM Скорость",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "sv.max.40868718f040",
@@ -7203,14 +7367,14 @@
     {
       "id": "sv.max.0835620875f5",
       "channel": "BCU Premiere 1",
-      "reason": "no eligible unique stream",
-      "candidates": 0
+      "reason": "quality review pending",
+      "candidates": 1
     },
     {
       "id": "sv.max.80b3f3643ca9",
       "channel": "BCU Premiere 2",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "sv.max.38c4e6419959",
@@ -7227,8 +7391,8 @@
     {
       "id": "sv.max.4df3a9f591d3",
       "channel": "BOX Anime",
-      "reason": "no eligible unique stream",
-      "candidates": 0
+      "reason": "quality review pending",
+      "candidates": 1
     },
     {
       "id": "sv.max.15d33ca82503",
@@ -7240,7 +7404,7 @@
       "id": "sv.max.858f61396dde",
       "channel": "BOX Hybrid",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "sv.max.443ee725b39e",
@@ -7257,8 +7421,8 @@
     {
       "id": "sv.max.91739f133ac9",
       "channel": "BOX Spy",
-      "reason": "quality review pending",
-      "candidates": 1
+      "reason": "no eligible unique stream",
+      "candidates": 0
     },
     {
       "id": "sv.max.af751fe921f9",
@@ -7348,7 +7512,7 @@
       "id": "sv.max.77222b48bf07",
       "channel": "MM OldSchool",
       "reason": "no eligible unique stream",
-      "candidates": 0
+      "candidates": 1
     },
     {
       "id": "sv.max.7fcdbb3cae32",
@@ -7360,13 +7524,13 @@
       "id": "sv.max.a2c4e54f668a",
       "channel": "MM Translation",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "sv.max.b7e5566e055c",
       "channel": "MM USSR Детектив",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "sv.max.82c3c1c754ee",
@@ -7396,7 +7560,7 @@
       "id": "sv.max.a99b357b1d77",
       "channel": "MM USSR Сказки",
       "reason": "no eligible unique stream",
-      "candidates": 0
+      "candidates": 1
     },
     {
       "id": "sv.max.ef6ffdd3af92",
@@ -7414,7 +7578,7 @@
       "id": "sv.max.d43e8eceed2c",
       "channel": "MM Грайндхаус",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "sv.max.e40baf878ec8",
@@ -7450,7 +7614,7 @@
       "id": "sv.max.384fcc479edf",
       "channel": "MM Ужасы",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "sv.max.46059f87a23b",
@@ -7846,7 +8010,7 @@
       "id": "sv.max.1b37b9257ade",
       "channel": "BOX Mayday",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "sv.max.0b73d2b29da2",
@@ -7876,7 +8040,7 @@
       "id": "sv.max.56180fc804d4",
       "channel": "BOX Western",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "sv.max.51937b76efbe",
@@ -7978,7 +8142,7 @@
       "id": "sv.max.41d8d33ee247",
       "channel": "MM NewFilm 2",
       "reason": "no eligible unique stream",
-      "candidates": 0
+      "candidates": 1
     },
     {
       "id": "sv.max.c29fdde8531d",
@@ -8008,7 +8172,7 @@
       "id": "sv.max.5c5c10ef0937",
       "channel": "MM UFO",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "sv.max.8ed4b1ef9979",
@@ -8026,25 +8190,25 @@
       "id": "sv.max.d64c434ba451",
       "channel": "MM Боевик",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "sv.max.eb4d22588b57",
       "channel": "MM Боевик Classic",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "sv.max.8e331b35d722",
       "channel": "MM Вестерн",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "sv.max.7351441bd3b1",
       "channel": "MM Киберпанк",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "sv.max.0b87e8685e49",
@@ -8056,7 +8220,7 @@
       "id": "sv.max.2d1de70f467a",
       "channel": "MM Комедия",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "sv.max.d94b9c5017d8",
@@ -8074,31 +8238,31 @@
       "id": "sv.max.6020a03acbdb",
       "channel": "MM Крутые 90-е",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "sv.max.dd7e6add8be6",
       "channel": "MM Кунг-Фу",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "sv.max.3fe7cdee7018",
       "channel": "MM Мифология",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "sv.max.8ea4300e58ee",
       "channel": "MM Нуар",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "sv.max.cfaaa4841e32",
       "channel": "MM Погружение",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "sv.max.ef84bc8e6211",
@@ -8110,7 +8274,7 @@
       "id": "sv.max.1e0ac53b3440",
       "channel": "MM Приключения",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "sv.max.e13bba21e066",
@@ -8128,7 +8292,7 @@
       "id": "sv.max.89b533eac0e9",
       "channel": "MM Семейный 1",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "sv.max.73fe4aaa5cde",
@@ -8140,13 +8304,13 @@
       "id": "sv.max.e56c65ae9e09",
       "channel": "MM Синематограф",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "sv.max.e85198920810",
       "channel": "MM Ситком",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "sv.max.32ade7edad58",
@@ -8158,7 +8322,7 @@
       "id": "sv.max.9551e2993a95",
       "channel": "MM Спорт",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "sv.max.fcfeb805a6ef",
@@ -8182,7 +8346,7 @@
       "id": "sv.max.a218c71bd698",
       "channel": "MM Ужасы Classic",
       "reason": "no eligible unique stream",
-      "candidates": 0
+      "candidates": 1
     },
     {
       "id": "sv.max.4114fb1d67b0",
@@ -8379,8 +8543,8 @@
     {
       "id": "sv.max.3e8b2ead8967",
       "channel": "CineMan ПеС + Лихач",
-      "reason": "quality review pending",
-      "candidates": 1
+      "reason": "no eligible unique stream",
+      "candidates": 0
     },
     {
       "id": "sv.max.d36930c99f53",
@@ -8470,7 +8634,7 @@
       "id": "sv.max.43b7470037f5",
       "channel": "MM Супергерои",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "sv.max.52ba83690a5a",
@@ -9058,7 +9222,7 @@
       "id": "sv.max.2ec268c762d9",
       "channel": "BOX Apocalypse",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "sv.max.3bdaf842cdb6",
@@ -10470,14 +10634,14 @@
     ],
     "completed_frozen_queue_passes": 0,
     "request_categories": {
-      "pending": 48126,
-      "monitor": 25366,
-      "pc_only": 511,
-      "quarantined": 158913
+      "pending": 47128,
+      "monitor": 25475,
+      "pc_only": 512,
+      "quarantined": 159801
     },
     "minimum_spacing_hours": 2.0,
-    "requests_needing_format_review": 9228,
-    "inconclusive_attempts": 9228,
+    "requests_needing_format_review": 9230,
+    "inconclusive_attempts": 9230,
     "inconclusive_is_playback_failure": false,
     "retry_rejected_hours": 168.0,
     "weekly_rechecked_requests": 0,
@@ -10786,23 +10950,19 @@
       "supergeroi.ru",
       "sv.devyatka-kirov",
       "sv.max.01185affb09c",
-      "sv.max.0835620875f5",
       "sv.max.0e2347ab44a5",
       "sv.max.12b2a6d4a0f4",
       "sv.max.13a7fd015120",
       "sv.max.2c0b98534b4e",
       "sv.max.3d0f74f32de5",
       "sv.max.3e8b2ead8967",
-      "sv.max.41d8d33ee247",
       "sv.max.481f6861b6f5",
       "sv.max.4b6d131deb6b",
       "sv.max.4c77705ef6f0",
-      "sv.max.4df3a9f591d3",
       "sv.max.4efa81b79b72",
       "sv.max.4f663acd7e29",
       "sv.max.4f67c2319d57",
       "sv.max.55d106533b17",
-      "sv.max.57a691edadd4",
       "sv.max.59a4949a64e8",
       "sv.max.5a14962e7cd1",
       "sv.max.5e16f531c3a4",
@@ -10813,7 +10973,6 @@
       "sv.max.6129e8193a47",
       "sv.max.61d3f42f0a8f",
       "sv.max.71520d972735",
-      "sv.max.77222b48bf07",
       "sv.max.7aa93db3bc5e",
       "sv.max.83102a789c02",
       "sv.max.8e17ddf34600",
@@ -10825,18 +10984,14 @@
       "sv.max.9a6d01497a71",
       "sv.max.9d34342970c1",
       "sv.max.9ff5f17a7e60",
-      "sv.max.a218c71bd698",
       "sv.max.a23ff2379540",
-      "sv.max.a366eca82d64",
       "sv.max.a442069fc3fa",
       "sv.max.a7ced3cf24c3",
-      "sv.max.a99b357b1d77",
       "sv.max.ad1ac503ae69",
       "sv.max.b00671fc2849",
       "sv.max.b8c8fd389f00",
       "sv.max.bca966ab4682",
       "sv.max.beaf3660a1d7",
-      "sv.max.becdac62bd3d",
       "sv.max.bee6eb2d8ea0",
       "sv.max.c11903458228",
       "sv.max.cad278791d9f",
@@ -11127,6 +11282,7 @@
       "sv.max.412effa432b3",
       "sv.max.4172cdfcde61",
       "sv.max.41aa44e9a167",
+      "sv.max.41d8d33ee247",
       "sv.max.41dd6dcf6d4d",
       "sv.max.423b436f488d",
       "sv.max.428b42566ed5",
@@ -11235,6 +11391,7 @@
       "sv.max.74b6fa6a8dd9",
       "sv.max.7609c3e4d232",
       "sv.max.7707bedd116a",
+      "sv.max.77222b48bf07",
       "sv.max.7724dd721cc9",
       "sv.max.77e040bb0525",
       "sv.max.77e75f8ba692",
@@ -11333,6 +11490,7 @@
       "sv.max.a11dc2601815",
       "sv.max.a17ecd9b4cf9",
       "sv.max.a202b66c09cf",
+      "sv.max.a218c71bd698",
       "sv.max.a2c4e54f668a",
       "sv.max.a2d6d14a4b1c",
       "sv.max.a3c90684af9d",
@@ -11346,6 +11504,7 @@
       "sv.max.a6bd668ace99",
       "sv.max.a7158920ffd5",
       "sv.max.a7dd977cb18d",
+      "sv.max.a99b357b1d77",
       "sv.max.aa0c5f1166c1",
       "sv.max.aa76c5167f07",
       "sv.max.ab8d4619481c",
