@@ -1,7 +1,6 @@
 #EXTM3U
 #PLAYLIST:Зарубежные телеканалы · IPTV-AUDIT · 3/3
-# Срез IPTV-AUDIT от 23.11.2026. Каналов: 163. Основных и резервных адресов: 255.
-# Внутри страны сначала идут основные адреса, затем резервные.
+# Срез IPTV-AUDIT от 23.11.2026. По одному проверенному потоку на каждый из 163 каналов.
 #EXTINF:-1 tvg-id="1Plus1International.ua" tvg-name="1+1 International" tvg-logo="https://i.imgur.com/LOY0rtp.png" tvg-country="UA" group-title="Украина",1+1 International
 #EXTVLCOPT:http-user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.0.0 Safari/537.36
 https://dash2.antik.sk/live/test_one_plus_one_int_tizen/playlist.m3u8
@@ -52,12 +51,6 @@ https://stream.ads.ottera.tv/playlist.m3u8?network_id=4158
 https://cdn.rostelekom-cdn.sbs/live/lscLRmiXRsq1n7Pl.m3u8
 #EXTINF:-1 tvg-id="Biographer.ua" tvg-name="Біографер" tvg-logo="" tvg-country="UA" group-title="Украина",Біографер
 https://cdn.rostelekom-cdn.sbs/live/Ujm2PDyz4m_aslTO.m3u8
-#EXTINF:-1 tvg-id="EspresoTV.ua" tvg-name="Espreso TV" tvg-logo="https://i.imgur.com/xNatV8K.png" tvg-country="UA" group-title="Украина",Espreso TV · резерв 1
-https://dash3.antik.sk/live/test_espresso/playlist.m3u8
-#EXTINF:-1 tvg-id="EspresoTV.ua" tvg-name="Espreso TV" tvg-logo="https://i.imgur.com/xNatV8K.png" tvg-country="UA" group-title="Украина",Espreso TV · резерв 2
-https://dash4.antik.sk/live/test_espresso/playlist.m3u8
-#EXTINF:-1 tvg-id="StarCinema.ua" tvg-name="Star Cinema" tvg-logo="https://i.imgur.com/5sis895.png" tvg-country="UA" group-title="Украина",Star Cinema · резерв 1
-https://cdn.rostelekom-cdn.sbs/live/Srj1j1fnIorrlkDN.m3u8
 #EXTINF:-1 tvg-id="Belarus1.by" tvg-name="Belarus-1" tvg-logo="https://iptvx.one/picons/belarus1hd.png" tvg-country="BY" group-title="Беларусь",Belarus-1
 https://ngtrk.dc.beltelecom.by/ngtrk/smil:belarus1/playlist.m3u8
 #EXTINF:-1 tvg-id="Belarus2.by" tvg-name="Belarus-2" tvg-logo="" tvg-country="BY" group-title="Беларусь",Belarus-2
@@ -80,38 +73,6 @@ http://media1.skifnet.by/voentv/index.m3u8
 https://ngtrk.dc.beltelecom.by/vtv/bt4.stream/playlist.m3u8
 #EXTINF:-1 tvg-id="Belarus4.by@Gomel" tvg-name="Беларусь 4 — Гомель" tvg-logo="https://iptvx.one/picons/belarus4-gomel.png" tvg-country="BY" group-title="Беларусь",Беларусь 4 — Гомель
 http://46.56.85.151:8080/0.m3u8
-#EXTINF:-1 tvg-id="Belarus1.by" tvg-name="Belarus-1" tvg-logo="https://iptvx.one/picons/belarus1hd.png" tvg-country="BY" group-title="Беларусь",Belarus-1 · резерв 1
-http://dmi3y-tv.online/hls/blrus/CH_BELARUS1.m3u8
-#EXTINF:-1 tvg-id="Belarus1.by" tvg-name="Belarus-1" tvg-logo="https://i.imgur.com/sUD9t5j.png" tvg-country="BY" group-title="Беларусь",Belarus-1 · резерв 2
-https://ngtrk.dc.beltelecom.by/ngtrk/smil:belarus1.smil/playlist.m3u8
-#EXTINF:-1 tvg-id="Belarus2.by" tvg-name="Belarus-2" tvg-logo="https://iptvx.one/picons/belarus2hd.png" tvg-country="BY" group-title="Беларусь",Belarus-2 · резерв 1
-http://dmi3y-tv.online/hls/blrus/CH_BELARUS2.m3u8
-#EXTINF:-1 tvg-id="Belarus2.by" tvg-name="Belarus-2" tvg-logo="https://iptvx.one/picons/belarus2hd.png" tvg-country="BY" group-title="Беларусь",Belarus-2 · резерв 2
-http://82.209.232.129:10102/0.ts
-#EXTINF:-1 tvg-id="Belarus2.by" tvg-name="Belarus-2" tvg-logo="https://i.imgur.com/BpEHpPS.png" tvg-country="BY" group-title="Беларусь",Belarus-2 · резерв 3
-https://ngtrk.dc.beltelecom.by/ngtrk/smil:belarus2.smil/playlist.m3u8
-#EXTINF:-1 tvg-id="Belarus24.by" tvg-name="Belarus-24" tvg-logo="https://iptvx.one/picons/belarus24.png" tvg-country="BY" group-title="Беларусь",Belarus-24 · резерв 1
-http://dmi3y-tv.online/hls/blrus/CH_BELARUS24.m3u8
-#EXTINF:-1 tvg-id="Belarus24.by" tvg-name="Belarus-24" tvg-logo="https://i.imgur.com/BP7tY6F.png" tvg-country="BY" group-title="Беларусь",Belarus-24 · резерв 2
-https://ngtrk.dc.beltelecom.by/ngtrk/smil:belarus24.smil/playlist.m3u8
-#EXTINF:-1 tvg-id="Belarus24.by" tvg-name="Belarus-24" tvg-logo="https://i.imgur.com/BP7tY6F.png" tvg-country="BY" group-title="Беларусь",Belarus-24 · резерв 3
-https://edge59.dc.beltelecom.by/ngtrk/_definst_/smil:belarus24/chunklist_w148744111_b5160000_sleng.m3u8
-#EXTINF:-1 tvg-id="Belarus24.by" tvg-name="Belarus-24" tvg-logo="https://i.imgur.com/BP7tY6F.png" tvg-country="BY" group-title="Беларусь",Belarus-24 · резерв 4
-http://ott-7.sevstar.net/belarus24/index.m3u8
-#EXTINF:-1 tvg-id="Belarus3.by" tvg-name="Belarus-3" tvg-logo="https://iptvx.one/picons/belarus3hd.png" tvg-country="BY" group-title="Беларусь",Belarus-3 · резерв 1
-https://ngtrk.dc.beltelecom.by/ngtrk/smil:belarus3/playlist.m3u8
-#EXTINF:-1 tvg-id="Belarus3.by" tvg-name="Belarus-3" tvg-logo="https://i.imgur.com/JkcDycn.png" tvg-country="BY" group-title="Беларусь",Belarus-3 · резерв 2
-https://ngtrk.dc.beltelecom.by/ngtrk/smil:belarus3.smil/playlist.m3u8
-#EXTINF:-1 tvg-id="Belarus5.by" tvg-name="Belarus-5" tvg-logo="https://iptvx.one/picons/belarus5hd.png" tvg-country="BY" group-title="Беларусь",Belarus-5 · резерв 1
-https://ngtrk.dc.beltelecom.by/ngtrk/smil:belarus5/playlist.m3u8
-#EXTINF:-1 tvg-id="Belarus5.by" tvg-name="Belarus-5" tvg-logo="https://i.imgur.com/NJsRFud.png" tvg-country="BY" group-title="Беларусь",Belarus-5 · резерв 2
-https://ngtrk.dc.beltelecom.by/ngtrk/smil:belarus5.smil/playlist.m3u8
-#EXTINF:-1 tvg-id="PerviyInformationniy.by" tvg-name="Perviy Informationniy" tvg-logo="https://i.imgur.com/eIiXRAI.png" tvg-country="BY" group-title="Беларусь",Perviy Informationniy · резерв 1
-https://ngtrk.dc.beltelecom.by/ngtrk/smil:informacionnyy.smil/playlist.m3u8
-#EXTINF:-1 tvg-id="STV.by" tvg-name="STV" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/3/33/%D0%9B%D0%BE%D0%B3%D0%BE%D1%82%D0%B8%D0%BF_%D0%B1%D0%B5%D0%BB%D0%BE%D1%80%D1%83%D1%81%D1%81%D0%BA%D0%BE%D0%B3%D0%BE_%D1%82%D0%B5%D0%BB%D0%B5%D0%BA%D0%B0%D0%BD%D0%B0%D0%BB%D0%B0_%C2%AB%D0%A1%D0%A2%D0%92%C2%BB.svg/960px-%D0%9B%D0%BE%D0%B3%D0%BE%D1%82%D0%B8%D0%BF_%D0%B1%D0%B5%D0%BB%D0%BE%D1%80%D1%83%D1%81%D1%81%D0%BA%D0%BE%D0%B3%D0%BE_%D1%82%D0%B5%D0%BB%D0%B5%D0%BA%D0%B0%D0%BD%D0%B0%D0%BB%D0%B0_%C2%AB%D0%A1%D0%A2%D0%92%C2%BB.svg.png" tvg-country="BY" group-title="Беларусь",STV · резерв 1
-http://dmi3y-tv.online/hls/blrus/CH_CTBHD720.m3u8
-#EXTINF:-1 tvg-id="STV.by" tvg-name="STV" tvg-logo="https://iptvx.one/icn/stv-by.png" tvg-country="BY" group-title="Беларусь",STV · резерв 2
-http://86.57.147.236/HLS/ctvby/playlist.m3u8
 #EXTINF:-1 tvg-id="24KZ.kz" tvg-name="24KZ" tvg-logo="https://static.wikia.nocookie.net/logopedia/images/b/b0/24KZ2023.svg" tvg-country="KZ" group-title="Казахстан",24KZ
 https://stream8.cinerama.uz/1408/tracks-v1a1/mono.m3u8
 #EXTINF:-1 tvg-id="IrbisTV.kz" tvg-name="Irbis TV" tvg-logo="https://i.imgur.com/0NIhEPg.jpeg" tvg-country="KZ" group-title="Казахстан",Irbis TV
@@ -133,12 +94,6 @@ https://live-rikatv.cdnvideo.ru/rikatv/rikatv_tcode.sdp/playlist.m3u8
 https://dash2.antik.sk/live/test_qazaq_tv_tizen/playlist.m3u8
 #EXTINF:-1 tvg-id="TDK42.kz" tvg-name="TDK 42" tvg-logo="https://i.imgur.com/iVhdcS7.png" tvg-country="KZ" group-title="Казахстан",TDK 42
 https://live-tdk42kz.cdnvideo.ru/tdk42kz/tdk42kz_720.smil/playlist.m3u8
-#EXTINF:-1 tvg-id="RikaTV.kz" tvg-name="Rika TV" tvg-logo="https://i.imgur.com/KJHWZ3B.png" tvg-country="KZ" group-title="Казахстан",Rika TV · резерв 1
-https://cdn.rostelekom-cdn.sbs/live/1IfgxrLOLaHoDC0f.m3u8
-#EXTINF:-1 tvg-id="RikaTV.kz" tvg-name="Rika TV" tvg-logo="https://i.imgur.com/KJHWZ3B.png" tvg-country="KZ" group-title="Казахстан",Rika TV · резерв 2
-https://cdn.rostelekom-cdn.sbs/live/2o7X04_DftdyXie4.m3u8
-#EXTINF:-1 tvg-id="SilkWay.kz" tvg-name="Silk Way" tvg-logo="https://i.imgur.com/SJNDksF.png" tvg-country="KZ" group-title="Казахстан",Silk Way · резерв 1
-https://hlspackager.akamaized.net/live/DB/SILKWAY/SILKWAY/SILKWAY.m3u8
 #EXTINF:-1 tvg-id="Armenia1.am" tvg-name="Armenia 1" tvg-logo="" tvg-country="AM" group-title="Армения",Armenia 1
 https://dash2.antik.sk/live/test_armenia/playlist.m3u8
 #EXTINF:-1 tvg-id="ArmToon.am" tvg-name="ArmToon" tvg-logo="" tvg-country="AM" group-title="Армения",ArmToon
@@ -179,16 +134,6 @@ https://cdn.rostelekom-cdn.sbs/live/tQDzK0jKiznZNomv.m3u8
 #EXTINF:-1 tvg-id="XezerTV.az" tvg-name="Xezer TV" tvg-logo="https://yoda.az/logos/xazar.png" tvg-country="AZ" group-title="Азербайджан",Xezer TV
 #EXTVLCOPT:http-referrer=https://xezerxeber.az/
 https://xezer.tvstream.az/hls/stream/index.m3u8
-#EXTINF:-1 tvg-id="AyazTV.az" tvg-name="Ayaz TV" tvg-logo="https://i.ibb.co/Nd4r4hLg/image.png" tvg-country="AZ" group-title="Азербайджан",Ayaz TV · резерв 1
-https://janya-ayaztv.vgcdn.net/ptnr-WebApp/title-Ayaz_TV/v1/vglive-sk-934820/1080p/1080p.m3u8
-#EXTINF:-1 tvg-id="AzTV.az" tvg-name="Az TV" tvg-logo="https://i.imgur.com/snBMMeH.png" tvg-country="AZ" group-title="Азербайджан",Az TV · резерв 1
-https://s1.iptv-24.net/1455/index.m3u8
-#EXTINF:-1 tvg-id="BakuTV.az" tvg-name="Baku.TV" tvg-logo="https://i.imgur.com/r4FzxSg.png" tvg-country="AZ" group-title="Азербайджан",Baku.TV · резерв 1
-https://cdn.rostelekom-cdn.sbs/live/O51cDaNjkFwwGqzv.m3u8
-#EXTINF:-1 tvg-id="DunyaTV.az" tvg-name="Dunya TV" tvg-logo="" tvg-country="AZ" group-title="Азербайджан",Dunya TV · резерв 1
-https://cdn.rostelekom-cdn.sbs/live/y7INvYk4sSQDPMTn.m3u8
-#EXTINF:-1 tvg-id="XezerTV.az" tvg-name="Xezer TV" tvg-logo="" tvg-country="AZ" group-title="Азербайджан",Xezer TV · резерв 1
-https://cdn.rostelekom-cdn.sbs/live/5Al-ERdzpXkz0pCi.m3u8
 #EXTINF:-1 tvg-id="AmudaryoTV.uz" tvg-name="Amudaryo TV" tvg-logo="https://m3u.usite.pro/tv/taraqq.webp" tvg-country="UZ" group-title="Узбекистан",Amudaryo TV
 https://stream8.cinerama.uz/1491/tracks-v1a1/mono.m3u8
 #EXTINF:-1 tvg-id="BIZCinema.uz" tvg-name="BIZ Cinema" tvg-logo="https://biztv.uz/static/media/biz-cinema.286b83dc.png" tvg-country="UZ" group-title="Узбекистан",BIZ Cinema
@@ -287,61 +232,6 @@ https://s1.iptv-24.net/4012/index.m3u8
 https://stream8.cinerama.uz/1464/tracks-v1a1/mono.m3u8
 #EXTINF:-1 tvg-id="Yoshlar.uz" tvg-name="Yoshlar" tvg-logo="https://i.imgur.com/s4xfUSx.png" tvg-country="UZ" group-title="Узбекистан",Yoshlar
 https://stream8.cinerama.uz/1002/tracks-v1a1/playlist.m3u8
-#EXTINF:-1 tvg-id="AmudaryoTV.uz" tvg-name="Amudaryo TV" tvg-logo="https://m3u.usite.pro/tv/taraqq.webp" tvg-country="UZ" group-title="Узбекистан",Amudaryo TV · резерв 1
-https://s1.iptv-24.net/1491/index.m3u8
-#EXTINF:-1 tvg-id="BIZCinema.uz" tvg-name="BIZ Cinema" tvg-logo="https://biztv.uz/static/media/biz-cinema.286b83dc.png" tvg-country="UZ" group-title="Узбекистан",BIZ Cinema · резерв 1
-https://stream8.cinerama.uz/1213/tracks-v1a1/mono.m3u8
-#EXTINF:-1 tvg-id="BIZMusic.uz" tvg-name="BIZ Music" tvg-logo="https://i.ibb.co/DfsCJwk/Uz-biz-music-5462.jpg" tvg-country="UZ" group-title="Узбекистан",BIZ Music · резерв 1
-https://stream8.cinerama.uz/1212/tracks-v1a1/mono.m3u8
-#EXTINF:-1 tvg-id="BIZTV.uz" tvg-name="BIZ TV" tvg-logo="https://biztv.uz/static/media/logo.5f993187.png" tvg-country="UZ" group-title="Узбекистан",BIZ TV · резерв 1
-https://stream8.cinerama.uz/1211/tracks-v1a1/mono.m3u8
-#EXTINF:-1 tvg-id="DasturxonTV.uz" tvg-name="Dasturxon TV" tvg-logo="https://i.imgur.com/APM2ej5.jpeg" tvg-country="UZ" group-title="Узбекистан",Dasturxon TV · резерв 1
-https://s1.iptv-24.net/1206/index.m3u8
-#EXTINF:-1 tvg-id="Dunyoboylab.uz" tvg-name="Dunyo bo'ylab" tvg-logo="https://i.imgur.com/KArB5U6.png" tvg-country="UZ" group-title="Узбекистан",Dunyo bo'ylab · резерв 1
-https://s1.iptv-24.net/1006/index.m3u8
-#EXTINF:-1 tvg-id="LuxTV.uz" tvg-name="Lux.TV" tvg-logo="https://i.imgur.com/uVOG8g7.png" tvg-country="UZ" group-title="Узбекистан",Lux.TV · резерв 1
-https://s1.iptv-24.net/1210/index.m3u8
-#EXTINF:-1 tvg-id="Madaniyatvamarifat.uz" tvg-name="Madaniyat va ma'rifat" tvg-logo="https://i.imgur.com/eeNLXCP.png" tvg-country="UZ" group-title="Узбекистан",Madaniyat va ma'rifat · резерв 1
-https://s1.iptv-24.net/1005/index.m3u8
-#EXTINF:-1 tvg-id="Mahalla.uz" tvg-name="Mahalla" tvg-logo="https://i.imgur.com/GtABiJI.png" tvg-country="UZ" group-title="Узбекистан",Mahalla · резерв 1
-https://s1.iptv-24.net/1013/index.m3u8
-#EXTINF:-1 tvg-id="MakonTV.uz" tvg-name="Makon TV" tvg-logo="https://i.imgur.com/vCc0ED1.png" tvg-country="UZ" group-title="Узбекистан",Makon TV · резерв 1
-https://s1.iptv-24.net/1497/index.m3u8
-#EXTINF:-1 tvg-id="Milliy.uz" tvg-name="Milliy" tvg-logo="https://i.imgur.com/v4FBm26.png" tvg-country="UZ" group-title="Узбекистан",Milliy · резерв 1
-https://s1.iptv-24.net/1216/index.m3u8
-#EXTINF:-1 tvg-id="MiMiTV.uz" tvg-name="MiMi TV" tvg-logo="" tvg-country="UZ" group-title="Узбекистан",MiMi TV · резерв 1
-https://stream8.cinerama.uz/1470/tracks-v1a1/mono.m3u8
-#EXTINF:-1 tvg-id="MuloqotTV.uz" tvg-name="Muloqot TV" tvg-logo="https://m3u.usite.pro/tv/taraqq.webp" tvg-country="UZ" group-title="Узбекистан",Muloqot TV · резерв 1
-https://stream8.cinerama.uz/1285/tracks-v1a1/mono.m3u8
-#EXTINF:-1 tvg-id="MY5.uz" tvg-name="MY5" tvg-logo="https://i.imgur.com/bjlzu5k.png" tvg-country="UZ" group-title="Узбекистан",MY5 · резерв 1
-https://s1.iptv-24.net/1217/index.m3u8
-#EXTINF:-1 tvg-id="MY5.uz" tvg-name="MY5" tvg-logo="https://i.imgur.com/bjlzu5k.png" tvg-country="UZ" group-title="Узбекистан",MY5 · резерв 2
-https://stream8.cinerama.uz/1217/tracks-v1a1/playlist.m3u8
-#EXTINF:-1 tvg-id="MY5.uz" tvg-name="MY5" tvg-logo="https://i.imgur.com/bjlzu5k.png" tvg-country="UZ" group-title="Узбекистан",MY5 · резерв 3
-https://s1.iptv-24.net/1012/index.m3u8
-#EXTINF:-1 tvg-id="NurafshonTV.uz" tvg-name="Nurafshon TV" tvg-logo="https://i.imgur.com/MMdNyBU.jpeg" tvg-country="UZ" group-title="Узбекистан",Nurafshon TV · резерв 1
-https://s1.iptv-24.net/1220/index.m3u8
-#EXTINF:-1 tvg-id="Ozbekiston24.uz" tvg-name="O'zbekiston 24" tvg-logo="https://i.imgur.com/VRFhKbw.png" tvg-country="UZ" group-title="Узбекистан",O'zbekiston 24 · резерв 1
-https://s1.iptv-24.net/1011/index.m3u8
-#EXTINF:-1 tvg-id="OzbekistonTarixi.uz" tvg-name="O'zbekiston Tarixi" tvg-logo="https://i.imgur.com/iTTd3Ir.png" tvg-country="UZ" group-title="Узбекистан",O'zbekiston Tarixi · резерв 1
-https://s1.iptv-24.net/1209/index.m3u8
-#EXTINF:-1 tvg-id="Qaraqalpaqstan.uz" tvg-name="Qaraqalpaqstan" tvg-logo="https://i.imgur.com/G3qrUJh.png" tvg-country="UZ" group-title="Узбекистан",Qaraqalpaqstan · резерв 1
-https://s1.iptv-24.net/1467/index.m3u8
-#EXTINF:-1 tvg-id="RenessansTV.uz" tvg-name="Renessans TV" tvg-logo="https://i.imgur.com/cVlcqCX.png" tvg-country="UZ" group-title="Узбекистан",Renessans TV · резерв 1
-https://s1.iptv-24.net/1221/index.m3u8
-#EXTINF:-1 tvg-id="ShifoTV.uz" tvg-name="Shifo TV" tvg-logo="https://iptv.itv.uz/uploads/iptv/channels/2024/07/23//8707395e931d3bb2ce18579a995d16a7-q-500x500.jpeg" tvg-country="UZ" group-title="Узбекистан",Shifo TV · резерв 1
-#EXTVLCOPT:http-user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/131.0.0.0 Safari/537.36
-https://stream8.cinerama.uz/1469/tracks-v1a1/mono.m3u8
-#EXTINF:-1 tvg-id="ShifoTV.uz" tvg-name="Shifo TV" tvg-logo="https://i.imgur.com/RueMOT7.png" tvg-country="UZ" group-title="Узбекистан",Shifo TV · резерв 2
-https://s1.iptv-24.net/1469/index.m3u8
-#EXTINF:-1 tvg-id="TaraqqiyotTV.uz" tvg-name="Taraqqiyot TV" tvg-logo="https://i.imgur.com/V3rtPEl.jpg" tvg-country="UZ" group-title="Узбекистан",Taraqqiyot TV · резерв 1
-https://s1.iptv-24.net/1204/index.m3u8
-#EXTINF:-1 tvg-id="TTVKino.uz" tvg-name="TTV Kino" tvg-logo="https://i.imgur.com/evLrbz7.jpeg" tvg-country="UZ" group-title="Узбекистан",TTV Kino · резерв 1
-https://cdn.rostelekom-cdn.sbs/live/Dyvd6uYxr4oKYLxP.m3u8
-#EXTINF:-1 tvg-id="VodiyTV.uz" tvg-name="Vodiy TV" tvg-logo="https://m3u.usite.pro/tv/" tvg-country="UZ" group-title="Узбекистан",Vodiy TV · резерв 1
-https://stream2.cinerama.uz/4012/tracks-v1a1/mono.m3u8
-#EXTINF:-1 tvg-id="Yoshlar.uz" tvg-name="Yoshlar" tvg-logo="https://i.imgur.com/s4xfUSx.png" tvg-country="UZ" group-title="Узбекистан",Yoshlar · резерв 1
-https://s1.iptv-24.net/1002/index.m3u8
 #EXTINF:-1 tvg-id="1TV.ge" tvg-name="1TV" tvg-logo="https://1tv.ge/app/themes/wi-theme/resources/assets/img/logo/ge.png" tvg-country="GE" group-title="Грузия",1TV
 http://tv.cdn.xsg.ge/gpb-1tv/tracks-v1a1/index.m3u8
 #EXTINF:-1 tvg-id="1TVSport.ge" tvg-name="1TV Sport" tvg-logo="" tvg-country="GE" group-title="Грузия",1TV Sport
@@ -358,12 +248,6 @@ https://live.palitranews.ge/hls/palitratv/index.m3u8
 http://nue01-edge01.itdc.ge/rustavi2hqnew/mpegts
 #EXTINF:-1 tvg-id="TVPirveli.ge" tvg-name="TV Pirveli" tvg-logo="https://i.imgur.com/cGHsM1x.png" tvg-country="GE" group-title="Грузия",TV Pirveli
 http://nue01-edge01.itdc.ge/pirvelitv/mpegts
-#EXTINF:-1 tvg-id="1TV.ge" tvg-name="1TV" tvg-logo="" tvg-country="GE" group-title="Грузия",1TV · резерв 1
-http://nue01-edge01.itdc.ge/gpb/mpegts
-#EXTINF:-1 tvg-id="ImediTV.ge" tvg-name="Imedi TV" tvg-logo="https://img.ge/ib/QuUU293.png" tvg-country="GE" group-title="Грузия",Imedi TV · резерв 1
-https://tv.cdn.xsg.ge/imedihd/tracks-v1a1/mono.m3u8
-#EXTINF:-1 tvg-id="PalitraNews.ge" tvg-name="Palitra News" tvg-logo="https://i.imgur.com/BW95PMF.png" tvg-country="GE" group-title="Грузия",Palitra News · резерв 1
-https://livestream.palitra.ge/hls/palitratv/index.m3u8
 #EXTINF:-1 tvg-id="312Kino.kg" tvg-name="312 Kino" tvg-logo="https://i.ibb.co/3m9LrLj/k7gIibH.png" tvg-country="KG" group-title="Кыргызстан",312 Kino
 http://176.126.166.43:1935/live/312kino/playlist.m3u8
 #EXTINF:-1 tvg-id="312TV.kg" tvg-name="312 TV" tvg-logo="https://i.ibb.co/S6sZvqk/iLSGi6c.png" tvg-country="KG" group-title="Кыргызстан",312 TV
@@ -398,18 +282,6 @@ https://kgtv.online/live/utrk/index.m3u8
 https://kgtv.online/live/xptv/xptv1.m3u8
 #EXTINF:-1 tvg-id="UTS.kg" tvg-name="ЮТС" tvg-logo="https://res.cloudinary.com/drtfotkc8/image/upload/f_auto,q_auto/v1790270058/zxnmyoruldbitdzo3kip.jpg" tvg-country="KG" group-title="Кыргызстан",ЮТС
 https://kgtv.online/live/yutc/index.m3u8
-#EXTINF:-1 tvg-id="312Kino.kg" tvg-name="312 Kino" tvg-logo="https://i.ibb.co/3m9LrLj/k7gIibH.png" tvg-country="KG" group-title="Кыргызстан",312 Kino · резерв 1
-https://jerdesh.kg/tvstream/312kino/playlist.m3u8
-#EXTINF:-1 tvg-id="312TV.kg" tvg-name="312 TV" tvg-logo="https://i.ibb.co/S6sZvqk/iLSGi6c.png" tvg-country="KG" group-title="Кыргызстан",312 TV · резерв 1
-http://176.126.166.43:1935/live/312musik/chunklist_w1516016500.m3u8
-#EXTINF:-1 tvg-id="CineMaxKG.kg" tvg-name="CineMax KG" tvg-logo="" tvg-country="KG" group-title="Кыргызстан",CineMax KG · резерв 1
-https://cdn.rostelekom-cdn.sbs/live/VSycJZ7WuK2t8vND.m3u8
-#EXTINF:-1 tvg-id="LubimyiHD.kg" tvg-name="Lubimyi HD" tvg-logo="https://i.ibb.co/LS8kXKB/cMhp3uJ.png" tvg-country="KG" group-title="Кыргызстан",Lubimyi HD · резерв 1
-https://cdn.rostelekom-cdn.sbs/live/akBCToPl52Q1O8j3.m3u8
-#EXTINF:-1 tvg-id="RegionTV.kg" tvg-name="Region TV" tvg-logo="https://res.cloudinary.com/drtfotkc8/image/upload/f_auto,q_auto/v1775720265/mghgj3aebsqirffzehes.jpg" tvg-country="KG" group-title="Кыргызстан",Region TV · резерв 1
-https://kgtv.online/live/regiontv/4.m3u8
-#EXTINF:-1 tvg-id="TV15.kg" tvg-name="TV15" tvg-logo="https://res.cloudinary.com/drtfotkc8/image/upload/v1764115880/jz4pi9adowxpqyjvuctp.png" tvg-country="KG" group-title="Кыргызстан",TV15 · резерв 1
-https://kgtv.online/live/tv_15/0.m3u8
 #EXTINF:-1 tvg-id="Futbol.tj" tvg-name="Futbol" tvg-logo="https://i.imgur.com/RngmCDn.png" tvg-country="TJ" group-title="Таджикистан",Futbol
 http://185.121.1.163:8083/FootballHD/index.m3u8
 #EXTINF:-1 tvg-id="AltynAsyr.tm" tvg-name="Altyn Asyr" tvg-logo="https://i.imgur.com/D7RBtZ2.png" tvg-country="TM" group-title="Туркменистан",Altyn Asyr
@@ -431,58 +303,6 @@ http://217.174.225.146/legacyhls/ch004_720/index.m3u8
 #EXTINF:-1 tvg-id="Yaslyk.tm" tvg-name="Yaslyk" tvg-logo="https://i.imgur.com/QVWBNGM.png" tvg-country="TM" group-title="Туркменистан",Yaslyk
 #EXTVLCOPT:http-user-agent=TiviMate/2.8.0 (Linux; Android 11)
 http://217.174.225.146/hls/ch002_720/index.m3u8
-#EXTINF:-1 tvg-id="AltynAsyr.tm" tvg-name="Altyn Asyr" tvg-logo="https://i.imgur.com/D7RBtZ2.png" tvg-country="TM" group-title="Туркменистан",Altyn Asyr · резерв 1
-https://alpha.tv.online.tm/hls/ch001.m3u8
-#EXTINF:-1 tvg-id="AltynAsyr.tm" tvg-name="Altyn Asyr" tvg-logo="" tvg-country="TM" group-title="Туркменистан",Altyn Asyr · резерв 2
-http://217.174.225.146/legacyhls/ch001_720/index.m3u8
-#EXTINF:-1 tvg-id="AltynAsyr.tm" tvg-name="Altyn Asyr" tvg-logo="https://i.imgur.com/D7RBtZ2.png" tvg-country="TM" group-title="Туркменистан",Altyn Asyr · резерв 3
-https://alpha.tv.online.tm/legacyhls/ch001.m3u8
-#EXTINF:-1 tvg-id="ArkadagTV.tm" tvg-name="Arkadag TV" tvg-logo="https://i.imgur.com/JdEb4Ug.png" tvg-country="TM" group-title="Туркменистан",Arkadag TV · резерв 1
-https://alpha.tv.online.tm/hls/ch000.m3u8
-#EXTINF:-1 tvg-id="Asgabat.tm" tvg-name="Asgabat" tvg-logo="https://i.imgur.com/EzjR1vo.png" tvg-country="TM" group-title="Туркменистан",Asgabat · резерв 1
-https://alpha.tv.online.tm/hls/ch006.m3u8
-#EXTINF:-1 tvg-id="Asgabat.tm" tvg-name="Asgabat" tvg-logo="https://i.imgur.com/EzjR1vo.png" tvg-country="TM" group-title="Туркменистан",Asgabat · резерв 2
-https://alpha.tv.online.tm/legacyhls/ch006.m3u8
-#EXTINF:-1 tvg-id="Miras.tm" tvg-name="Miras" tvg-logo="https://i.imgur.com/pWbJzr9.png" tvg-country="TM" group-title="Туркменистан",Miras · резерв 1
-https://alpha.tv.online.tm/legacyhls/ch003_400/index.m3u8
-#EXTINF:-1 tvg-id="Miras.tm" tvg-name="Miras" tvg-logo="https://turkmentv.gov.tm/assets/img/live-imgs/miras.png" tvg-country="TM" group-title="Туркменистан",Miras · резерв 2
-http://217.174.225.146/legacyhls/ch003_720/index.m3u8
-#EXTINF:-1 tvg-id="Miras.tm" tvg-name="Miras" tvg-logo="https://i.imgur.com/pWbJzr9.png" tvg-country="TM" group-title="Туркменистан",Miras · резерв 3
-https://alpha.tv.online.tm/legacyhls/ch003.m3u8
-#EXTINF:-1 tvg-id="Miras.tm" tvg-name="Miras" tvg-logo="https://i.imgur.com/pWbJzr9.png" tvg-country="TM" group-title="Туркменистан",Miras · резерв 4
-https://alpha.tv.online.tm/hls/ch003.m3u8
-#EXTINF:-1 tvg-id="TurkmenOwazy.tm" tvg-name="Turkmen Owazy" tvg-logo="https://i.imgur.com/Ap7l2jC.png" tvg-country="TM" group-title="Туркменистан",Turkmen Owazy · резерв 1
-https://alpha.tv.online.tm/hls/ch005.m3u8
-#EXTINF:-1 tvg-id="TurkmenOwazy.tm" tvg-name="Turkmen Owazy" tvg-logo="https://i.imgur.com/Ap7l2jC.png" tvg-country="TM" group-title="Туркменистан",Turkmen Owazy · резерв 2
-#EXTVLCOPT:http-user-agent=TiviMate/2.8.0 (Linux; Android 11)
-http://217.174.225.146/hls/ch005_720/index.m3u8
-#EXTINF:-1 tvg-id="TurkmenOwazy.tm" tvg-name="Turkmen Owazy" tvg-logo="https://i.imgur.com/Ap7l2jC.png" tvg-country="TM" group-title="Туркменистан",Turkmen Owazy · резерв 3
-https://alpha.tv.online.tm/legacyhls/ch005.m3u8
-#EXTINF:-1 tvg-id="Turkmenistan.tm" tvg-name="Turkmenistan" tvg-logo="https://i.imgur.com/iBBpBx4.png" tvg-country="TM" group-title="Туркменистан",Turkmenistan · резерв 1
-https://alpha.tv.online.tm/legacyhls/ch007_720/index.m3u8
-#EXTINF:-1 tvg-id="Turkmenistan.tm" tvg-name="Turkmenistan" tvg-logo="http://tdh.gov.tm/static/logo/7.png" tvg-country="TM" group-title="Туркменистан",Turkmenistan · резерв 2
-#EXTVLCOPT:http-user-agent=TiviMate/2.8.0 (Linux; Android 11)
-http://217.174.225.146/hls/ch007_720/index.m3u8
-#EXTINF:-1 tvg-id="Turkmenistan.tm" tvg-name="Turkmenistan" tvg-logo="http://tdh.gov.tm/static/logo/7.png" tvg-country="TM" group-title="Туркменистан",Turkmenistan · резерв 3
-https://alpha.tv.online.tm/hls/ch007_400/index.m3u8?checkedby:iptvcat.net
-#EXTINF:-1 tvg-id="Turkmenistan.tm" tvg-name="Turkmenistan" tvg-logo="https://i.imgur.com/iBBpBx4.png" tvg-country="TM" group-title="Туркменистан",Turkmenistan · резерв 4
-https://alpha.tv.online.tm/hls/ch007.m3u8
-#EXTINF:-1 tvg-id="Turkmenistan.tm" tvg-name="Turkmenistan" tvg-logo="https://i.imgur.com/iBBpBx4.png" tvg-country="TM" group-title="Туркменистан",Turkmenistan · резерв 5
-https://alpha.tv.online.tm/legacyhls/ch007.m3u8
-#EXTINF:-1 tvg-id="TurkmenistanSport.tm" tvg-name="Turkmenistan Sport" tvg-logo="https://i.imgur.com/n6vITLu.png" tvg-country="TM" group-title="Туркменистан",Turkmenistan Sport · резерв 1
-https://alpha.tv.online.tm/legacyhls/ch004_720/index.m3u8
-#EXTINF:-1 tvg-id="TurkmenistanSport.tm" tvg-name="Turkmenistan Sport" tvg-logo="https://tvradioo.ru/wp-content/uploads/2023/01/sport-teleyaylym.jpg" tvg-country="TM" group-title="Туркменистан",Turkmenistan Sport · резерв 2
-http://217.174.225.146/hls/ch004_720/index.m3u8
-#EXTINF:-1 tvg-id="TurkmenistanSport.tm" tvg-name="Turkmenistan Sport" tvg-logo="https://i.imgur.com/n6vITLu.png" tvg-country="TM" group-title="Туркменистан",Turkmenistan Sport · резерв 3
-http://217.174.225.146/legacyhls/ch004_400/index.m3u8
-#EXTINF:-1 tvg-id="TurkmenistanSport.tm" tvg-name="Turkmenistan Sport" tvg-logo="https://i.imgur.com/n6vITLu.png" tvg-country="TM" group-title="Туркменистан",Turkmenistan Sport · резерв 4
-https://alpha.tv.online.tm/hls/ch004.m3u8
-#EXTINF:-1 tvg-id="TurkmenistanSport.tm" tvg-name="Turkmenistan Sport" tvg-logo="" tvg-country="TM" group-title="Туркменистан",Turkmenistan Sport · резерв 5
-https://alpha.tv.online.tm/legacyhls/ch004.m3u8
-#EXTINF:-1 tvg-id="Yaslyk.tm" tvg-name="Yaslyk" tvg-logo="https://i.imgur.com/QVWBNGM.png" tvg-country="TM" group-title="Туркменистан",Yaslyk · резерв 1
-https://alpha.tv.online.tm/legacyhls/ch002.m3u8
-#EXTINF:-1 tvg-id="Yaslyk.tm" tvg-name="Yaslyk" tvg-logo="https://i.imgur.com/QVWBNGM.png" tvg-country="TM" group-title="Туркменистан",Yaslyk · резерв 2
-https://alpha.tv.online.tm/hls/ch002.m3u8
 #EXTINF:-1 tvg-id="AgroTVMoldova.md" tvg-name="Agro TV Moldova" tvg-logo="" tvg-country="MD" group-title="Молдова",Agro TV Moldova
 https://ii.nfthost.net/static/streaming-playlists/hls/cd915b56-317a-415b-8556-871ee8a49d7c/master.m3u8
 #EXTINF:-1 tvg-id="NorocTV.md" tvg-name="Noroc TV" tvg-logo="https://i.imgur.com/XvYqpqG.png" tvg-country="MD" group-title="Молдова",Noroc TV
@@ -503,14 +323,6 @@ https://stream.bliss.md/hls/t.m3u8
 https://tvr-moldova.lg.mncdn.com/tvrmoldova/tvrmoldova.stream/playlist.m3u8
 #EXTINF:-1 tvg-id="VoceaBasarabieiTV.md" tvg-name="Vocea Basarabiei TV" tvg-logo="https://i.imgur.com/irP8QLs.png" tvg-country="MD" group-title="Молдова",Vocea Basarabiei TV
 https://media.voceabasarabiei.md/vocea/bitrate_1080p.m3u8
-#EXTINF:-1 tvg-id="NorocTV.md" tvg-name="Noroc TV" tvg-logo="https://i.imgur.com/XvYqpqG.png" tvg-country="MD" group-title="Молдова",Noroc TV · резерв 1
-https://cdn.rostelekom-cdn.sbs/live/Fs6jFMuaStGQDa0-.m3u8
-#EXTINF:-1 tvg-id="TezaurTV.md" tvg-name="Tezaur TV" tvg-logo="https://i.imgur.com/eAagwLW.png" tvg-country="MD" group-title="Молдова",Tezaur TV · резерв 1
-https://tezaurtv.md/stream/index.m3u8
-#EXTINF:-1 tvg-id="TVRMoldova.md" tvg-name="TVR Moldova" tvg-logo="https://i.imgur.com/wDe9gL2.png" tvg-country="MD" group-title="Молдова",TVR Moldova · резерв 1
-https://tvr-moldova.lg.mncdn.com/tvrmoldova/smil:tvrmoldova.smil/chunklist.m3u8
-#EXTINF:-1 tvg-id="VoceaBasarabieiTV.md" tvg-name="Vocea Basarabiei TV" tvg-logo="https://i.imgur.com/irP8QLs.png" tvg-country="MD" group-title="Молдова",Vocea Basarabiei TV · резерв 1
-https://cdn.rostelekom-cdn.sbs/live/hXz4NMHrp4WNt_mj.m3u8
 #EXTINF:-1 tvg-id="2TV.lt" tvg-name="2TV" tvg-logo="https://i.imgur.com/sZUIhGc.png" tvg-country="LT" group-title="Литва",2TV
 https://lnk5511.bstrm.net/live/687e3ff1679c8d4d68fab6c5/hd/manifest.mpd
 #EXTINF:-1 tvg-id="LietuvosRytasTV.lt" tvg-name="Lietuvos Rytas TV" tvg-logo="https://i.imgur.com/5wpxVI0.png" tvg-country="LT" group-title="Литва",Lietuvos Rytas TV
