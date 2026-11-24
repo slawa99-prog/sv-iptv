@@ -1,5 +1,5 @@
 {
-  "checked_utc": "2026-11-23T10:46:47+00:00",
+  "checked_utc": "2026-11-24T02:48:42+00:00",
   "channels": {
     "ChannelOne.ru": [
       {
@@ -23,14 +23,6 @@
         "success_rate": 1.0
       },
       {
-        "url": "https://streaming.televizor-24-tochka.ru/live/5.m3u8",
-        "headers": {
-          "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36",
-          "Referer": "https://televizor24tochka.ru/"
-        },
-        "success_rate": 0.9677
-      },
-      {
         "url": "https://flussonic.mkpnet.ru/tv-d696bdfd6a0e4373/video.m3u8",
         "headers": {},
         "success_rate": 0.9259
@@ -40,9 +32,9 @@
     "Channel5.ru": [],
     "RussiaK.ru": [
       {
-        "url": "https://live.smotrim.ru/vgtrk/0/kultura-hd/index.m3u8",
+        "url": "http://31.148.5.241/kanal_6/index.m3u8",
         "headers": {},
-        "success_rate": 0.9697
+        "success_rate": 0.9032
       }
     ],
     "Russia24.ru": [
@@ -54,12 +46,12 @@
       {
         "url": "https://stream.smotrim.ru/hls2/russia_24/playlist_3.m3u8",
         "headers": {},
-        "success_rate": 0.963
+        "success_rate": 0.9643
       },
       {
         "url": "http://dmi3y-tv.online/hls/smotrim/T2/CH_RUSSIA24_3.m3u8",
         "headers": {},
-        "success_rate": 0.9375
+        "success_rate": 0.9394
       }
     ],
     "Carousel.ru": [
@@ -71,12 +63,17 @@
       {
         "url": "https://fs.uplink.kz/karusel/mono.m3u8?token=onlinetv2",
         "headers": {},
-        "success_rate": 0.9524
+        "success_rate": 0.9545
+      },
+      {
+        "url": "https://streaming.televizor-24-tochka.ru/live/232.m3u8",
+        "headers": {},
+        "success_rate": 0.9259
       },
       {
         "url": "https://stream.smotrim.ru/hls2/karusel/playlist_3.m3u8",
         "headers": {},
-        "success_rate": 0.9231
+        "success_rate": 0.9286
       }
     ],
     "TVCentr.ru": [],
@@ -92,7 +89,7 @@
         "headers": {
           "User-Agent": "Player (Linux; Android 10)"
         },
-        "success_rate": 0.9333
+        "success_rate": 0.9375
       }
     ],
     "STS.ru": [
@@ -131,12 +128,12 @@
     ],
     "Zvezda.ru": [
       {
-        "url": "http://tvzvezda.bonus-tv.ru/cdn/tvzvezda/playlist_sdhigh.m3u8",
+        "url": "http://tvchannelstream1.tvzvezda.ru/cdn/tvzvezda/playlist_hdlow.m3u8",
         "headers": {},
         "success_rate": 1.0
       },
       {
-        "url": "http://tvchannelstream1.tvzvezda.ru/cdn/tvzvezda/playlist_hdlow.m3u8",
+        "url": "http://tvzvezda.bonus-tv.ru/cdn/tvzvezda/playlist_sdhigh.m3u8",
         "headers": {},
         "success_rate": 1.0
       },
@@ -155,9 +152,19 @@
     ],
     "Mir.ru": [
       {
+        "url": "http://45.153.24.78/MIR/index.m3u8",
+        "headers": {},
+        "success_rate": 0.9394
+      },
+      {
         "url": "https://stream8.cinerama.uz/1218/index.m3u8",
         "headers": {},
         "success_rate": 0.9394
+      },
+      {
+        "url": "http://31.148.5.241/kanal_18/index.m3u8",
+        "headers": {},
+        "success_rate": 0.9091
       }
     ],
     "TNT.ru": [
@@ -181,13 +188,6 @@
     ],
     "360.ru": [
       {
-        "url": "http://live-vgtrksmotrim.cdnvideo.ru/vgtrksmotrim/smotrim-live-04-srt.smil/tracks-v3a1/mono.m3u8",
-        "headers": {
-          "User-Agent": "TiviMate/2.8.0 (Linux; Android 11)"
-        },
-        "success_rate": 1.0
-      },
-      {
         "url": "https://e10-ll.facecast.io/evacoder_hls_hi/CkxfR1xNUAJwTgtXTBZTAJli/1.m3u8",
         "headers": {},
         "success_rate": 1.0
@@ -198,14 +198,14 @@
     "GovoritMoskva.ru": [],
     "Izvestia.ru": [
       {
-        "url": "http://hls-igi.cdnvideo.ru/igi/igi_hq/playlist.m3u8",
-        "headers": {},
-        "success_rate": 0.92
-      },
-      {
         "url": "https://igi-hls.cdnvideo.ru/igi/igi_tcode/tracks-v1a1/mono.ts.m3u8",
         "headers": {},
-        "success_rate": 0.9167
+        "success_rate": 0.9231
+      },
+      {
+        "url": "http://hls-igi.cdnvideo.ru/igi/igi_hq/playlist.m3u8",
+        "headers": {},
+        "success_rate": 0.9231
       }
     ],
     "KrikTV.ru": [
@@ -228,7 +228,7 @@
         "headers": {
           "User-Agent": "TiviMate/2.8.0 (Linux; Android 11)"
         },
-        "success_rate": 0.9333
+        "success_rate": 0.9375
       },
       {
         "url": "http://hls-rictv.cdnvideo.ru/rictv/rictv-srt-stream/playlist.m3u8",
@@ -240,12 +240,12 @@
     ],
     "Mir24.ru": [
       {
-        "url": "http://hls.mirtv.cdnvideo.ru/mirtv-parampublish/mir24_2500/playlist.m3u8",
+        "url": "https://hls-mirtv.cdnvideo.ru/mirtv-parampublish/mir24_2500/playlist.m3u8",
         "headers": {},
         "success_rate": 1.0
       },
       {
-        "url": "https://hls-mirtv.cdnvideo.ru/mirtv-parampublish/mir24_2500/playlist.m3u8",
+        "url": "http://hls.mirtv.cdnvideo.ru/mirtv-parampublish/mir24_2500/playlist.m3u8",
         "headers": {},
         "success_rate": 1.0
       },
@@ -266,7 +266,7 @@
       {
         "url": "http://online-video.rbc.ru/spb/rbctv_spb.m3u8",
         "headers": {},
-        "success_rate": 0.963
+        "success_rate": 0.9643
       }
     ],
     "Tolk.ru": [
@@ -304,17 +304,12 @@
         "success_rate": 1.0
       },
       {
-        "url": "https://flussonic.mkpnet.ru/tv-0991ea2ac6292de8/video.m3u8",
+        "url": "http://ott.watch/stream/83K27DP6PU/100.m3u8",
         "headers": {},
         "success_rate": 1.0
       }
     ],
     "vijuTV1000russkoe.ru": [
-      {
-        "url": "http://dmi3y-tv.online/hls/CH_TV1000RUSSKOEKINOHD.m3u8",
-        "headers": {},
-        "success_rate": 0.9688
-      },
       {
         "url": "https://stream8.cinerama.uz/1059/mono.m3u8",
         "headers": {},
@@ -333,6 +328,11 @@
         "url": "https://fs.uplink.kz/dom_kino/mono.m3u8?token=onlinetv2",
         "headers": {},
         "success_rate": 1.0
+      },
+      {
+        "url": "https://streaming.televizor-24-tochka.ru/live/44.m3u8",
+        "headers": {},
+        "success_rate": 0.9474
       }
     ],
     "DomkinoPremium.ru": [],
@@ -345,11 +345,16 @@
       {
         "url": "http://109.248.236.51/dorama/video.m3u8",
         "headers": {},
-        "success_rate": 0.9167
+        "success_rate": 0.9231
       }
     ],
     "Evrokino.ru": [],
     "IndiyskoyeKino.ru": [
+      {
+        "url": "http://188.113.190.12/329/tracks-v1a1/mono.m3u8",
+        "headers": {},
+        "success_rate": 1.0
+      },
       {
         "url": "https://stream8.cinerama.uz/1060/tracks-v1a1/mono.m3u8",
         "headers": {},
@@ -359,18 +364,13 @@
         "url": "https://fs.uplink.kz/indiyskoe_kino/mono.m3u8?token=onlinetv2",
         "headers": {},
         "success_rate": 1.0
-      },
-      {
-        "url": "http://188.113.190.12/329/tracks-v1a1/mono.m3u8",
-        "headers": {},
-        "success_rate": 1.0
       }
     ],
     "KinoTV.ru": [
       {
         "url": "http://vod.tuva.ru/kinotv/index.m3u8",
         "headers": {},
-        "success_rate": 0.9286
+        "success_rate": 0.9333
       }
     ],
     "Kinomix.ru": [
@@ -382,7 +382,7 @@
       {
         "url": "https://fs.uplink.kz/kinomix/mono.m3u8?token=onlinetv2",
         "headers": {},
-        "success_rate": 0.963
+        "success_rate": 0.9643
       }
     ],
     "Kinopokaz.ru": [
@@ -406,7 +406,7 @@
       {
         "url": "http://185.121.1.163:8083/Kinopremyera/index.m3u8",
         "headers": {},
-        "success_rate": 0.9259
+        "success_rate": 0.9286
       }
     ],
     "Kinosvidanie.ru": [
@@ -414,6 +414,11 @@
         "url": "https://stream8.cinerama.uz/1203/tracks-v1a1/mono.m3u8",
         "headers": {},
         "success_rate": 0.9394
+      },
+      {
+        "url": "https://live.uspeh.my/8041/video.m3u8?token=EHFHvNjTwqcqsiKN",
+        "headers": {},
+        "success_rate": 0.6667
       }
     ],
     "Kinosemja.ru": [
@@ -430,17 +435,17 @@
     ],
     "Kinoseriya.ru": [
       {
-        "url": "https://stream8.cinerama.uz/1235/tracks-v1a1/mono.m3u8",
-        "headers": {},
-        "success_rate": 1.0
-      },
-      {
         "url": "https://stream8.cinerama.uz/1235/index.m3u8",
         "headers": {},
         "success_rate": 1.0
       },
       {
         "url": "https://fs.uplink.kz/kinoseria/mono.m3u8?token=onlinetv",
+        "headers": {},
+        "success_rate": 1.0
+      },
+      {
+        "url": "https://stream8.cinerama.uz/1235/tracks-v1a1/mono.m3u8",
         "headers": {},
         "success_rate": 1.0
       }
@@ -475,12 +480,12 @@
     "Nashe.ru": [],
     "NasheNovoeKino.ru": [
       {
-        "url": "https://stream8.cinerama.uz/1051/tracks-v1a1/mono.m3u8",
+        "url": "https://fs.uplink.kz/nashe_novoe_kino/mono.m3u8?token=onlinetv2",
         "headers": {},
         "success_rate": 1.0
       },
       {
-        "url": "https://fs.uplink.kz/nashe_novoe_kino/mono.m3u8?token=onlinetv2",
+        "url": "https://stream8.cinerama.uz/1051/tracks-v1a1/mono.m3u8",
         "headers": {},
         "success_rate": 1.0
       }
@@ -494,12 +499,12 @@
         "success_rate": 1.0
       },
       {
-        "url": "https://fs.uplink.kz/rodnoe_kino/mono.m3u8?token=onlinetv2",
+        "url": "https://stream8.cinerama.uz/1212/tracks-v1a1/mono.m3u8",
         "headers": {},
         "success_rate": 1.0
       },
       {
-        "url": "https://stream8.cinerama.uz/1212/tracks-v1a1/mono.m3u8",
+        "url": "https://fs.uplink.kz/rodnoe_kino/mono.m3u8?token=onlinetv2",
         "headers": {},
         "success_rate": 1.0
       }
@@ -526,12 +531,12 @@
       {
         "url": "https://stream.smotrim.ru/hls3/fasttv03/playlist_3.m3u8",
         "headers": {},
-        "success_rate": 0.9375
+        "success_rate": 0.9412
       },
       {
         "url": "http://dmi3y-tv.online/hls/smotrim/CH_CLASSICAHD.m3u8",
         "headers": {},
-        "success_rate": 0.9333
+        "success_rate": 0.9375
       }
     ],
     "HorosheeKino.ru": [],
@@ -554,12 +559,7 @@
       {
         "url": "https://live-vgtrksmotrim.cdnvideo.ru/vgtrksmotrim/smotrim-live-01.smil/tracks-v5a1/mono.m3u8",
         "headers": {},
-        "success_rate": 0.9333
-      },
-      {
-        "url": "https://live-vgtrksmotrim.cdnvideo.ru/vgtrksmotrim/smotrim-live-01.smil/tracks-v3a1/mono.m3u8",
-        "headers": {},
-        "success_rate": 0.9286
+        "success_rate": 0.9375
       }
     ],
     "Shef.ru": [],
@@ -597,11 +597,6 @@
     ],
     "Kinokomedija.ru": [
       {
-        "url": "https://stream8.cinerama.uz/1232/tracks-v1a1/mono.m3u8",
-        "headers": {},
-        "success_rate": 1.0
-      },
-      {
         "url": "https://fs.uplink.kz/kinokomedia/mono.m3u8?token=onlinetv2",
         "headers": {},
         "success_rate": 1.0
@@ -610,21 +605,25 @@
         "url": "https://stream8.cinerama.uz/1209/tracks-v1a1/mono.m3u8",
         "headers": {},
         "success_rate": 1.0
+      },
+      {
+        "url": "https://stream8.cinerama.uz/1232/tracks-v1a1/mono.m3u8",
+        "headers": {},
+        "success_rate": 1.0
       }
     ],
     "Komediynoe.ru": [],
-    "OTVPrim.ru": [
-      {
-        "url": "https://jz2lo90hnpy.a.trbcdn.net/livemaster/yo8gr_live-5gorrrfpouq.smil/playlist.m3u8",
-        "headers": {},
-        "success_rate": 0.9677
-      }
-    ],
+    "OTVPrim.ru": [],
     "STSLove.ru": [
       {
         "url": "http://flussonic.mkpnet.ru/tv-b9f0884f9a81b8c6/video.m3u8",
         "headers": {},
         "success_rate": 1.0
+      },
+      {
+        "url": "https://flussonic.mkpnet.ru/tv-b9f0884f9a81b8c6/video.m3u8",
+        "headers": {},
+        "success_rate": 0.9394
       }
     ],
     "Subbota.ru": [
@@ -646,6 +645,11 @@
         "url": "https://fs.uplink.kz/baby_time/mono.m3u8?token=onlinetv",
         "headers": {},
         "success_rate": 1.0
+      },
+      {
+        "url": "http://109.248.236.51/baby_time/video.m3u8",
+        "headers": {},
+        "success_rate": 1.0
       }
     ],
     "FAN.ru": [],
@@ -657,16 +661,6 @@
       },
       {
         "url": "https://stream8.cinerama.uz/1445/tracks-v1a1/mono.m3u8",
-        "headers": {},
-        "success_rate": 1.0
-      },
-      {
-        "url": "https://flussonic.mkpnet.ru/tv-d66fcf59f2f4c966/video.m3u8",
-        "headers": {},
-        "success_rate": 0.9091
-      },
-      {
-        "url": "http://dmi3y-tv.online/hls/CH_GULLI_GIRL.m3u8",
         "headers": {},
         "success_rate": 1.0
       }
@@ -688,11 +682,6 @@
           "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
         },
         "success_rate": 1.0
-      },
-      {
-        "url": "http://dmi3y-tv.online/hls/CH_NICKJR.m3u8",
-        "headers": {},
-        "success_rate": 1.0
       }
     ],
     "TiJi.ru": [
@@ -704,7 +693,7 @@
       {
         "url": "https://flussonic.mkpnet.ru/tv-3848dd8604a262e0/video.m3u8",
         "headers": {},
-        "success_rate": 0.95
+        "success_rate": 0.9524
       }
     ],
     "Vgostyakhuskazki.ru": [
@@ -714,23 +703,17 @@
         "success_rate": 1.0
       },
       {
-        "url": "https://fs.uplink.kz/v_gostyah_u_skazki/mono.m3u8?token=onlinetv2",
+        "url": "https://stream8.cinerama.uz/1270/tracks-v1a1/mono.m3u8",
         "headers": {},
         "success_rate": 1.0
       },
       {
-        "url": "https://stream8.cinerama.uz/1270/tracks-v1a1/mono.m3u8",
+        "url": "https://fs.uplink.kz/v_gostyah_u_skazki/mono.m3u8?token=onlinetv2",
         "headers": {},
         "success_rate": 1.0
       }
     ],
-    "Detskiy.ru": [
-      {
-        "url": "http://dmi3y-tv.online/hls/CH_DETSKIY.m3u8",
-        "headers": {},
-        "success_rate": 0.9412
-      }
-    ],
+    "Detskiy.ru": [],
     "KapitanFantastika.ru": [
       {
         "url": "https://stream8.cinerama.uz/1406/tracks-v1a1/mono.m3u8",
@@ -759,37 +742,44 @@
       {
         "url": "https://flussonic.mkpnet.ru/tv-c8b065a591077c26/video.m3u8",
         "headers": {},
-        "success_rate": 0.9412
+        "success_rate": 0.9444
       }
     ],
     "Multilandia.ru": [
-      {
-        "url": "https://stream8.cinerama.uz/1440/tracks-v1a1/mono.m3u8",
-        "headers": {},
-        "success_rate": 0.9697
-      },
       {
         "url": "https://stream8.cinerama.uz/1440/index.m3u8",
         "headers": {},
         "success_rate": 0.9697
       },
       {
+        "url": "https://stream8.cinerama.uz/1440/tracks-v1a1/mono.m3u8",
+        "headers": {},
+        "success_rate": 0.9697
+      },
+      {
         "url": "http://flussonic.mkpnet.ru/tv-89530153f25733fe/video.m3u8",
         "headers": {},
-        "success_rate": 0.9231
+        "success_rate": 0.9259
       }
     ],
     "O.ru": [],
     "RadostMoya.ru": [
+      {
+        "url": "https://radm.mediacdn.ru/cdn/radost/playlist.m3u8",
+        "headers": {},
+        "success_rate": 0.9697
+      },
       {
         "url": "https://radm.mediacdn.ru/cdn/radost/playlist_sdhigh.m3u8",
         "headers": {},
         "success_rate": 0.9697
       },
       {
-        "url": "https://radm.mediacdn.ru/cdn/radost/playlist.m3u8",
-        "headers": {},
-        "success_rate": 0.9697
+        "url": "http://dmitry-tv.ddns.net/hls/CH_RADOSTMOYA.m3u8",
+        "headers": {
+          "User-Agent": "TiviMate/2.8.0 (Linux; Android 11)"
+        },
+        "success_rate": 1.0
       },
       {
         "url": "https://bl.rutube.ru/livestream/9ad2099eed71b4a0e577292c3bfd0708/index.m3u8?s=dnfc2e_hAPH1uFBiisUExQ&e=2092608945&scheme=https",
@@ -813,7 +803,7 @@
       {
         "url": "https://5d23269b3ec0c.streamlock.net/WEB_Smilik/Smilik.stream/playlist.m3u8",
         "headers": {},
-        "success_rate": 0.963
+        "success_rate": 0.9643
       },
       {
         "url": "https://5d23269b3ec0c.streamlock.net/WEB_Smilik/ngrp:Smilik.stream-adaptive/playlist.m3u8",
@@ -825,12 +815,17 @@
       {
         "url": "http://dmi3y-tv.online/hls/smotrim/CH_DETSKOE.m3u8",
         "headers": {},
-        "success_rate": 0.9375
+        "success_rate": 0.9412
       },
       {
         "url": "https://stream.smotrim.ru/hls3/fasttv05/playlist_3.m3u8",
         "headers": {},
-        "success_rate": 0.9375
+        "success_rate": 0.9412
+      },
+      {
+        "url": "https://stream.smotrim.ru/hls2/fasttv05/playlist_3.m3u8",
+        "headers": {},
+        "success_rate": 0.9412
       }
     ],
     "Solnce.ru": [
@@ -879,7 +874,7 @@
         "headers": {
           "User-Agent": "Player (Linux; Android 11)"
         },
-        "success_rate": 0.9375
+        "success_rate": 0.9412
       }
     ],
     "365daysTV.ru": [],
@@ -900,13 +895,7 @@
         "success_rate": 1.0
       }
     ],
-    "vijuExplore.ru": [
-      {
-        "url": "http://dmitry-tv.ddns.net/hls/CH_VIASAT_EXPLOREHD.m3u8",
-        "headers": {},
-        "success_rate": 0.9333
-      }
-    ],
+    "vijuExplore.ru": [],
     "vijuHistory.ru": [
       {
         "url": "https://stream8.cinerama.uz/1046/index.m3u8",
@@ -914,13 +903,8 @@
         "success_rate": 1.0
       }
     ],
-    "vijuNature.ru": [
-      {
-        "url": "http://dmitry-tv.ddns.net/hls/CH_VIASAT_NATUREHD.m3u8",
-        "headers": {},
-        "success_rate": 0.9394
-      }
-    ],
+    "vijuNature.ru": [],
+    "vijuPlusPlanet.ru": [],
     "Arsenal.ru": [
       {
         "url": "https://stream8.cinerama.uz/1414/tracks-v1a1/mono.m3u8",
@@ -962,11 +946,6 @@
         "success_rate": 1.0
       },
       {
-        "url": "http://vod.tuva.ru/nauka2/index.m3u8",
-        "headers": {},
-        "success_rate": 1.0
-      },
-      {
         "url": "https://vod.tuva.ru/nauka2/index.m3u8",
         "headers": {},
         "success_rate": 0.9412
@@ -979,11 +958,6 @@
         "success_rate": 1.0
       },
       {
-        "url": "https://stream.smotrim.ru/hls3/fasttv06/playlist_3.m3u8",
-        "headers": {},
-        "success_rate": 1.0
-      },
-      {
         "url": "http://dmi3y-tv.online/hls/smotrim/CH_FAKTYHD.m3u8",
         "headers": {},
         "success_rate": 1.0
@@ -991,7 +965,7 @@
       {
         "url": "http://dmi3y-tv.online/hls/smotrim/CH_FAKTY.m3u8",
         "headers": {},
-        "success_rate": 0.9286
+        "success_rate": 0.9333
       }
     ],
     "MMATVcom.ru": [
@@ -1003,7 +977,7 @@
       {
         "url": "http://streams2.sofast.tv/vglive-sk-462904/playlist.m3u8",
         "headers": {},
-        "success_rate": 0.9333
+        "success_rate": 0.9375
       }
     ],
     "vijuPlusSport.ru": [
@@ -1011,11 +985,6 @@
         "url": "https://stream8.cinerama.uz/1229/index.m3u8",
         "headers": {},
         "success_rate": 1.0
-      },
-      {
-        "url": "http://dmitry-tv.ddns.net/hls/CH_VIASAT_SPORTHD.m3u8",
-        "headers": {},
-        "success_rate": 0.9355
       }
     ],
     "AstrahanRuSport.ru": [
@@ -1029,12 +998,12 @@
     "MatchArena.ru": [],
     "MatchPlaneta.ru": [
       {
-        "url": "https://stream8.cinerama.uz/1243/index.m3u8",
+        "url": "https://stream8.cinerama.uz/1243/tracks-v1a1/mono.m3u8",
         "headers": {},
         "success_rate": 1.0
       },
       {
-        "url": "https://stream8.cinerama.uz/1243/tracks-v1a1/mono.m3u8",
+        "url": "https://stream8.cinerama.uz/1243/index.m3u8",
         "headers": {},
         "success_rate": 1.0
       }
@@ -1060,14 +1029,12 @@
         "headers": {
           "User-Agent": "Player (Linux; Android 11)"
         },
-        "success_rate": 0.9375
+        "success_rate": 0.9412
       },
       {
         "url": "http://dancehits80.denvs.ru:8080/index.m3u8",
-        "headers": {
-          "User-Agent": "TiviMate/2.8.0 (Linux; Android 11)"
-        },
-        "success_rate": 0.9375
+        "headers": {},
+        "success_rate": 0.9394
       }
     ],
     "MuzSoyuz.ru": [
@@ -1076,29 +1043,24 @@
         "headers": {
           "User-Agent": "TiviMate/2.8.0 (Linux; Android 11)"
         },
-        "success_rate": 0.9375
+        "success_rate": 0.9412
       },
       {
         "url": "http://hls-tvsoyuz.cdnvideo.ru/tvsoyuz2/muzsoyuz.6fw0-58xp-acts-esy0/playlist.m3u8",
         "headers": {
           "User-Agent": "Player (Linux; Android 10)"
         },
-        "success_rate": 0.9333
+        "success_rate": 0.9375
       },
       {
         "url": "http://hls.tvsoyuz.cdnvideo.ru/tvsoyuz2/muzsoyuz.6fw0-58xp-acts-esy0/playlist.m3u8",
         "headers": {},
-        "success_rate": 0.9259
+        "success_rate": 0.9286
       }
     ],
     "MuzykaLive.ru": [],
     "MuzykaPervogo.ru": [],
     "RUTV.ru": [
-      {
-        "url": "http://dmi3y-tv.online/hls/CH_RUTV.m3u8",
-        "headers": {},
-        "success_rate": 1.0
-      },
       {
         "url": "https://fs.uplink.kz/RuTV/mono.m3u8?token=onlinetv2",
         "headers": {},
@@ -1117,8 +1079,10 @@
         "success_rate": 1.0
       },
       {
-        "url": "http://live.stranafm.cdnvideo.ru/stranafm/smil:stranafm.smil/playlist.m3u8",
-        "headers": {},
+        "url": "http://live.stranafm.cdnvideo.ru/stranafm/stranafm.sdp/playlist.m3u8",
+        "headers": {
+          "User-Agent": "TiviMate/2.8.0 (Linux; Android 11)"
+        },
         "success_rate": 1.0
       },
       {
@@ -1129,21 +1093,19 @@
         "success_rate": 1.0
       },
       {
-        "url": "http://live.stranafm.cdnvideo.ru/stranafm/stranafm.sdp/playlist.m3u8",
-        "headers": {
-          "User-Agent": "TiviMate/2.8.0 (Linux; Android 11)"
-        },
+        "url": "http://live.stranafm.cdnvideo.ru/stranafm/smil:stranafm.smil/playlist.m3u8",
+        "headers": {},
         "success_rate": 1.0
       }
     ],
     "FONMusic.ru": [
       {
-        "url": "https://tntm.mediacdn.ru/cdn/tntmusic/index.m3u8",
+        "url": "http://tntm.mediacdn.ru/cdn/tntmusic/tracks-v3a1/mono.ts.m3u8",
         "headers": {},
         "success_rate": 1.0
       },
       {
-        "url": "http://tntm.mediacdn.ru/cdn/tntmusic/tracks-v3a1/mono.ts.m3u8",
+        "url": "https://tntm.mediacdn.ru/cdn/tntmusic/index.m3u8",
         "headers": {},
         "success_rate": 1.0
       },
@@ -1185,12 +1147,12 @@
     ],
     "Telecafe.ru": [
       {
-        "url": "https://stream8.cinerama.uz/1035/index.m3u8",
+        "url": "https://stream8.cinerama.uz/1035/tracks-v1a1/mono.m3u8",
         "headers": {},
         "success_rate": 1.0
       },
       {
-        "url": "https://stream8.cinerama.uz/1035/tracks-v1a1/mono.m3u8",
+        "url": "https://stream8.cinerama.uz/1035/index.m3u8",
         "headers": {},
         "success_rate": 1.0
       }
@@ -1235,13 +1197,7 @@
         "success_rate": 1.0
       }
     ],
-    "ZdorovoeTV.ru": [
-      {
-        "url": "https://stream1.cinerama.uz/1428/tracks-v1a1/mono.m3u8",
-        "headers": {},
-        "success_rate": 1.0
-      }
-    ],
+    "ZdorovoeTV.ru": [],
     "Channel12.ru": [
       {
         "url": "http://12channel.bonus-tv.ru/cdn/12channel/playlist_hdhigh.m3u8",
@@ -1254,25 +1210,19 @@
         "url": "http://12channel.bonus-tv.ru/cdn/12channel/playlist_sdhigh.m3u8",
         "headers": {},
         "success_rate": 0.9697
-      },
-      {
-        "url": "https://gtrkomsk-live.cdnvideo.ru/gtrkomsk/gtrkomsk.smil/playlist.m3u8",
-        "headers": {},
-        "success_rate": 1.0
       }
     ],
-    "Channel8Krasnoyarsk.ru": [],
     "Channel8Novosibirsk.ru": [
+      {
+        "url": "https://live-8knsk.cdnvideo.ru/8knsk/stream1/playlist.m3u8",
+        "headers": {},
+        "success_rate": 1.0
+      },
       {
         "url": "http://live-8knsk.cdnvideo.ru/8knsk/stream1/playlist.m3u8",
         "headers": {
           "User-Agent": "TiviMate/2.8.0 (Linux; Android 11)"
         },
-        "success_rate": 1.0
-      },
-      {
-        "url": "https://live-8knsk.cdnvideo.ru/8knsk/stream1/playlist.m3u8",
-        "headers": {},
         "success_rate": 1.0
       }
     ],
@@ -1298,20 +1248,15 @@
     "Zoopark.ru": [],
     "Arkhyz24.ru": [
       {
-        "url": "https://live.mediacdn.ru/sr1/arhis24/playlist_hdhigh.m3u8",
+        "url": "http://live.mediacdn.ru/sr1/arhis24/playlist_hdhigh.m3u8",
         "headers": {},
-        "success_rate": 0.9394
+        "success_rate": 1.0
       },
       {
         "url": "http://live.mediacdn.ru/sr1/arhis24/playlist.m3u8",
         "headers": {
           "User-Agent": "TiviMate/2.8.0 (Linux; Android 11)"
         },
-        "success_rate": 1.0
-      },
-      {
-        "url": "http://live.mediacdn.ru/sr1/arhis24/playlist_hdhigh.m3u8",
-        "headers": {},
         "success_rate": 1.0
       },
       {
@@ -1323,13 +1268,6 @@
       }
     ],
     "BigAsia.ru": [
-      {
-        "url": "http://dmitry-tv.ddns.net/hls/CH_BAZIYAHD720.m3u8",
-        "headers": {
-          "User-Agent": "Player (Linux; Android 11)"
-        },
-        "success_rate": 1.0
-      },
       {
         "url": "http://live-bigasia.cdnvideo.ru/bigasia/bigasia.smil/tracks-v1a1/mono.m3u8",
         "headers": {
@@ -1424,29 +1362,23 @@
         "url": "https://stream8.cinerama.uz/1250/tracks-v1a1/mono.m3u8",
         "headers": {},
         "success_rate": 1.0
-      },
-      {
-        "url": "http://dmi3y-tv.online/hls/CH_ZHIVAYA_PLANETA.m3u8",
-        "headers": {},
-        "success_rate": 1.0
       }
     ],
-    "Zhivayapriroda.ru": [],
     "ZagorodnayaZhizn.ru": [
       {
         "url": "https://flussonic.mkpnet.ru/tv-a651b413f5cb4c44/video.m3u8",
         "headers": {},
-        "success_rate": 0.963
+        "success_rate": 0.9643
       }
     ],
     "ZvezdaPlus.ru": [
       {
-        "url": "https://tvzvezda.bonus-tv.ru/cdn/zvezdaplus/index.m3u8",
+        "url": "http://tvzvezda.bonus-tv.ru/cdn/zvezdaplus/tracks-v2a1/mono.ts.m3u8",
         "headers": {},
         "success_rate": 0.9697
       },
       {
-        "url": "http://tvzvezda.bonus-tv.ru/cdn/zvezdaplus/tracks-v2a1/mono.ts.m3u8",
+        "url": "https://tvzvezda.bonus-tv.ru/cdn/zvezdaplus/index.m3u8",
         "headers": {},
         "success_rate": 0.9697
       },
@@ -1464,12 +1396,12 @@
         "headers": {
           "User-Agent": "Player (Linux; Android 11)"
         },
-        "success_rate": 0.9375
+        "success_rate": 0.9412
       },
       {
         "url": "https://ingushetia.mediacdn.ru/cdn/ingushetia/tracks-v1a1/mono.m3u8",
         "headers": {},
-        "success_rate": 0.9375
+        "success_rate": 0.9412
       }
     ],
     "KongressTV.ru": [
@@ -1500,16 +1432,21 @@
       {
         "url": "http://bsttv.bonus-tv.ru/cdn/kurai/playlist.m3u8",
         "headers": {
-          "User-Agent": "Player (Linux; Android 11)"
+          "User-Agent": "TiviMate/2.8.0 (Linux; Android 11)"
         },
         "success_rate": 1.0
       },
       {
         "url": "http://bsttv.bonus-tv.ru/cdn/kurai/playlist.m3u8",
         "headers": {
-          "User-Agent": "TiviMate/2.8.0 (Linux; Android 11)"
+          "User-Agent": "Player (Linux; Android 11)"
         },
         "success_rate": 1.0
+      },
+      {
+        "url": "https://bsttv.bonus-tv.ru/cdn/kurai/playlist.m3u8",
+        "headers": {},
+        "success_rate": 0.913
       }
     ],
     "Moskva24.ru": [
@@ -1521,7 +1458,7 @@
       {
         "url": "https://stream.smotrim.ru/hls/moscow_24/playlist_3.m3u8",
         "headers": {},
-        "success_rate": 0.9259
+        "success_rate": 0.9286
       },
       {
         "url": "https://stream.smotrim.ru/hls/moscow_24/playlist.m3u8?entity=channel&id=76&sign=e8e1bc15ce94ee7718ef8948500e5d21",
@@ -1557,7 +1494,7 @@
       {
         "url": "http://dmitry-tv.ddns.net/hls/CH_NST.m3u8",
         "headers": {},
-        "success_rate": 0.9333
+        "success_rate": 0.9355
       }
     ],
     "OsetiyaIryston.ru": [
@@ -1567,18 +1504,10 @@
         "success_rate": 1.0
       }
     ],
-    "OSN.ru": [
-      {
-        "url": "http://osnmedia.servicecdn.ru/streams/17603_88089/playlist.m3u8",
-        "headers": {
-          "User-Agent": "TiviMate/2.8.0 (Linux; Android 11)"
-        },
-        "success_rate": 0.5
-      }
-    ],
+    "OSN.ru": [],
     "Okhotairybalka.ru": [
       {
-        "url": "http://dmi3y-tv.online/hls/CH_OHOTAIRYBALKA.m3u8",
+        "url": "http://ott.watch/stream/6HAPZWKKG3/155.m3u8",
         "headers": {},
         "success_rate": 1.0
       },
@@ -1586,21 +1515,16 @@
         "url": "http://stream2.cinerama.uz/1038/tracks-v1a1/mono.m3u8",
         "headers": {},
         "success_rate": 1.0
-      },
-      {
-        "url": "http://ott.watch/stream/6HAPZWKKG3/155.m3u8",
-        "headers": {},
-        "success_rate": 1.0
       }
     ],
     "Ohotnikirybolov.ru": [
       {
-        "url": "https://stream8.cinerama.uz/1413/tracks-v1a1/mono.m3u8",
+        "url": "http://ott.watch/stream/6HAPZWKKG3/194.m3u8",
         "headers": {},
         "success_rate": 1.0
       },
       {
-        "url": "http://ott.watch/stream/6HAPZWKKG3/194.m3u8",
+        "url": "https://stream8.cinerama.uz/1413/tracks-v1a1/mono.m3u8",
         "headers": {},
         "success_rate": 1.0
       }
@@ -1608,11 +1532,6 @@
     "Priklyucheniya.ru": [
       {
         "url": "https://stream8.cinerama.uz/1420/index.m3u8",
-        "headers": {},
-        "success_rate": 1.0
-      },
-      {
-        "url": "https://stream1.cinerama.uz/1420/tracks-v1a1/mono.m3u8",
         "headers": {},
         "success_rate": 1.0
       }
@@ -1638,7 +1557,7 @@
       {
         "url": "https://flussonic.mkpnet.ru/tv-86cc4bfff941b275/video.m3u8",
         "headers": {},
-        "success_rate": 0.963
+        "success_rate": 0.9643
       },
       {
         "url": "http://origin5.mediacdn.ru/live/prodvizhenie_new/index.m3u8",
@@ -1674,16 +1593,16 @@
     "Rus.ru": [],
     "Salyam.ru": [
       {
-        "url": "https://bsttv.bonus-tv.ru/cdn/salyam/playlist.m3u8",
-        "headers": {},
-        "success_rate": 0.9697
-      },
-      {
         "url": "http://bsttv.bonus-tv.ru/cdn/salyam/playlist.m3u8",
         "headers": {
           "User-Agent": "Player (Linux; Android 11)"
         },
         "success_rate": 1.0
+      },
+      {
+        "url": "https://bsttv.bonus-tv.ru/cdn/salyam/playlist.m3u8",
+        "headers": {},
+        "success_rate": 0.9697
       },
       {
         "url": "https://bsttv.bonus-tv.ru/cdn/salyam/playlist.m3u8",
@@ -1695,7 +1614,6 @@
     ],
     "Sarafan.ru": [],
     "SvoyoTV.ru": [],
-    "Sever.ru": [],
     "T24.ru": [
       {
         "url": "https://fs.uplink.kz/tehno_24/mono.m3u8?token=onlinetv2",
@@ -1705,19 +1623,7 @@
     ],
     "TelekanalKrasnodar.ru": [
       {
-        "url": "http://live-tvkrasnodar.cdnvideo.ru/tvkrasnodar/tvkrasnodar.sdp/playlist.m3u8",
-        "headers": {
-          "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 13_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36 Edg/109.0.1518.69"
-        },
-        "success_rate": 1.0
-      },
-      {
         "url": "http://live-tvkrasnodar-soc.cdnvideo.ru/tvkrasnodar-soc/social/playlist.m3u8",
-        "headers": {},
-        "success_rate": 1.0
-      },
-      {
-        "url": "https://live-tvkrasnodar-soc.cdnvideo.ru/tvkrasnodar-soc/social/playlist.m3u8",
         "headers": {},
         "success_rate": 1.0
       },
@@ -1725,12 +1631,26 @@
         "url": "https://live-tvkrasnodar.cdnvideo.ru/tvkrasnodar/tvkrasnodar.sdp/tracks-v1a1/mono.m3u8",
         "headers": {},
         "success_rate": 1.0
+      },
+      {
+        "url": "http://live-tvkrasnodar.cdnvideo.ru/tvkrasnodar/tvkrasnodar.sdp/playlist.m3u8",
+        "headers": {
+          "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 13_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36 Edg/109.0.1518.69"
+        },
+        "success_rate": 1.0
+      },
+      {
+        "url": "https://live-tvkrasnodar-soc.cdnvideo.ru/tvkrasnodar-soc/social/playlist.m3u8",
+        "headers": {},
+        "success_rate": 1.0
       }
     ],
     "TNVPlanet.ru": [
       {
-        "url": "http://user91229.clients-cdnnow.ru/hls/user91229_1.m3u8",
-        "headers": {},
+        "url": "http://planeta.mediacdn.ru/cdn/tnvplanet/tracks-v1a1/mono.m3u8",
+        "headers": {
+          "User-Agent": "Player (Linux; Android 11)"
+        },
         "success_rate": 1.0
       },
       {
@@ -1741,10 +1661,8 @@
         "success_rate": 1.0
       },
       {
-        "url": "http://planeta.mediacdn.ru/cdn/tnvplanet/tracks-v1a1/mono.m3u8",
-        "headers": {
-          "User-Agent": "Player (Linux; Android 11)"
-        },
+        "url": "http://user91229.clients-cdnnow.ru/hls/user91229_1.m3u8",
+        "headers": {},
         "success_rate": 1.0
       },
       {
@@ -1759,11 +1677,6 @@
         "url": "https://stream8.cinerama.uz/1031/tracks-v1a1/mono.m3u8",
         "headers": {},
         "success_rate": 1.0
-      },
-      {
-        "url": "https://flussonic.mkpnet.ru/tv-025f6f42ae5bcfc6/video.m3u8",
-        "headers": {},
-        "success_rate": 0.963
       }
     ],
     "Usadba.ru": [
@@ -1775,21 +1688,19 @@
     ],
     "UgraTV.ru": [
       {
-        "url": "https://bl.rutube.ru/livestream/360eabf2bf139f0a97b971c4b92d09b6/index.m3u8?s=dd8rwbcqT54vwd3Nj7Ws1Q&e=2094816127&scheme=https",
-        "headers": {
-          "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
-        },
-        "success_rate": 0.9375
+        "url": "https://live-ugratv.cdnvideo.ru/ugratv/ugratv/playlist.m3u8",
+        "headers": {},
+        "success_rate": 0.9333
       }
     ],
     "Soyuz.ru": [
       {
-        "url": "http://dmi3y-tv.online/hls/CH_SOYUZHD.m3u8",
+        "url": "https://hls-tvsoyuz.cdnvideo.ru/tvsoyuz/soyuz/playlist.m3u8",
         "headers": {},
         "success_rate": 0.9697
       },
       {
-        "url": "https://hls-tvsoyuz.cdnvideo.ru/tvsoyuz/soyuz/playlist.m3u8",
+        "url": "http://dmi3y-tv.online/hls/CH_SOYUZHD.m3u8",
         "headers": {},
         "success_rate": 0.9697
       },
@@ -1806,18 +1717,7 @@
         "success_rate": 0.9394
       }
     ],
-    "Neizvestnayaplaneta.ru": [
-      {
-        "url": "http://stitch.teletarget.ru/api/v1/hls/vintera/neplaneta/index.m3u8?wmsAuthSign=c2VydmVyX3RpbWU9MTAvNC8yMDI1IDI6NDk6MzYgUE0maGFzaF92YWx1ZT12Q1hScElvWmtORUJNNU91R1k1alNnPT0mdmFsaWRtaW51dGVzPTQ4MA==",
-        "headers": {},
-        "success_rate": 0.9286
-      },
-      {
-        "url": "http://stitch.teletarget.ru/api/v1/hls/vintera/neplaneta/index.m3u8",
-        "headers": {},
-        "success_rate": 0.9091
-      }
-    ],
+    "Neizvestnayaplaneta.ru": [],
     "Muzhskoy.ru": [
       {
         "url": "https://fonbet.mediacdn.ru/live/muzhskoi/playlist.m3u8",
@@ -1825,7 +1725,15 @@
         "success_rate": 0.9394
       }
     ],
-    "NashDom.ru": [],
+    "NashDom.ru": [
+      {
+        "url": "http://85.234.33.63/stream/c11.m3u8",
+        "headers": {
+          "User-Agent": "Player (Linux; Android 11)"
+        },
+        "success_rate": 0.5
+      }
+    ],
     "OTV.ru": [
       {
         "url": "https://vd.obltv.ru/watch/air_hd.m3u8",
@@ -1857,15 +1765,15 @@
     ],
     "Belarus2.by": [
       {
+        "url": "https://ngtrk.dc.beltelecom.by/ngtrk/smil:belarus2.smil/playlist.m3u8",
+        "headers": {},
+        "success_rate": 1.0
+      },
+      {
         "url": "https://edge50.dc.beltelecom.by/ngtrk/smil:belarus2.smil/chunklist_b5160000_sleng.m3u8",
         "headers": {
           "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 13_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36 Edg/109.0.1518.69"
         },
-        "success_rate": 1.0
-      },
-      {
-        "url": "https://ngtrk.dc.beltelecom.by/ngtrk/smil:belarus2.smil/playlist.m3u8",
-        "headers": {},
         "success_rate": 1.0
       },
       {
@@ -1883,12 +1791,12 @@
         "success_rate": 1.0
       },
       {
-        "url": "https://edge53.dc.beltelecom.by/ngtrk/_definst_/smil:belarus24.smil/chunklist_w1873224608_b5160000_sleng.m3u8",
+        "url": "https://edge53.dc.beltelecom.by/ngtrk/smil:belarus24.smil/playlist.m3u8",
         "headers": {},
         "success_rate": 1.0
       },
       {
-        "url": "https://edge53.dc.beltelecom.by/ngtrk/smil:belarus24.smil/playlist.m3u8",
+        "url": "https://edge53.dc.beltelecom.by/ngtrk/_definst_/smil:belarus24.smil/chunklist_w1873224608_b5160000_sleng.m3u8",
         "headers": {},
         "success_rate": 1.0
       },
@@ -1907,6 +1815,11 @@
         "success_rate": 1.0
       },
       {
+        "url": "https://edge50.dc.beltelecom.by/ngtrk/_definst_/smil:belarus3.smil/chunklist_w1684528521_b5160000_sleng.m3u8",
+        "headers": {},
+        "success_rate": 1.0
+      },
+      {
         "url": "http://dmitry-tv.ddns.net/hls/blrus/CH_BELARUS3.m3u8",
         "headers": {},
         "success_rate": 1.0
@@ -1916,11 +1829,6 @@
         "headers": {
           "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 13_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36 Edg/109.0.1518.69"
         },
-        "success_rate": 1.0
-      },
-      {
-        "url": "https://edge50.dc.beltelecom.by/ngtrk/_definst_/smil:belarus3.smil/chunklist_w1684528521_b5160000_sleng.m3u8",
-        "headers": {},
         "success_rate": 1.0
       }
     ],
@@ -1947,11 +1855,6 @@
       }
     ],
     "CGTNRussian.cn": [
-      {
-        "url": "https://russian-liveali.cgtn.com/hls/LSvexABhNipibK5KRuUkvHZ7220802LSTeze9o8tdFXMHsb1VosgoT220802cd/playlist.m3u8",
-        "headers": {},
-        "success_rate": 1.0
-      },
       {
         "url": "http://english-livetx.cgtn.com/hls/LSvexABhNipibK5KRuUkvHZ7220802LSTeze9o8tdFXMHsb1VosgoT220802_hd.m3u8",
         "headers": {},
@@ -1988,21 +1891,29 @@
       }
     ],
     "Home4K.ru": [],
-    "Leomax24.ru": [],
+    "Leomax24.ru": [
+      {
+        "url": "http://tvshops.bonus-tv.ru/cdn/shop24/playlist.m3u8",
+        "headers": {
+          "User-Agent": "TiviMate/2.8.0 (Linux; Android 11)"
+        },
+        "success_rate": 0.9286
+      }
+    ],
     "Magnat.ru": [],
     "NashaTema.ru": [],
     "NickelodeonCIS.kz": [],
     "PerviyInformationniy.by": [
       {
-        "url": "https://edge50.dc.beltelecom.by/ngtrk/smil:informacionnyy.smil/chunklist_b1010000_sleng.m3u8",
-        "headers": {},
-        "success_rate": 1.0
-      },
-      {
         "url": "https://edge50.dc.beltelecom.by/ngtrk/_definst_/smil:informacionnyy.smil/chunklist_w868240704_b5160000_sleng.m3u8",
         "headers": {
           "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 13_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36 Edg/109.0.1518.69"
         },
+        "success_rate": 1.0
+      },
+      {
+        "url": "https://edge50.dc.beltelecom.by/ngtrk/smil:informacionnyy.smil/chunklist_b1010000_sleng.m3u8",
+        "headers": {},
         "success_rate": 1.0
       },
       {
@@ -2042,7 +1953,7 @@
       {
         "url": "http://origin5.mediacdn.ru/live/shoppinglivedist/index.m3u8",
         "headers": {},
-        "success_rate": 0.9333
+        "success_rate": 0.9375
       }
     ],
     "STV.by": [
@@ -2099,15 +2010,15 @@
     ],
     "Yuvelirochka.ru": [
       {
-        "url": "https://live-uvelirochka.cdnvideo.ru/uvelirochka/uvelirochka_720p3/tracks-v1a1/mono.m3u8?hls_proxy_host=4e78605bb909253a60de325d60db8383",
-        "headers": {},
-        "success_rate": 1.0
-      },
-      {
         "url": "http://live-uvelirochka.cdnvideo.ru/uvelirochka/uvelirochka_720p3/playlist.m3u8",
         "headers": {
           "User-Agent": "TiviMate/2.8.0 (Linux; Android 11)"
         },
+        "success_rate": 1.0
+      },
+      {
+        "url": "https://live-uvelirochka.cdnvideo.ru/uvelirochka/uvelirochka_720p3/tracks-v1a1/mono.m3u8?hls_proxy_host=4e78605bb909253a60de325d60db8383",
+        "headers": {},
         "success_rate": 1.0
       },
       {
@@ -2116,14 +2027,21 @@
           "User-Agent": "Player (Linux; Android 11)"
         },
         "success_rate": 1.0
+      },
+      {
+        "url": "http://live-uvelirochka.cdnvideo.ru/uvelirochka/uvelirochka_720p3/playlist.m3u8",
+        "headers": {},
+        "success_rate": 1.0
       }
     ],
     "Arktika24.ru": [],
     "Astrahan24.ru": [],
     "HuzurTV.ru": [
       {
-        "url": "http://hls-mycdn08724960135.cdnvideo.ru/mycdn08724960135/stream1/playlist.m3u8?checkedby:iptvcat.com",
-        "headers": {},
+        "url": "http://hls-mycdn08724960135.cdnvideo.ru/mycdn08724960135/stream1/tracks-v1a1/mono.m3u8",
+        "headers": {
+          "User-Agent": "TiviMate/2.8.0 (Linux; Android 11)"
+        },
         "success_rate": 1.0
       },
       {
@@ -2132,10 +2050,8 @@
         "success_rate": 1.0
       },
       {
-        "url": "http://hls-mycdn08724960135.cdnvideo.ru/mycdn08724960135/stream1/tracks-v1a1/mono.m3u8",
-        "headers": {
-          "User-Agent": "TiviMate/2.8.0 (Linux; Android 11)"
-        },
+        "url": "http://hls-mycdn08724960135.cdnvideo.ru/mycdn08724960135/stream1/playlist.m3u8?checkedby:iptvcat.com",
+        "headers": {},
         "success_rate": 1.0
       },
       {
@@ -2170,18 +2086,18 @@
         "url": "https://live-mordovia24.cdnvideo.ru/mordovia24/streamtr/playlist.m3u8",
         "headers": {},
         "success_rate": 0.9394
-      },
-      {
-        "url": "http://live-mordovia24.cdnvideo.ru/mordovia24/streamtr/playlist.m3u8",
-        "headers": {},
-        "success_rate": 1.0
       }
     ],
     "MTVVolgograd.ru": [
       {
         "url": "http://hls.volgograd1vtv.cdnvideo.ru/volgograd1vtv/volgograd1vtv.sdp/tracks-v1a1/mono.m3u8",
         "headers": {},
-        "success_rate": 0.9375
+        "success_rate": 0.9412
+      },
+      {
+        "url": "https://hls-volgograd1vtv.cdnvideo.ru/volgograd1vtv/volgograd1vtv.sdp/playlist.m3u8",
+        "headers": {},
+        "success_rate": 1.0
       },
       {
         "url": "http://hls-volgograd1vtv.cdnvideo.ru/volgograd1vtv/volgograd1vtv.sdp/playlist.m3u8",
@@ -2189,25 +2105,20 @@
           "User-Agent": "Player (Linux; Android 11)"
         },
         "success_rate": 1.0
-      },
-      {
-        "url": "https://hls-volgograd1vtv.cdnvideo.ru/volgograd1vtv/volgograd1vtv.sdp/playlist.m3u8",
-        "headers": {},
-        "success_rate": 1.0
       }
     ],
     "PerviyKrymskiy.ru": [],
     "Roman.ru": [],
     "Smotrim100Prazdnik.ru": [
       {
-        "url": "https://stream.smotrim.ru/hls2/fasttv04/playlist_3.m3u8",
+        "url": "https://stream.smotrim.ru/hls/fasttv04/playlist_3.m3u8",
         "headers": {},
-        "success_rate": 0.9375
+        "success_rate": 0.9394
       },
       {
         "url": "http://dmi3y-tv.online/hls/smotrim/CH_PRAZDNIK.m3u8",
         "headers": {},
-        "success_rate": 0.9333
+        "success_rate": 0.9375
       }
     ],
     "sv.echo24-novouralsk": [
@@ -2216,19 +2127,19 @@
         "headers": {
           "User-Agent": "TiviMate/2.8.0 (Linux; Android 11)"
         },
-        "success_rate": 0.9375
+        "success_rate": 0.9412
       },
       {
         "url": "http://stream.novouralsk-news.ru/echotv24/echotv24-576p.m3u8",
         "headers": {
           "User-Agent": "Player (Linux; Android 11)"
         },
-        "success_rate": 0.9375
+        "success_rate": 0.9412
       },
       {
         "url": "http://stream.novouralsk-news.ru/echotv24/live.m3u8",
         "headers": {},
-        "success_rate": 0.9167
+        "success_rate": 0.9231
       }
     ],
     "sv.prnk": [
@@ -2240,14 +2151,14 @@
       {
         "url": "https://serv25.vintera.tv/1pnk/prnk/playlist.m3u8",
         "headers": {},
-        "success_rate": 0.963
+        "success_rate": 0.9643
       },
       {
         "url": "https://serv25.vintera.tv/1pnk/prnk/chunks.m3u8",
         "headers": {
           "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 13_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36 Edg/109.0.1518.69"
         },
-        "success_rate": 0.9375
+        "success_rate": 0.9412
       }
     ],
     "sv.tass": [
@@ -2274,7 +2185,7 @@
         "success_rate": 1.0
       },
       {
-        "url": "http://tass-hls.servicecdn.ru/httpstreamer/tass-loop-main.stream/playlist.m3u8",
+        "url": "http://tass-hls.servicecdn.ru/httpstreamer/tass-loop-main.stream_480p/playlist.m3u8",
         "headers": {
           "User-Agent": "Player (Linux; Android 11)"
         },
@@ -2284,22 +2195,22 @@
     "Telplus.ru": [
       {
         "url": "http://streaming.astrakhan.ru/telplushd/playlist.m3u8",
+        "headers": {
+          "User-Agent": "TiviMate/2.8.0 (Linux; Android 11)"
+        },
+        "success_rate": 0.9412
+      },
+      {
+        "url": "http://streaming.astrakhan.ru/telplushd/playlist.m3u8",
         "headers": {},
-        "success_rate": 0.9375
+        "success_rate": 0.9412
       },
       {
         "url": "http://streaming.astrakhan.ru/telplushd/playlist.m3u8",
         "headers": {
           "User-Agent": "Player (Linux; Android 11)"
         },
-        "success_rate": 0.9375
-      },
-      {
-        "url": "http://streaming.astrakhan.ru/telplushd/playlist.m3u8",
-        "headers": {
-          "User-Agent": "TiviMate/2.8.0 (Linux; Android 11)"
-        },
-        "success_rate": 0.9375
+        "success_rate": 0.9412
       }
     ],
     "TV21.ru": [],
@@ -2307,7 +2218,7 @@
       {
         "url": "https://flussonic.mkpnet.ru/tv-b9ddf7deb3d25757/video.m3u8",
         "headers": {},
-        "success_rate": 0.9091
+        "success_rate": 0.913
       }
     ],
     "UniverTV.ru": [
@@ -2317,19 +2228,19 @@
         "success_rate": 1.0
       },
       {
-        "url": "http://cdn.universmotri.ru/live/mq.sdp/playlist.m3u8",
-        "headers": {},
-        "success_rate": 1.0
-      },
-      {
         "url": "http://dmi3y-tv.online/hls/region/CH_UNIVER_KZN.m3u8",
         "headers": {},
         "success_rate": 1.0
       },
       {
-        "url": "https://cdn.universmotri.ru/live/smil:univer.smil/chunklist_w911267907_b3628000_slru.m3u8",
+        "url": "http://cdn.universmotri.ru/live/mq.sdp/playlist.m3u8",
+        "headers": {},
+        "success_rate": 1.0
+      },
+      {
+        "url": "https://cdn.universmotri.ru/live/hq.sdp/playlist.m3u8",
         "headers": {
-          "User-Agent": "Player (Linux; Android 10)"
+          "User-Agent": "Player (Linux; Android 11)"
         },
         "success_rate": 1.0
       }
@@ -2343,26 +2254,18 @@
       {
         "url": "https://live-gtrk.smotrim.ru/vgtrk/chelyabinsk/ural24-hd/track_105_4e9e7e3b/chunklist.m3u8",
         "headers": {},
-        "success_rate": 0.9412
+        "success_rate": 0.9444
       },
       {
         "url": "http://dmitry-tv.ddns.net/hls/smotrim/region/CH_URAL24HD_CHEL.m3u8",
         "headers": {
           "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 13_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36 Edg/109.0.1518.69"
         },
-        "success_rate": 0.9091
+        "success_rate": 0.9167
       }
     ],
     "Zapad24.ru": [],
-    "Don24.ru": [
-      {
-        "url": "https://bl.rutube.ru/livestream/72ced5d533f940251e5e4bd5d61f6bc9/index.m3u8?s=hPYlm6Jwa5PjP2dOf8tE7A&e=2094816146&scheme=https",
-        "headers": {
-          "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
-        },
-        "success_rate": 1.0
-      }
-    ],
+    "Don24.ru": [],
     "Crimea24.ru": [
       {
         "url": "http://live24.1tvcrimea.ru/switcher.m3u8",
@@ -2378,14 +2281,14 @@
     "KinoSat.ru": [],
     "A2.ru": [
       {
-        "url": "https://flussonic.mkpnet.ru/tv-cad19a32f4a82824/video.m3u8",
-        "headers": {},
-        "success_rate": 0.963
-      },
-      {
         "url": "http://flussonic.mkpnet.ru/tv-cad19a32f4a82824/video.m3u8",
         "headers": {},
-        "success_rate": 0.963
+        "success_rate": 0.9643
+      },
+      {
+        "url": "https://flussonic.mkpnet.ru/tv-cad19a32f4a82824/video.m3u8",
+        "headers": {},
+        "success_rate": 0.9643
       }
     ],
     "MirSeriala.ru": [],
@@ -2401,6 +2304,11 @@
     "Perviyotdel.ru": [],
     "Smotrim100Lyubov.ru": [
       {
+        "url": "https://stream.smotrim.ru/hls2/fasttv01/playlist_2.m3u8",
+        "headers": {},
+        "success_rate": 1.0
+      },
+      {
         "url": "https://stream.smotrim.ru/hls2/fasttv01/playlist_3.m3u8",
         "headers": {},
         "success_rate": 1.0
@@ -2409,62 +2317,39 @@
         "url": "https://stream.smotrim.ru/hls/fasttv01/playlist_3.m3u8",
         "headers": {},
         "success_rate": 1.0
-      },
-      {
-        "url": "http://dmi3y-tv.online/hls/smotrim/CH_LYUBOVHD.m3u8",
-        "headers": {},
-        "success_rate": 1.0
-      },
-      {
-        "url": "https://stream.smotrim.ru/hls2/fasttv01/playlist_2.m3u8",
-        "headers": {},
-        "success_rate": 1.0
       }
     ],
-    "Smotrim100Muzhskoe.ru": [
-      {
-        "url": "http://dmi3y-tv.online/hls/smotrim/CH_MUZHSKOEHD.m3u8",
-        "headers": {},
-        "success_rate": 0.9375
-      }
-    ],
-    "Channel8.ru": [
-      {
-        "url": "https://flussonic.mkpnet.ru/tv-a308d006109b1c1f/video.m3u8",
-        "headers": {},
-        "success_rate": 0.9231
-      }
-    ],
+    "Smotrim100Muzhskoe.ru": [],
+    "Channel8.ru": [],
     "India.ru": [],
     "Poehali.ru": [],
     "Che.ru": [],
     "CartoonClassics.ru": [],
     "TERRA.ru": [],
     "TopSecret.ru": [],
-    "Tochkarf.ru": [
-      {
-        "url": "http://dmi3y-tv.online/hls/CH_TOCHKA_RFHD.m3u8",
-        "headers": {},
-        "success_rate": 1.0
-      }
-    ],
+    "Tochkarf.ru": [],
     "Sportivnyy.ru": [],
     "Maidan.ru": [
+      {
+        "url": "http://live-maidantv.cdnvideo.ru/maidantv/maidantv.smil/tracks-v1a1/mono.m3u8",
+        "headers": {},
+        "success_rate": 1.0
+      },
       {
         "url": "http://live-maidantv.cdnvideo.ru/maidantv/maidantv.smil/playlist.m3u8",
         "headers": {
           "User-Agent": "Player (Linux; Android 11)"
         },
         "success_rate": 1.0
-      },
-      {
-        "url": "http://live-maidantv.cdnvideo.ru/maidantv/maidantv.smil/tracks-v1a1/mono.m3u8",
-        "headers": {},
-        "success_rate": 1.0
       }
     ],
     "Zhivi.ru": [],
     "Channel10.ru": [
+      {
+        "url": "https://cdn3.wowza.com/5/cFh0V0QwUVc4SDl2/santa-paula/G0930_002/playlist.m3u8",
+        "headers": {},
+        "success_rate": 1.0
+      },
       {
         "url": "http://rmhkuzbass.ru:8082/10kanal/10kanal_720/playlist.m3u8",
         "headers": {},
@@ -2472,23 +2357,24 @@
       }
     ],
     "AstrahanRuTV.ru": [],
+    "BigPlanet.ru": [],
     "SochiLive.ru": [
       {
         "url": "http://serv30.vintera.tv:8081/sochi/sochi_stream/chunks.m3u8",
         "headers": {
           "User-Agent": "TiviMate/2.8.0 (Linux; Android 11)"
         },
-        "success_rate": 0.9375
+        "success_rate": 0.9412
       },
       {
         "url": "http://serv30.vintera.tv:8081/sochi/sochi_stream/chunks.m3u8",
         "headers": {},
-        "success_rate": 0.9375
+        "success_rate": 0.9412
       },
       {
         "url": "http://serv30.vintera.tv:8081/sochilive_site/sochi_stream/playlist.m3u8",
         "headers": {},
-        "success_rate": 0.9333
+        "success_rate": 0.9375
       }
     ],
     "TVPRO.ru": [
@@ -2497,12 +2383,17 @@
         "headers": {
           "User-Agent": "TiviMate/2.8.0 (Linux; Android 11)"
         },
-        "success_rate": 0.9375
+        "success_rate": 0.9412
       }
     ],
     "AISTTV.ru": [],
     "Aris24.ru": [],
     "Bashkortostan24.ru": [
+      {
+        "url": "http://109.233.169.137/540/b24-540.m3u8",
+        "headers": {},
+        "success_rate": 1.0
+      },
       {
         "url": "http://dmi3y-tv.online/hls/smotrim/region/CH_BASHKORTOSTAN24HD_UFA.m3u8",
         "headers": {},
@@ -2513,20 +2404,20 @@
       {
         "url": "https://flussonic.mkpnet.ru/tv-319cadb3fff5fb3e/video.m3u8",
         "headers": {},
-        "success_rate": 0.9259
+        "success_rate": 0.9286
       }
     ],
     "VmesteRF.ru": [
-      {
-        "url": "https://bl.rutube.ru/livestream/f6a6d5c955180d0d0f80c66d0b6150d3/index.m3u8?s=r8YslAvtusCqqUr9A7abNA&e=2093347118",
-        "headers": {},
-        "success_rate": 1.0
-      },
       {
         "url": "https://qcpdqumitwf.a.trbcdn.net/livemastersrt/pr4mw_lvie-vmesterf-srt.smil/playlist.m3u8",
         "headers": {
           "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 13_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36 Edg/109.0.1518.69"
         },
+        "success_rate": 1.0
+      },
+      {
+        "url": "https://bl.rutube.ru/livestream/f6a6d5c955180d0d0f80c66d0b6150d3/index.m3u8?s=r8YslAvtusCqqUr9A7abNA&e=2093347118",
+        "headers": {},
         "success_rate": 1.0
       },
       {
@@ -2559,7 +2450,7 @@
       {
         "url": "https://istoki.tv//live/stream1/chunklist.m3u8",
         "headers": {},
-        "success_rate": 0.9231
+        "success_rate": 0.9286
       }
     ],
     "Kavkaz24.ru": [
@@ -2571,12 +2462,11 @@
       {
         "url": "http://dmitry-tv.ddns.net/hls/smotrim/region/CH_KAVKAZ24_STAVR.m3u8",
         "headers": {},
-        "success_rate": 0.9286
+        "success_rate": 0.9333
       }
     ],
     "Channel16.ru": [],
     "LapkiLive.ru": [],
-    "LenTV24.ru": [],
     "MirBelogorya.ru": [],
     "MoskvaDoveriye.ru": [],
     "NizhniyNovgorod24.ru": [
@@ -2595,8 +2485,21 @@
     ],
     "NikaTV.ru": [],
     "Nostalgia.ru": [],
-    "NTVLaw.ru": [],
+    "NTVLaw.ru": [
+      {
+        "url": "https://cdn.ntv.ru/th_pravo/playlist.m3u8",
+        "headers": {
+          "User-Agent": "Dalvik/2.1.0"
+        },
+        "success_rate": 1.0
+      }
+    ],
     "NTM.ru": [
+      {
+        "url": "http://dmi3y-tv.online/hls/region/CH_NTM_SRNK.m3u8",
+        "headers": {},
+        "success_rate": 0.9167
+      },
       {
         "url": "http://live-ntm13.cdnvideo.ru/ntm13/smil:ntm13.smil/playlist.m3u8",
         "headers": {
@@ -2607,16 +2510,16 @@
     ],
     "Prima.ru": [
       {
+        "url": "http://88.212.15.50/live/prima_avc_25p/playlist.m3u8",
+        "headers": {},
+        "success_rate": 0.9412
+      },
+      {
         "url": "http://tele2dvrnat01-02.cdnvideo.ru:80/stream/NAT_Prima/hls/1920x1080@4504/playlist.m3u8",
         "headers": {
           "User-Agent": "Player (Linux; Android 11)"
         },
-        "success_rate": 0.9333
-      },
-      {
-        "url": "http://tele2dvrnat01-02.cdnvideo.ru:80/stream/NAT_Prima/hls/1920x1080@4504/playlist.m3u8",
-        "headers": {},
-        "success_rate": 1.0
+        "success_rate": 0.9375
       },
       {
         "url": "http://tele2dvrnat01-02.cdnvideo.ru:80/stream/NAT_Prima/hls/1024x576@1272/playlist.m3u8",
@@ -2642,38 +2545,33 @@
         "success_rate": 1.0
       },
       {
-        "url": "https://sitv.ru/vgtrk/stv.m3u8",
-        "headers": {
-          "User-Agent": "Player (Linux; Android 10)"
-        },
-        "success_rate": 1.0
-      },
-      {
         "url": "http://dmi3y-tv.online/hls/region/CH_C1_SUR.m3u8",
         "headers": {},
         "success_rate": 1.0
       },
       {
-        "url": "http://sitv.ru/hls/stv1024.m3u8",
-        "headers": {},
+        "url": "https://sitv.ru/vgtrk/stv.m3u8",
+        "headers": {
+          "User-Agent": "Player (Linux; Android 10)"
+        },
         "success_rate": 1.0
       }
     ],
     "86.ru": [],
     "SanktPeterburg.ru": [
       {
-        "url": "https://stream.smotrim.ru/hls2/ext_spbtv/playlist_5.m3u8",
-        "headers": {},
-        "success_rate": 0.9091
-      },
-      {
         "url": "http://dmi3y-tv.online/hls/smotrim/region/CH_SANKTPETERBURG_SPB.m3u8",
         "headers": {},
         "success_rate": 1.0
       }
     ],
-    "SolovyovLive.ru": [],
-    "Tavriya.ru": [],
+    "SolovyovLive.ru": [
+      {
+        "url": "https://stream.smotrim.ru/hls/solovievlive/playlist.m3u8?entity=channel&id=292&sign=83652f1317ad220efe74a7606d9a7f37",
+        "headers": {},
+        "success_rate": 0.9091
+      }
+    ],
     "TKR.ru": [],
     "TNVTatarstan.ru": [
       {
@@ -2681,7 +2579,7 @@
         "headers": {
           "User-Agent": "Player (Linux; Android 11)"
         },
-        "success_rate": 0.9412
+        "success_rate": 0.9444
       },
       {
         "url": "http://user91229.clients-cdnnow.ru/hls/user91229_1_720/index.m3u8",
@@ -2699,17 +2597,11 @@
       {
         "url": "http://stream.almaz-media.tv:8081/hls/720.m3u8",
         "headers": {},
-        "success_rate": 0.9412
+        "success_rate": 0.9444
       }
     ],
     "Katun24.ru": [],
-    "OTS.ru": [
-      {
-        "url": "https://bl.rutube.ru/livestream/39c5bfe012402990e6402eded8bdc761/index.m3u8?s=4-TO_VeRFfoITL9jaeGWzw&e=2092608921&scheme=https",
-        "headers": {},
-        "success_rate": 0.9375
-      }
-    ],
+    "OTS.ru": [],
     "PervyyTulskiy.ru": [
       {
         "url": "http://5.164.24.83/tula/1tv_low/index.m3u8",
@@ -2719,7 +2611,6 @@
     ],
     "Saratov24.ru": [],
     "Tatarstan24.ru": [],
-    "Tivikom.ru": [],
     "Yakutiya24.ru": [
       {
         "url": "https://live-saha.cdnvideo.ru/saha2/yak24rtmp_live.smil/playlist.m3u8",
@@ -2727,12 +2618,12 @@
         "success_rate": 0.9697
       },
       {
-        "url": "http://live-saha.cdnvideo.ru/saha2/yak24rtmp_live.smil/tracks-v2a1/mono.m3u8",
+        "url": "http://live-saha.cdnvideo.ru/saha/yak24rtmp/playlist.m3u8",
         "headers": {},
         "success_rate": 1.0
       },
       {
-        "url": "http://live-saha.cdnvideo.ru/saha/yak24rtmp/playlist.m3u8",
+        "url": "http://live-saha.cdnvideo.ru/saha2/yak24rtmp_live.smil/tracks-v2a1/mono.m3u8",
         "headers": {},
         "success_rate": 1.0
       },
@@ -2744,21 +2635,16 @@
     ],
     "Mamont.ru": [
       {
-        "url": "http://live-saha.cdnvideo.ru/saha2/mamont_live.smil/tracks-v1a1/mono.m3u8",
-        "headers": {},
-        "success_rate": 1.0
-      },
-      {
         "url": "http://live-saha.cdnvideo.ru/saha2/mamont_live.smil/tracks-v2a1/mono.m3u8",
         "headers": {},
-        "success_rate": 0.9375
+        "success_rate": 0.9412
       }
     ],
     "ZharaTV.ru": [
       {
         "url": "https://flussonic.mkpnet.ru/tv-3cdc33d3606ba23f/video.m3u8",
         "headers": {},
-        "success_rate": 0.963
+        "success_rate": 0.9643
       }
     ],
     "OTVChelyabinsk.ru": [],
@@ -2787,12 +2673,12 @@
         "success_rate": 1.0
       },
       {
-        "url": "https://tvcdn01.oktv.kz/tv/mtrk/index.m3u8",
+        "url": "https://tvcdn01.oktv.kz/tv/mtrk/tracks-v1a1/mono.m3u8",
         "headers": {},
         "success_rate": 1.0
       },
       {
-        "url": "https://tvcdn01.oktv.kz/tv/mtrk/tracks-v1a1/mono.m3u8",
+        "url": "https://tvcdn01.oktv.kz/tv/mtrk/index.m3u8",
         "headers": {},
         "success_rate": 1.0
       },
@@ -2800,33 +2686,35 @@
         "url": "https://tvcdn01.oktv.kz/tv/mtrk/tracks-v1a1/mono.m3u8?checkedby:iptvcat.com",
         "headers": {},
         "success_rate": 1.0
-      },
-      {
-        "url": "http://tvcdn01.oktv.kz/tv/mtrk/index.m3u8",
-        "headers": {},
-        "success_rate": 1.0
       }
     ],
     "TVRUS.de": [],
     "VitrinaTV.ru": [],
     "NTVStilzhizn.ru": [],
-    "NovoeRadio.ru": [],
-    "Konniymir.ru": [],
+    "NovoeRadio.ru": [
+      {
+        "url": "http://hls-video01.cdnvideo.ru/video01/video01_480.sdp/playlist.m3u8",
+        "headers": {
+          "User-Agent": "TiviMate/2.8.0 (Linux; Android 11)"
+        },
+        "success_rate": 0.9333
+      },
+      {
+        "url": "https://stream-msk-17.ott.tricolor.tv/dtv/id957_MSKSG-PVR-1--novoye_radio/01/plst.m3u8?drmreq=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHBfdHlwZSI6ImFwdHBfb3R0IiwiY2xhc3MiOiJCUk9XU0VSIiwiZHJlaWQiOiI0MzIxOTAwOTMzMTI2NyIsImV4cCI6MTc0NzYyNDE3NSwiaHdpZCI6ImZjY2Q5NTRlMjRjMjFjYzYxZDYxYmEyYTdjMGMxMDYwZTBmNjMwZjZhYzc0MTMyMTM1OWQ1NzIwOWZkMDg0OWEiLCJsYXN0X3JlcV9kYXRlIjoxNzQ3MDE5Mzc1LCJzZXNzaW9uX2lkIjoiZDAzZDliNjI3OGU4YmNkODRjOTdlNTEzY2I3MTc5NWIiLCJ0b2tlbl90eXBlIjoiQ29udGVudEFjY2Vzc1Rva2VuIiwidHlwZSI6Ik1PWklMTEEifQ.Ki_d-dFmLBGvucm_EWiceqUzyNbprJE0O8M0_OEcr0g",
+        "headers": {},
+        "success_rate": 0.9333
+      }
+    ],
     "sv.zhivi-aktivno": [
       {
-        "url": "http://flussonic.mkpnet.ru/tv-fa810958620d77d8/video.m3u8",
+        "url": "https://stream8.cinerama.uz/1405/tracks-v1a1/mono.m3u8",
         "headers": {},
         "success_rate": 0.9259
       },
       {
-        "url": "https://stream8.cinerama.uz/1405/tracks-v1a1/mono.m3u8",
-        "headers": {},
-        "success_rate": 0.9231
-      },
-      {
         "url": "http://stream2.cinerama.uz/1405/tracks-v1a1/mono.m3u8",
         "headers": {},
-        "success_rate": 0.92
+        "success_rate": 0.9231
       }
     ],
     "CentralTV.ru": [
@@ -2840,13 +2728,20 @@
       {
         "url": "http://live-echotv.cdnvideo.ru/echotv/echotv.sdp/playlist.m3u8",
         "headers": {},
-        "success_rate": 0.963
+        "success_rate": 0.9643
       }
     ],
     "EGETV.ru": [
       {
         "url": "http://tv.streams.baikal-telecom.net:8080/RT_DOC/tracks-v1a1/mono.m3u8",
         "headers": {},
+        "success_rate": 1.0
+      },
+      {
+        "url": "http://tv.streams.baikal-telecom.net:8080/RT_DOC/tracks-v1a1/mono.m3u8",
+        "headers": {
+          "User-Agent": "Player (Linux; Android 11)"
+        },
         "success_rate": 1.0
       },
       {
@@ -2866,7 +2761,7 @@
       {
         "url": "http://tv.streams.baikal-telecom.net:8080/RT_DOC/tracks-v1a1/mono.m3u8",
         "headers": {
-          "User-Agent": "Player (Linux; Android 11)"
+          "User-Agent": "TiviMate/2.8.0 (Linux; Android 11)"
         },
         "success_rate": 1.0
       }
@@ -2884,10 +2779,20 @@
         "headers": {
           "User-Agent": "Player (Linux; Android 10)"
         },
-        "success_rate": 0.9412
+        "success_rate": 0.9444
       }
     ],
     "KaleidoscopeTV.ru": [
+      {
+        "url": "http://cdn-01.bonus-tv.ru/Kaleidoskop_edge/tracks-v1a1/mono.m3u8",
+        "headers": {},
+        "success_rate": 1.0
+      },
+      {
+        "url": "http://dmi3y-tv.online/hls/CH_KALEYDOSKOPTV.m3u8",
+        "headers": {},
+        "success_rate": 1.0
+      },
       {
         "url": "http://serv25.vintera.tv:8081/kaleidoscop/kaleidoscop_sd/playlist.m3u8",
         "headers": {
@@ -2899,26 +2804,11 @@
         "url": "http://serv25.vintera.tv:8081/kaleidoscop/kaleidoscop_sd/playlist.m3u8?wmsAuthSign=c2VydmVyX3RpbWU9MTAvNC8yMDI1IDI6NDk6MzYgUE0maGFzaF92YWx1ZT12Q1hScElvWmtORUJNNU91R1k1alNnPT0mdmFsaWRtaW51dGVzPTQ4MA==",
         "headers": {},
         "success_rate": 1.0
-      },
-      {
-        "url": "http://cdn-01.bonus-tv.ru/Kaleidoskop_edge/tracks-v1a1/mono.m3u8",
-        "headers": {},
-        "success_rate": 1.0
-      },
-      {
-        "url": "http://dmi3y-tv.online/hls/CH_KALEYDOSKOPTV.m3u8",
-        "headers": {},
-        "success_rate": 1.0
       }
     ],
     "Sibir24.ru": [
       {
         "url": "http://dmi3y-tv.online/hls/smotrim/region/CH_SIBIR24_NSK.m3u8",
-        "headers": {},
-        "success_rate": 1.0
-      },
-      {
-        "url": "http://dmi3y-tv.online/hls/smotrim/region/CH_SIBIR24HD_NSK.m3u8",
         "headers": {},
         "success_rate": 1.0
       }
@@ -2932,7 +2822,7 @@
       {
         "url": "https://live.dc.beltelecom.by/trkgomel/trkgomel.stream/playlist.m3u8",
         "headers": {},
-        "success_rate": 0.963
+        "success_rate": 0.9643
       }
     ],
     "KabbalaTV.ru": [
@@ -2947,13 +2837,7 @@
         "success_rate": 1.0
       }
     ],
-    "DiscoveryChannel.ru": [
-      {
-        "url": "http://88.212.7.14/live/discovery_hungary/index.m3u8",
-        "headers": {},
-        "success_rate": 1.0
-      }
-    ],
+    "DiscoveryChannel.ru": [],
     "AnimalPlanet.ru": [
       {
         "url": "https://stream8.cinerama.uz/1043/index.m3u8",
@@ -2971,36 +2855,15 @@
         "success_rate": 1.0
       }
     ],
-    "PervyyKosmicheskiy.ru": [
-      {
-        "url": "https://stream1.cinerama.uz/1415/tracks-v1a1/mono.m3u8",
-        "headers": {},
-        "success_rate": 1.0
-      },
-      {
-        "url": "http://dmi3y-tv.online/hls/CH_1KOSMICHESKIY.m3u8",
-        "headers": {},
-        "success_rate": 1.0
-      }
-    ],
+    "PervyyKosmicheskiy.ru": [],
     "Zagorodnyy.ru": [
       {
         "url": "https://stream8.cinerama.uz/1044/index.m3u8",
         "headers": {},
         "success_rate": 1.0
-      },
-      {
-        "url": "http://dmi3y-tv.online/hls/CH_ZAGORODNY.m3u8",
-        "headers": {},
-        "success_rate": 0.9333
       }
     ],
     "ducktv.ru": [
-      {
-        "url": "https://stream8.cinerama.uz/1271/index.m3u8",
-        "headers": {},
-        "success_rate": 0.963
-      },
       {
         "url": "https://dash3.antik.sk/live/duck_tv/index.m3u8",
         "headers": {},
@@ -3014,14 +2877,14 @@
       {
         "url": "https://serv25.vintera.tv/dai/k_kino_dai_scte-35/playlist.m3u8",
         "headers": {},
-        "success_rate": 0.963
+        "success_rate": 0.9643
       }
     ],
     "TaynyGalaktiki.ru": [
       {
         "url": "https://livestream.galaxytv.ug/jikonkone/chunklist_w518448902.m3u8",
         "headers": {},
-        "success_rate": 0.9643
+        "success_rate": 0.9655
       }
     ],
     "Detskimir.ru": [],
@@ -3050,19 +2913,19 @@
       {
         "url": "https://s1.tv-nano.com/Luxury_rec/tracks-v3a1/index.m3u8",
         "headers": {},
-        "success_rate": 0.963
+        "success_rate": 0.9643
       },
       {
         "url": "https://s1.tv-nano.com/Luxury_rec/video.m3u8",
         "headers": {},
-        "success_rate": 0.963
+        "success_rate": 0.9643
       }
     ],
     "JoyCook.ru": [
       {
         "url": "https://stitch.teletarget.ru/peerstv/joycook/index.m3u8?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJhY2Nlc3MiLCJleHAiOjE3ODU1OTc1NjAsImlhdCI6MTc4NTUxMTE2MCwiY2lkIjo2LCJ1aWQiOjEwNzI5NjE3ODMsInJlZyI6ZmFsc2UsImlwIjo2MzQxMjMwMTQsImFkdWx0IjpmYWxzZX0.211efclKzqg4kUp9tgCIRpNjpgYCiqSRb7xrYMriIPo",
         "headers": {},
-        "success_rate": 0.963
+        "success_rate": 0.9643
       }
     ],
     "Oruzhie.ru": [],
@@ -3078,6 +2941,11 @@
         "success_rate": 1.0
       },
       {
+        "url": "http://cdn-01.bonus-tv.ru/tvm_edge/tracks-v1a1/mono.m3u8",
+        "headers": {},
+        "success_rate": 1.0
+      },
+      {
         "url": "http://cdn-01.bonus-tv.ru/tvm_edge/tracks-v1a1/index.m3u8",
         "headers": {
           "User-Agent": "Player (Linux; Android 11)"
@@ -3085,11 +2953,14 @@
         "success_rate": 1.0
       },
       {
-        "url": "http://cdn-01.bonus-tv.ru/tvm_edge/tracks-v1a1/mono.m3u8",
-        "headers": {},
+        "url": "http://dmitry-tv.ddns.net/hls/CH_TVMCHANNEL.m3u8",
+        "headers": {
+          "User-Agent": "TiviMate/2.8.0 (Linux; Android 11)"
+        },
         "success_rate": 1.0
       }
     ],
+    "Muzyka1.ru": [],
     "Muzyka2.ru": [],
     "TyumenskoeVremya.ru": [],
     "NNTV.ru": [],
@@ -3101,7 +2972,7 @@
         "headers": {
           "User-Agent": "Player (Linux; Android 10)"
         },
-        "success_rate": 0.9333
+        "success_rate": 0.9375
       }
     ],
     "KolymaPlus.ru": [],
@@ -3118,7 +2989,7 @@
       {
         "url": "https://sunplay-cdn.bitratelabs.com/live/local-channel/vtv-7a0f24809c234ea78d972b1f336ac1b9/index.m3u8",
         "headers": {},
-        "success_rate": 0.9375
+        "success_rate": 0.9412
       }
     ],
     "KidsTV.ru": [
@@ -3126,13 +2997,6 @@
         "url": "http://ott.watch/stream/6HAPZWKKG3/167.m3u8",
         "headers": {},
         "success_rate": 1.0
-      },
-      {
-        "url": "http://origin5.mediacdn.ru/live/kidstv/index.m3u8",
-        "headers": {
-          "User-Agent": "TiviMate/2.8.0 (Linux; Android 11)"
-        },
-        "success_rate": 0.6667
       }
     ],
     "FastFunBox.ru": [],
@@ -3152,6 +3016,7 @@
         "success_rate": 1.0
       }
     ],
+    "RENTVInternational.ru": [],
     "Rybalkaiokhota.ru": [],
     "SonyChannel.ru": [],
     "TuganTel.ru": [
