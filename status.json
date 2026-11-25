@@ -1,8 +1,8 @@
 {
   "version": "3.2-wide-checks",
   "media_probe_version": "2026-11-25.1",
-  "started_utc": "2026-11-25T12:40:33+00:00",
-  "checked_utc": "2026-11-25T13:05:43+00:00",
+  "started_utc": "2026-11-25T13:08:22+00:00",
+  "checked_utc": "2026-11-25T13:39:28+00:00",
   "candidate_quality": {
     "policy_version": 2,
     "enabled": true,
@@ -11,26 +11,26 @@
     "held_channels": 2,
     "held": [
       {
-        "id": "NTVHit.ru",
-        "channel": "НТВ-Хит",
+        "id": "Katun24.ru",
+        "channel": "Катунь 24",
         "candidate_kind": "unclassified",
         "technical_streams_passed": 1,
         "held_streams": [
           {
-            "stream_key": "92aafdd18b861c565408e0827e9c14c957716194843fc835d0ca44e84b1c054a",
+            "stream_key": "4ea35a1efc226975174ef91479b8916a204d4aa5d273755328ad04b0f8bf133c",
             "reason": "identity_and_language_review_required",
             "technically_stable": true
           }
         ]
       },
       {
-        "id": "YaPervyy.ru",
-        "channel": "ЯПервый",
+        "id": "sv.tomskoe-vremya",
+        "channel": "Томское время",
         "candidate_kind": "unclassified",
         "technical_streams_passed": 1,
         "held_streams": [
           {
-            "stream_key": "282bb75a3608425f03eb6b0383cd0b603da468b6beac4d5d4ebf689cfb025889",
+            "stream_key": "540df5bca64effdfe5ed8f3b8b6380f94045790f1b8cdd0f532fec1d456284ad",
             "reason": "identity_and_language_review_required",
             "technically_stable": true
           }
@@ -42,20 +42,19 @@
   },
   "visual_criteria": "1ea12fcdda22709c1a60328e4399a5214d5d7ddf774c261f78f9468c4b77ef16",
   "retained_playlist_placeholders_removed": 0,
-  "known_placeholder_streams": 0,
-  "visually_checked_streams": 44,
+  "known_placeholder_streams": 1,
+  "visually_checked_streams": 59,
   "check_environment": "ru-vps",
   "catalog_channels": 1616,
   "base_catalog_channels": 2381,
   "catalog_discovery": {
-    "state": "snapshot",
+    "state": "fresh",
     "added": 13,
     "source": "https://iptv-org.github.io/iptv/languages/rus.m3u",
     "sources": [
       "https://iptv-org.github.io/iptv/languages/rus.m3u",
       "https://iptv-org.github.io/iptv/countries/ru.m3u"
     ],
-    "error": "total response deadline",
     "added_ids": [
       "BRIDGEDance.ru",
       "BRIDGEJazz.ru",
@@ -72,6 +71,8 @@
       "Verba.ru"
     ],
     "excluded": {
+      "adult_closed_or_replaced": 16,
+      "unknown_id_or_nonmain_feed": 99,
       "name_collision": 2
     },
     "excluded_by_playlist_scope": 778
@@ -81,12 +82,12 @@
   "publication_reason": "partial campaign batch; previous playlist retained",
   "minimum_channels": 100,
   "candidate_streams_tested": 1000,
-  "streams_passed": 44,
-  "inconclusive_requests_this_batch": 805,
+  "streams_passed": 58,
+  "inconclusive_requests_this_batch": 847,
   "scheduled_requests_before_batch": 12321,
   "partial_campaign_batch": true,
-  "unique_channels_passed": 13,
-  "stable_channels": 13,
+  "unique_channels_passed": 10,
+  "stable_channels": 10,
   "probation_channels": 0,
   "last_published_count": 470,
   "last_published_utc": "2026-11-23T03:13:04+00:00",
@@ -225,205 +226,49 @@
     "excluded_canonical_identity": 23
   },
   "failure_reasons": {
-    "HTML response requires player or access review": 144,
-    "format requires a separate adapter or access review": 463,
+    "network timeout or unavailable": 85,
+    "format requires a separate adapter or access review": 440,
+    "HTML response requires player or access review": 200,
+    "JSON response requires player or access review": 2,
+    "XML document type requires separate review": 9,
     "non-DASH XML or player response": 51,
-    "network timeout or unavailable": 145,
-    "HTTP 429 requires access or rate-limit review": 8,
-    "encrypted media requires an authorized player": 13,
-    "JSON response requires player or access review": 1,
-    "finite media: live status requires review": 23,
-    "DASH or byte-range playback incomplete: media download slower than playback": 8,
-    "continuous sample contains a gap or damaged packet": 37,
-    "DASH live SegmentTimeline required": 3,
-    "continuous sample ends before the full audio/video window": 26,
-    "HTTP 404": 6,
-    "local checker could not finish: IncompleteRead": 1,
-    "XML document type requires separate review": 15,
-    "DASH or byte-range playback incomplete: live manifest did not advance": 1,
-    "unrecognized XML or player response": 1,
-    "HTTP 401 requires access or rate-limit review": 1,
+    "continuous sample ends before the full audio/video window": 38,
+    "encrypted media requires an authorized player": 15,
+    "HTTP 404": 7,
+    "DASH or byte-range playback incomplete: media download slower than playback": 3,
+    "finite media: live status requires review": 20,
+    "continuous sample contains a gap or damaged packet": 36,
+    "DASH live SegmentTimeline required": 2,
+    "video placeholder: нет активной подписки": 1,
+    "HTTP 458": 1,
+    "HTTP 401 requires access or rate-limit review": 2,
+    "HTTP 400": 1,
+    "continuous sample could not be isolated for decoding": 1,
+    "ended stream / VOD requires live review": 14,
+    "continuous media is missing a video or audio track": 1,
     "continuous sample decode incomplete; format review required": 1,
-    "HTTP 403 requires access or rate-limit review": 1,
-    "ended stream / VOD requires live review": 6,
-    "continuous media is missing a video or audio track": 1
+    "HTTP 429 requires access or rate-limit review": 12
   },
   "selected": [
-    {
-      "id": "Channel8Krasnoyarsk.ru",
-      "channel": "8 канал Красноярск",
-      "group": "Региональные",
-      "url": "https://rt-sib-krsk-htlive.cdn.ngenix.net/hls/CH_R02_OTT_SIB_KRSK_8CHANNEL/variant.m3u8",
-      "source_url": "https://rt-sib-krsk-htlive.cdn.ngenix.net/hls/CH_R02_OTT_SIB_KRSK_8CHANNEL/variant.m3u8",
-      "ok_last_check": true,
-      "rating": "observed_stable",
-      "success_rate": 0.9412,
-      "samples": 17,
-      "observation_hours": 194.12,
-      "test": {
-        "ok": true,
-        "reason": "decoded live samples; manifest advancing; sampled frames checked",
-        "pixels": 2073600,
-        "played_seconds": 19.95,
-        "elapsed": 21.17,
-        "download_seconds": 4.89,
-        "media_url": "https://a3569457567-rt-sib-krsk-htlive.cdn.ngenix.net/hls/CH_R02_8CHANNEL/playlist.m3u8?utcstart=1795608000",
-        "audio_url": null,
-        "advanced": true,
-        "visual_criteria": "1ea12fcdda22709c1a60328e4399a5214d5d7ddf774c261f78f9468c4b77ef16",
-        "frame_inspection": {
-          "state": "no_known_placeholder",
-          "frames_checked": 4,
-          "frames": [
-            {
-              "state": "no_known_placeholder",
-              "sample_time_seconds": 2,
-              "frame": "review-frames/01094be20a246d7ba6d2dfd5d38d32976a67ce00c24e2bec2eef5ecff0117045-01.jpg"
-            },
-            {
-              "state": "no_known_placeholder",
-              "sample_time_seconds": 13.976,
-              "frame": "review-frames/01094be20a246d7ba6d2dfd5d38d32976a67ce00c24e2bec2eef5ecff0117045-02.jpg"
-            },
-            {
-              "state": "no_known_placeholder",
-              "sample_time_seconds": 1.657,
-              "frame": "review-frames/01094be20a246d7ba6d2dfd5d38d32976a67ce00c24e2bec2eef5ecff0117045-03.jpg"
-            },
-            {
-              "state": "no_known_placeholder",
-              "sample_time_seconds": 3.971,
-              "frame": "review-frames/01094be20a246d7ba6d2dfd5d38d32976a67ce00c24e2bec2eef5ecff0117045-04.jpg"
-            }
-          ]
-        },
-        "checked_utc": "2026-11-25T12:42:06+00:00"
-      },
-      "alternatives_passed": 0
-    },
-    {
-      "id": "Channel8Novosibirsk.ru",
-      "channel": "8 канал Новосибирск",
-      "group": "Региональные",
-      "url": "https://live-8knsk.cdnvideo.ru/8knsk/stream1/playlist.m3u8",
-      "source_url": "https://live-8knsk.cdnvideo.ru/8knsk/stream1/playlist.m3u8",
-      "ok_last_check": true,
-      "rating": "observed_stable",
-      "success_rate": 1.0,
-      "samples": 13,
-      "observation_hours": 206.73,
-      "test": {
-        "ok": true,
-        "reason": "decoded live samples; manifest advancing; sampled frames checked",
-        "pixels": 345600,
-        "played_seconds": 20.48,
-        "elapsed": 10.08,
-        "download_seconds": 0.2,
-        "media_url": "https://live-8knsk.cdnvideo.ru/8knsk/stream1/tracks-v1a1/mono.ts.m3u8?hls_proxy_host=9659e3abf16145c571973b3ab40067d3",
-        "audio_url": null,
-        "advanced": true,
-        "visual_criteria": "1ea12fcdda22709c1a60328e4399a5214d5d7ddf774c261f78f9468c4b77ef16",
-        "frame_inspection": {
-          "state": "no_known_placeholder",
-          "frames_checked": 4,
-          "frames": [
-            {
-              "state": "no_known_placeholder",
-              "sample_time_seconds": 2,
-              "frame": "review-frames/a49fae11177928457edefb7a86870a842c7aa0dc08b9aaebedc9faddae025cec-01.jpg"
-            },
-            {
-              "state": "no_known_placeholder",
-              "sample_time_seconds": 14.083,
-              "frame": "review-frames/a49fae11177928457edefb7a86870a842c7aa0dc08b9aaebedc9faddae025cec-02.jpg"
-            },
-            {
-              "state": "no_known_placeholder",
-              "sample_time_seconds": 1.799,
-              "frame": "review-frames/a49fae11177928457edefb7a86870a842c7aa0dc08b9aaebedc9faddae025cec-03.jpg"
-            },
-            {
-              "state": "no_known_placeholder",
-              "sample_time_seconds": 4.397,
-              "frame": "review-frames/a49fae11177928457edefb7a86870a842c7aa0dc08b9aaebedc9faddae025cec-04.jpg"
-            }
-          ]
-        },
-        "checked_utc": "2026-11-25T12:42:05+00:00"
-      },
-      "alternatives_passed": 0
-    },
-    {
-      "id": "BigAsia.ru",
-      "channel": "Большая Азия",
-      "group": "Общие",
-      "url": "http://dmitry-tv.ddns.net/hls/CH_BAZIYAHD720.m3u8",
-      "source_url": "http://dmitry-tv.ddns.net/hls/CH_BAZIYAHD720.m3u8",
-      "ok_last_check": true,
-      "rating": "observed_stable",
-      "success_rate": 1.0,
-      "samples": 10,
-      "observation_hours": 199.79,
-      "test": {
-        "ok": true,
-        "reason": "decoded live samples; manifest advancing; sampled frames checked",
-        "pixels": 921600,
-        "played_seconds": 19.97,
-        "elapsed": 9.95,
-        "download_seconds": 1.97,
-        "media_url": "http://live-bigasia.cdnvideo.ru/bigasia/bigasia.smil/tracks-v1a1/mono.m3u8",
-        "audio_url": null,
-        "advanced": true,
-        "visual_criteria": "1ea12fcdda22709c1a60328e4399a5214d5d7ddf774c261f78f9468c4b77ef16",
-        "frame_inspection": {
-          "state": "no_known_placeholder",
-          "frames_checked": 4,
-          "frames": [
-            {
-              "state": "no_known_placeholder",
-              "sample_time_seconds": 2,
-              "frame": "review-frames/00fcb265d135d70ad4d4950be70cdff3702afd23cd8f3db9f702c9c5dcf008d7-01.jpg"
-            },
-            {
-              "state": "no_known_placeholder",
-              "sample_time_seconds": 13.976,
-              "frame": "review-frames/00fcb265d135d70ad4d4950be70cdff3702afd23cd8f3db9f702c9c5dcf008d7-02.jpg"
-            },
-            {
-              "state": "no_known_placeholder",
-              "sample_time_seconds": 1.664,
-              "frame": "review-frames/00fcb265d135d70ad4d4950be70cdff3702afd23cd8f3db9f702c9c5dcf008d7-03.jpg"
-            },
-            {
-              "state": "no_known_placeholder",
-              "sample_time_seconds": 3.992,
-              "frame": "review-frames/00fcb265d135d70ad4d4950be70cdff3702afd23cd8f3db9f702c9c5dcf008d7-04.jpg"
-            }
-          ]
-        },
-        "checked_utc": "2026-11-25T12:41:55+00:00"
-      },
-      "alternatives_passed": 0
-    },
     {
       "id": "Dagestan.ru",
       "channel": "Дагестан",
       "group": "Региональные",
-      "url": "https://dagestan.mediacdn.ru/cdn/dagestan/playlist.m3u8",
-      "source_url": "https://dagestan.mediacdn.ru/cdn/dagestan/playlist.m3u8",
+      "url": "https://dagestan.mediacdn.ru/cdn/dagestan/playlist_hdhigh.m3u8",
+      "source_url": "https://dagestan.mediacdn.ru/cdn/dagestan/playlist_hdhigh.m3u8",
       "ok_last_check": true,
       "rating": "observed_stable",
-      "success_rate": 0.9821,
-      "samples": 56,
-      "observation_hours": 325.28,
+      "success_rate": 0.9091,
+      "samples": 11,
+      "observation_hours": 207.18,
       "test": {
         "ok": true,
         "reason": "decoded live samples; manifest advancing; sampled frames checked",
-        "pixels": 589824,
+        "pixels": 2073600,
         "played_seconds": 20.44,
-        "elapsed": 11.43,
-        "download_seconds": 2.84,
-        "media_url": "https://dagestan.mediacdn.ru/cdn/dagestan/tracks-v1a1/mono.ts.m3u8",
+        "elapsed": 20.16,
+        "download_seconds": 3.86,
+        "media_url": "https://dagestan.mediacdn.ru/cdn/dagestan/playlist_hdhigh.m3u8",
         "audio_url": null,
         "advanced": true,
         "visual_criteria": "1ea12fcdda22709c1a60328e4399a5214d5d7ddf774c261f78f9468c4b77ef16",
@@ -434,26 +279,26 @@
             {
               "state": "no_known_placeholder",
               "sample_time_seconds": 2,
-              "frame": "review-frames/a9fa3bd1e3519ab42edb4eb8327ae9415426079f1b84d79a0a821bb4789b9b0a-01.jpg"
+              "frame": "review-frames/7b76a03b6efc5a0d13bde879a73fbbd70c51138bda67b95ed74ee31129b0a4d8-01.jpg"
             },
             {
               "state": "no_known_placeholder",
               "sample_time_seconds": 14.339,
-              "frame": "review-frames/a9fa3bd1e3519ab42edb4eb8327ae9415426079f1b84d79a0a821bb4789b9b0a-02.jpg"
+              "frame": "review-frames/7b76a03b6efc5a0d13bde879a73fbbd70c51138bda67b95ed74ee31129b0a4d8-02.jpg"
             },
             {
               "state": "no_known_placeholder",
               "sample_time_seconds": 1.7,
-              "frame": "review-frames/a9fa3bd1e3519ab42edb4eb8327ae9415426079f1b84d79a0a821bb4789b9b0a-03.jpg"
+              "frame": "review-frames/7b76a03b6efc5a0d13bde879a73fbbd70c51138bda67b95ed74ee31129b0a4d8-03.jpg"
             },
             {
               "state": "no_known_placeholder",
               "sample_time_seconds": 4.099,
-              "frame": "review-frames/a9fa3bd1e3519ab42edb4eb8327ae9415426079f1b84d79a0a821bb4789b9b0a-04.jpg"
+              "frame": "review-frames/7b76a03b6efc5a0d13bde879a73fbbd70c51138bda67b95ed74ee31129b0a4d8-04.jpg"
             }
           ]
         },
-        "checked_utc": "2026-11-25T12:41:57+00:00"
+        "checked_utc": "2026-11-25T13:09:51+00:00"
       },
       "alternatives_passed": 0
     },
@@ -461,21 +306,21 @@
       "id": "ZvezdaPlus.ru",
       "channel": "Звезда Плюс",
       "group": "Познавательные",
-      "url": "http://tvzvezda.bonus-tv.ru/cdn/zvezdaplus/tracks-v1a1/mono.ts.m3u8",
-      "source_url": "http://tvzvezda.bonus-tv.ru/cdn/zvezdaplus/tracks-v1a1/mono.ts.m3u8",
+      "url": "https://tvzvezda.bonus-tv.ru/cdn/zvezdaplus/tracks-v1a1/mono.ts.m3u8",
+      "source_url": "https://tvzvezda.bonus-tv.ru/cdn/zvezdaplus/tracks-v1a1/mono.ts.m3u8",
       "ok_last_check": true,
       "rating": "observed_stable",
       "success_rate": 0.9333,
       "samples": 15,
-      "observation_hours": 203.64,
+      "observation_hours": 203.75,
       "test": {
         "ok": true,
         "reason": "decoded live samples; manifest advancing; sampled frames checked",
         "pixels": 2073600,
         "played_seconds": 17.96,
-        "elapsed": 16.22,
-        "download_seconds": 0.48,
-        "media_url": "http://tvzvezda.bonus-tv.ru/cdn/zvezdaplus/tracks-v1a1/mono.ts.m3u8",
+        "elapsed": 19.71,
+        "download_seconds": 4.37,
+        "media_url": "https://tvzvezda.bonus-tv.ru/cdn/zvezdaplus/tracks-v1a1/mono.ts.m3u8",
         "audio_url": null,
         "advanced": true,
         "visual_criteria": "1ea12fcdda22709c1a60328e4399a5214d5d7ddf774c261f78f9468c4b77ef16",
@@ -486,26 +331,26 @@
             {
               "state": "no_known_placeholder",
               "sample_time_seconds": 2,
-              "frame": "review-frames/42dc9f15f60390dd44ab489e0cebb3495afc628bd27b08ec3e911d72a6369e86-01.jpg"
+              "frame": "review-frames/9c72a6f4c282f732acf03a8dd19f70dc8a64f6d829bd5679aa86803bbba03778-01.jpg"
             },
             {
               "state": "no_known_placeholder",
-              "sample_time_seconds": 10.968,
-              "frame": "review-frames/42dc9f15f60390dd44ab489e0cebb3495afc628bd27b08ec3e911d72a6369e86-02.jpg"
+              "sample_time_seconds": 10.989,
+              "frame": "review-frames/9c72a6f4c282f732acf03a8dd19f70dc8a64f6d829bd5679aa86803bbba03778-02.jpg"
             },
             {
               "state": "no_known_placeholder",
-              "sample_time_seconds": 1.998,
-              "frame": "review-frames/42dc9f15f60390dd44ab489e0cebb3495afc628bd27b08ec3e911d72a6369e86-03.jpg"
+              "sample_time_seconds": 1.991,
+              "frame": "review-frames/9c72a6f4c282f732acf03a8dd19f70dc8a64f6d829bd5679aa86803bbba03778-03.jpg"
             },
             {
               "state": "no_known_placeholder",
-              "sample_time_seconds": 4.995,
-              "frame": "review-frames/42dc9f15f60390dd44ab489e0cebb3495afc628bd27b08ec3e911d72a6369e86-04.jpg"
+              "sample_time_seconds": 4.973,
+              "frame": "review-frames/9c72a6f4c282f732acf03a8dd19f70dc8a64f6d829bd5679aa86803bbba03778-04.jpg"
             }
           ]
         },
-        "checked_utc": "2026-11-25T12:42:14+00:00"
+        "checked_utc": "2026-11-25T13:09:50+00:00"
       },
       "alternatives_passed": 0
     },
@@ -513,73 +358,21 @@
       "id": "Salyam.ru",
       "channel": "Салям",
       "group": "Региональные",
-      "url": "https://rt-vlg-orb-htlive.cdn.ngenix.net/hls/CH_R02_SALYAM/variant.m3u8",
-      "source_url": "https://rt-vlg-orb-htlive.cdn.ngenix.net/hls/CH_R02_SALYAM/variant.m3u8",
-      "ok_last_check": true,
-      "rating": "observed_stable",
-      "success_rate": 0.9375,
-      "samples": 16,
-      "observation_hours": 187.94,
-      "test": {
-        "ok": true,
-        "reason": "decoded live samples; manifest advancing; sampled frames checked",
-        "pixels": 2073600,
-        "played_seconds": 19.97,
-        "elapsed": 22.49,
-        "download_seconds": 4.89,
-        "media_url": "https://a3569457561-rt-vlg-orb-htlive.cdn.ngenix.net/hls/CH_R02_SALYAM/playlist.m3u8?utcstart=1795608000",
-        "audio_url": null,
-        "advanced": true,
-        "visual_criteria": "1ea12fcdda22709c1a60328e4399a5214d5d7ddf774c261f78f9468c4b77ef16",
-        "frame_inspection": {
-          "state": "no_known_placeholder",
-          "frames_checked": 4,
-          "frames": [
-            {
-              "state": "no_known_placeholder",
-              "sample_time_seconds": 2,
-              "frame": "review-frames/b0a63965be594ccfaa9a250adbb506b5143c6391cf1a4521fc3ff5dbff707dfd-01.jpg"
-            },
-            {
-              "state": "no_known_placeholder",
-              "sample_time_seconds": 13.997,
-              "frame": "review-frames/b0a63965be594ccfaa9a250adbb506b5143c6391cf1a4521fc3ff5dbff707dfd-02.jpg"
-            },
-            {
-              "state": "no_known_placeholder",
-              "sample_time_seconds": 1.657,
-              "frame": "review-frames/b0a63965be594ccfaa9a250adbb506b5143c6391cf1a4521fc3ff5dbff707dfd-03.jpg"
-            },
-            {
-              "state": "no_known_placeholder",
-              "sample_time_seconds": 3.971,
-              "frame": "review-frames/b0a63965be594ccfaa9a250adbb506b5143c6391cf1a4521fc3ff5dbff707dfd-04.jpg"
-            }
-          ]
-        },
-        "checked_utc": "2026-11-25T12:42:08+00:00"
-      },
-      "alternatives_passed": 0
-    },
-    {
-      "id": "UgraTV.ru",
-      "channel": "Югра-ТВ",
-      "group": "Региональные",
-      "url": "http://live-ugratv.cdnvideo.ru/ugratv/ugratv/playlist.m3u8",
-      "source_url": "http://live-ugratv.cdnvideo.ru/ugratv/ugratv/playlist.m3u8",
+      "url": "http://bsttv.bonus-tv.ru/cdn/salyam/playlist.m3u8",
+      "source_url": "http://bsttv.bonus-tv.ru/cdn/salyam/playlist.m3u8",
       "ok_last_check": true,
       "rating": "observed_stable",
       "success_rate": 1.0,
       "samples": 13,
-      "observation_hours": 206.68,
+      "observation_hours": 201.99,
       "test": {
         "ok": true,
         "reason": "decoded live samples; manifest advancing; sampled frames checked",
-        "pixels": 2073600,
-        "played_seconds": 17.94,
-        "elapsed": 24.3,
-        "download_seconds": 5.93,
-        "media_url": "http://live-ugratv.cdnvideo.ru/ugratv/ugratv/tracks-v1a1/mono.ts.m3u8?hls_proxy_host=ecd2cbbe64df3539686d3c7210dc33a1",
+        "pixels": 589824,
+        "played_seconds": 17.96,
+        "elapsed": 11.49,
+        "download_seconds": 2.39,
+        "media_url": "http://bsttv.bonus-tv.ru/cdn/salyam/tracks-v2a1/mono.ts.m3u8?filter.tracks=v2v3v4a1",
         "audio_url": null,
         "advanced": true,
         "visual_criteria": "1ea12fcdda22709c1a60328e4399a5214d5d7ddf774c261f78f9468c4b77ef16",
@@ -590,26 +383,26 @@
             {
               "state": "no_known_placeholder",
               "sample_time_seconds": 2,
-              "frame": "review-frames/f7136123b9961ded04bd1dd0bb36532e481ed60997ec7c8ae6c7e19a5bc5f72d-01.jpg"
+              "frame": "review-frames/8551f62f8ba16a0871b74c7dbced2577cbaa1af31d72f71b8097f754c99139e7-01.jpg"
             },
             {
               "state": "no_known_placeholder",
-              "sample_time_seconds": 10.978,
-              "frame": "review-frames/f7136123b9961ded04bd1dd0bb36532e481ed60997ec7c8ae6c7e19a5bc5f72d-02.jpg"
+              "sample_time_seconds": 10.968,
+              "frame": "review-frames/8551f62f8ba16a0871b74c7dbced2577cbaa1af31d72f71b8097f754c99139e7-02.jpg"
             },
             {
               "state": "no_known_placeholder",
-              "sample_time_seconds": 1.987,
-              "frame": "review-frames/f7136123b9961ded04bd1dd0bb36532e481ed60997ec7c8ae6c7e19a5bc5f72d-03.jpg"
+              "sample_time_seconds": 1.998,
+              "frame": "review-frames/8551f62f8ba16a0871b74c7dbced2577cbaa1af31d72f71b8097f754c99139e7-03.jpg"
             },
             {
               "state": "no_known_placeholder",
-              "sample_time_seconds": 4.962,
-              "frame": "review-frames/f7136123b9961ded04bd1dd0bb36532e481ed60997ec7c8ae6c7e19a5bc5f72d-04.jpg"
+              "sample_time_seconds": 4.995,
+              "frame": "review-frames/8551f62f8ba16a0871b74c7dbced2577cbaa1af31d72f71b8097f754c99139e7-04.jpg"
             }
           ]
         },
-        "checked_utc": "2026-11-25T12:42:10+00:00"
+        "checked_utc": "2026-11-25T13:09:42+00:00"
       },
       "alternatives_passed": 0
     },
@@ -621,17 +414,17 @@
       "source_url": "http://serv24.vintera.tv:8081/vetta/vetta_office/playlist.m3u8",
       "ok_last_check": true,
       "rating": "observed_stable",
-      "success_rate": 1.0,
+      "success_rate": 0.9091,
       "samples": 11,
-      "observation_hours": 207.14,
+      "observation_hours": 207.06,
       "test": {
         "ok": true,
         "reason": "decoded live samples; manifest advancing; sampled frames checked",
         "pixels": 345600,
-        "played_seconds": 17.93,
-        "elapsed": 10.75,
-        "download_seconds": 0.94,
-        "media_url": "http://serv24.vintera.tv:8081/vetta/vetta_office/chunks.m3u8?nimblesessionid=112480553",
+        "played_seconds": 17.89,
+        "elapsed": 10.69,
+        "download_seconds": 0.79,
+        "media_url": "http://serv24.vintera.tv:8081/vetta/vetta_office/chunks.m3u8?nimblesessionid=112492511",
         "audio_url": null,
         "advanced": true,
         "visual_criteria": "1ea12fcdda22709c1a60328e4399a5214d5d7ddf774c261f78f9468c4b77ef16",
@@ -642,48 +435,48 @@
             {
               "state": "no_known_placeholder",
               "sample_time_seconds": 2,
-              "frame": "review-frames/8807754d793b91b8500ae19ccf1c7411431996c6d749786e8f708180fc8d696d-01.jpg"
+              "frame": "review-frames/f4d4af451fe10f5c140d82599982e3c82d61b51a4f80dc3c99667eec071726e9-01.jpg"
             },
             {
               "state": "no_known_placeholder",
-              "sample_time_seconds": 10.96,
-              "frame": "review-frames/8807754d793b91b8500ae19ccf1c7411431996c6d749786e8f708180fc8d696d-02.jpg"
+              "sample_time_seconds": 10.968,
+              "frame": "review-frames/f4d4af451fe10f5c140d82599982e3c82d61b51a4f80dc3c99667eec071726e9-02.jpg"
             },
             {
               "state": "no_known_placeholder",
-              "sample_time_seconds": 1.991,
-              "frame": "review-frames/8807754d793b91b8500ae19ccf1c7411431996c6d749786e8f708180fc8d696d-03.jpg"
+              "sample_time_seconds": 1.974,
+              "frame": "review-frames/f4d4af451fe10f5c140d82599982e3c82d61b51a4f80dc3c99667eec071726e9-03.jpg"
             },
             {
               "state": "no_known_placeholder",
-              "sample_time_seconds": 4.972,
-              "frame": "review-frames/8807754d793b91b8500ae19ccf1c7411431996c6d749786e8f708180fc8d696d-04.jpg"
+              "sample_time_seconds": 4.922,
+              "frame": "review-frames/f4d4af451fe10f5c140d82599982e3c82d61b51a4f80dc3c99667eec071726e9-04.jpg"
             }
           ]
         },
-        "checked_utc": "2026-11-25T12:41:56+00:00"
+        "checked_utc": "2026-11-25T13:09:41+00:00"
       },
       "alternatives_passed": 0
     },
     {
-      "id": "Volga.ru",
-      "channel": "Волга",
-      "group": "Региональные",
-      "url": "http://tele2dvrnat01-02.cdnvideo.ru/stream/NAT_Volga/hls/1280x720@2704/playlist.m3u8",
-      "source_url": "http://tele2dvrnat01-02.cdnvideo.ru/stream/NAT_Volga/hls/1280x720@2704/playlist.m3u8",
+      "id": "RZDTV.ru",
+      "channel": "РЖД ТВ",
+      "group": "Авто и техника",
+      "url": "http://hls.tva.cdnvideo.ru/tva/tvahd.sdp/playlist.m3u8",
+      "source_url": "http://hls.tva.cdnvideo.ru/tva/tvahd.sdp/playlist.m3u8",
       "ok_last_check": true,
       "rating": "observed_stable",
-      "success_rate": 0.95,
-      "samples": 20,
-      "observation_hours": 205.76,
+      "success_rate": 1.0,
+      "samples": 15,
+      "observation_hours": 206.21,
       "test": {
         "ok": true,
         "reason": "decoded live samples; manifest advancing; sampled frames checked",
-        "pixels": 921600,
-        "played_seconds": 17.95,
-        "elapsed": 11.38,
-        "download_seconds": 0.45,
-        "media_url": "http://tele2dvrnat01-02.cdnvideo.ru/stream/NAT_Volga/hls/1280x720@2704/playlist.m3u8",
+        "pixels": 2073600,
+        "played_seconds": 15.96,
+        "elapsed": 19.48,
+        "download_seconds": 3.32,
+        "media_url": "http://hls.tva.cdnvideo.ru/tva/tvahd.sdp/tracks-v1a1/mono.ts.m3u8?hls_proxy_host=f4eb0d287702d48f6bbf6e6f56891e63",
         "audio_url": null,
         "advanced": true,
         "visual_criteria": "1ea12fcdda22709c1a60328e4399a5214d5d7ddf774c261f78f9468c4b77ef16",
@@ -694,26 +487,78 @@
             {
               "state": "no_known_placeholder",
               "sample_time_seconds": 2,
-              "frame": "review-frames/7b7248c7872e4e4a5d2027b3046fee801dcf64d2f6a7e4f28273567f384d6889-01.jpg"
+              "frame": "review-frames/9492a29dfd9f56e3d65aefd5416e55068d4d85480b17ae785eb36f3ec8b542ef-01.jpg"
             },
             {
               "state": "no_known_placeholder",
-              "sample_time_seconds": 10.979,
-              "frame": "review-frames/7b7248c7872e4e4a5d2027b3046fee801dcf64d2f6a7e4f28273567f384d6889-02.jpg"
+              "sample_time_seconds": 10.989,
+              "frame": "review-frames/9492a29dfd9f56e3d65aefd5416e55068d4d85480b17ae785eb36f3ec8b542ef-02.jpg"
+            },
+            {
+              "state": "no_known_placeholder",
+              "sample_time_seconds": 1.323,
+              "frame": "review-frames/9492a29dfd9f56e3d65aefd5416e55068d4d85480b17ae785eb36f3ec8b542ef-03.jpg"
+            },
+            {
+              "state": "no_known_placeholder",
+              "sample_time_seconds": 2.968,
+              "frame": "review-frames/9492a29dfd9f56e3d65aefd5416e55068d4d85480b17ae785eb36f3ec8b542ef-04.jpg"
+            }
+          ]
+        },
+        "checked_utc": "2026-11-25T13:10:00+00:00"
+      },
+      "alternatives_passed": 0
+    },
+    {
+      "id": "TKR.ru",
+      "channel": "ТКР",
+      "group": "Региональные",
+      "url": "https://rt-ct-ryaz-htlive.cdn.ngenix.net/hls/CH_R01_OTT_CT_RYAZ_TKP/variant.m3u8",
+      "source_url": "https://rt-ct-ryaz-htlive.cdn.ngenix.net/hls/CH_R01_OTT_CT_RYAZ_TKP/variant.m3u8",
+      "ok_last_check": true,
+      "rating": "observed_stable",
+      "success_rate": 0.9333,
+      "samples": 15,
+      "observation_hours": 194.6,
+      "test": {
+        "ok": true,
+        "reason": "decoded live samples; manifest advancing; sampled frames checked",
+        "pixels": 2073600,
+        "played_seconds": 17.96,
+        "elapsed": 21.89,
+        "download_seconds": 6.16,
+        "media_url": "https://a3285275081-rt-ct-ryaz-htlive.cdn.ngenix.net/hls/CH_R01_TKP/playlist.m3u8?utcstart=1795611600",
+        "audio_url": null,
+        "advanced": true,
+        "visual_criteria": "1ea12fcdda22709c1a60328e4399a5214d5d7ddf774c261f78f9468c4b77ef16",
+        "frame_inspection": {
+          "state": "no_known_placeholder",
+          "frames_checked": 4,
+          "frames": [
+            {
+              "state": "no_known_placeholder",
+              "sample_time_seconds": 2,
+              "frame": "review-frames/00a58ef6877a434e2f23e868de35b67cf5e865a2cc8e2cd2af5e1cf7bad234fe-01.jpg"
+            },
+            {
+              "state": "no_known_placeholder",
+              "sample_time_seconds": 10.989,
+              "frame": "review-frames/00a58ef6877a434e2f23e868de35b67cf5e865a2cc8e2cd2af5e1cf7bad234fe-02.jpg"
             },
             {
               "state": "no_known_placeholder",
               "sample_time_seconds": 1.991,
-              "frame": "review-frames/7b7248c7872e4e4a5d2027b3046fee801dcf64d2f6a7e4f28273567f384d6889-03.jpg"
+              "frame": "review-frames/00a58ef6877a434e2f23e868de35b67cf5e865a2cc8e2cd2af5e1cf7bad234fe-03.jpg"
             },
             {
               "state": "no_known_placeholder",
               "sample_time_seconds": 4.973,
-              "frame": "review-frames/7b7248c7872e4e4a5d2027b3046fee801dcf64d2f6a7e4f28273567f384d6889-04.jpg"
+              "frame": "review-frames/00a58ef6877a434e2f23e868de35b67cf5e865a2cc8e2cd2af5e1cf7bad234fe-04.jpg"
             }
           ]
         },
-        "checked_utc": "2026-11-25T12:42:16+00:00"
+        "checked_utc": "2026-11-25T13:10:03+00:00"
       },
       "alternatives_passed": 0
     },
@@ -721,21 +566,21 @@
       "id": "ShayanTV.ru",
       "channel": "Шаян ТВ",
       "group": "Детские",
-      "url": "http://shayan.bonus-tv.ru:80/cdn/shayan/tracks-v3a1/mono.m3u8",
-      "source_url": "http://shayan.bonus-tv.ru:80/cdn/shayan/tracks-v3a1/mono.m3u8",
+      "url": "http://shayan.bonus-tv.ru/cdn/shayan/playlist.m3u8",
+      "source_url": "http://shayan.bonus-tv.ru/cdn/shayan/playlist.m3u8",
       "ok_last_check": true,
       "rating": "observed_stable",
-      "success_rate": 0.9286,
+      "success_rate": 1.0,
       "samples": 14,
-      "observation_hours": 207.82,
+      "observation_hours": 207.02,
       "test": {
         "ok": true,
         "reason": "decoded live samples; manifest advancing; sampled frames checked",
-        "pixels": 230400,
+        "pixels": 589824,
         "played_seconds": 19.95,
-        "elapsed": 8.85,
-        "download_seconds": 0.62,
-        "media_url": "http://shayan.bonus-tv.ru:80/cdn/shayan/tracks-v3a1/mono.m3u8",
+        "elapsed": 10.6,
+        "download_seconds": 2.78,
+        "media_url": "http://shayan.bonus-tv.ru/cdn/shayan/tracks-v2a1/mono.ts.m3u8",
         "audio_url": null,
         "advanced": true,
         "visual_criteria": "1ea12fcdda22709c1a60328e4399a5214d5d7ddf774c261f78f9468c4b77ef16",
@@ -746,78 +591,26 @@
             {
               "state": "no_known_placeholder",
               "sample_time_seconds": 2,
-              "frame": "review-frames/1f8bf1e55d14219eb9b1495ad8f06af2b0ad9ac5b8295f4b69788722bfea3196-01.jpg"
+              "frame": "review-frames/398914a5b44b25a8e711029a7a56b4110a5b0302a479f35da8b01da76f506953-01.jpg"
             },
             {
               "state": "no_known_placeholder",
               "sample_time_seconds": 13.976,
-              "frame": "review-frames/1f8bf1e55d14219eb9b1495ad8f06af2b0ad9ac5b8295f4b69788722bfea3196-02.jpg"
+              "frame": "review-frames/398914a5b44b25a8e711029a7a56b4110a5b0302a479f35da8b01da76f506953-02.jpg"
             },
             {
               "state": "no_known_placeholder",
               "sample_time_seconds": 1.657,
-              "frame": "review-frames/1f8bf1e55d14219eb9b1495ad8f06af2b0ad9ac5b8295f4b69788722bfea3196-03.jpg"
+              "frame": "review-frames/398914a5b44b25a8e711029a7a56b4110a5b0302a479f35da8b01da76f506953-03.jpg"
             },
             {
               "state": "no_known_placeholder",
               "sample_time_seconds": 3.971,
-              "frame": "review-frames/1f8bf1e55d14219eb9b1495ad8f06af2b0ad9ac5b8295f4b69788722bfea3196-04.jpg"
+              "frame": "review-frames/398914a5b44b25a8e711029a7a56b4110a5b0302a479f35da8b01da76f506953-04.jpg"
             }
           ]
         },
-        "checked_utc": "2026-11-25T12:42:05+00:00"
-      },
-      "alternatives_passed": 0
-    },
-    {
-      "id": "TVGuberniya.ru",
-      "channel": "TV Губерния",
-      "group": "Региональные",
-      "url": "http://s68149.cdn.ngenix.net/s68149-media-origin/lvs/tvgub/tracks-v1a1/mono.m3u8",
-      "source_url": "http://s68149.cdn.ngenix.net/s68149-media-origin/lvs/tvgub/tracks-v1a1/mono.m3u8",
-      "ok_last_check": true,
-      "rating": "observed_stable",
-      "success_rate": 0.9231,
-      "samples": 13,
-      "observation_hours": 206.24,
-      "test": {
-        "ok": true,
-        "reason": "decoded live samples; manifest advancing; sampled frames checked",
-        "pixels": 921600,
-        "played_seconds": 19.04,
-        "elapsed": 13.18,
-        "download_seconds": 0.37,
-        "media_url": "http://s68149.cdn.ngenix.net/s68149-media-origin/lvs/tvgub/tracks-v1a1/mono.m3u8",
-        "audio_url": null,
-        "advanced": true,
-        "visual_criteria": "1ea12fcdda22709c1a60328e4399a5214d5d7ddf774c261f78f9468c4b77ef16",
-        "frame_inspection": {
-          "state": "no_known_placeholder",
-          "frames_checked": 4,
-          "frames": [
-            {
-              "state": "no_known_placeholder",
-              "sample_time_seconds": 2,
-              "frame": "review-frames/8909714c047998879eebc0377b1ffba427f4bfeece0d2e979ec7b1946129cbed-01.jpg"
-            },
-            {
-              "state": "no_known_placeholder",
-              "sample_time_seconds": 11.64,
-              "frame": "review-frames/8909714c047998879eebc0377b1ffba427f4bfeece0d2e979ec7b1946129cbed-02.jpg"
-            },
-            {
-              "state": "no_known_placeholder",
-              "sample_time_seconds": 2,
-              "frame": "review-frames/8909714c047998879eebc0377b1ffba427f4bfeece0d2e979ec7b1946129cbed-03.jpg"
-            },
-            {
-              "state": "no_known_placeholder",
-              "sample_time_seconds": 5.403,
-              "frame": "review-frames/8909714c047998879eebc0377b1ffba427f4bfeece0d2e979ec7b1946129cbed-04.jpg"
-            }
-          ]
-        },
-        "checked_utc": "2026-11-25T12:42:10+00:00"
+        "checked_utc": "2026-11-25T13:09:41+00:00"
       },
       "alternatives_passed": 0
     },
@@ -825,21 +618,21 @@
       "id": "41region.ru",
       "channel": "41 регион",
       "group": "Региональные",
-      "url": "https://s14131.cdn.ngenix.net/hls/CH_R02_OTT_DV_KAM_41REG_OTT/variant.m3u8",
-      "source_url": "https://s14131.cdn.ngenix.net/hls/CH_R02_OTT_DV_KAM_41REG_OTT/variant.m3u8",
+      "url": "http://s14131.cdn.ngenix.net/hls/CH_R02_OTT_DV_KAM_41REG_OTT/variant.m3u8",
+      "source_url": "http://s14131.cdn.ngenix.net/hls/CH_R02_OTT_DV_KAM_41REG_OTT/variant.m3u8",
       "ok_last_check": true,
       "rating": "observed_stable",
-      "success_rate": 0.95,
-      "samples": 20,
-      "observation_hours": 202.35,
+      "success_rate": 1.0,
+      "samples": 15,
+      "observation_hours": 203.01,
       "test": {
         "ok": true,
         "reason": "decoded live samples; manifest advancing; sampled frames checked",
         "pixels": 360000,
-        "played_seconds": 19.97,
-        "elapsed": 9.71,
-        "download_seconds": 0.87,
-        "media_url": "https://a3569457553-s14131.cdn.ngenix.net/hls/CH_R02_41REG_OTT/playlist.m3u8?utcstart=1795608000",
+        "played_seconds": 19.95,
+        "elapsed": 10.12,
+        "download_seconds": 2.38,
+        "media_url": "http://a3285274820-s14131.cdn.ngenix.net/hls/CH_R02_41REG_OTT/playlist.m3u8?utcstart=1795611600",
         "audio_url": null,
         "advanced": true,
         "visual_criteria": "1ea12fcdda22709c1a60328e4399a5214d5d7ddf774c261f78f9468c4b77ef16",
@@ -850,26 +643,26 @@
             {
               "state": "no_known_placeholder",
               "sample_time_seconds": 2,
-              "frame": "review-frames/f8ad50c4cfa724a8440e3ac60e0889125a27ccb86912a9b337ee1f5ef9973ec6-01.jpg"
+              "frame": "review-frames/c25bb98895ba21bd1569c6e03f781e237127ed9846e3c6f069ffa266cb12d6cc-01.jpg"
             },
             {
               "state": "no_known_placeholder",
               "sample_time_seconds": 13.976,
-              "frame": "review-frames/f8ad50c4cfa724a8440e3ac60e0889125a27ccb86912a9b337ee1f5ef9973ec6-02.jpg"
+              "frame": "review-frames/c25bb98895ba21bd1569c6e03f781e237127ed9846e3c6f069ffa266cb12d6cc-02.jpg"
             },
             {
               "state": "no_known_placeholder",
-              "sample_time_seconds": 1.664,
-              "frame": "review-frames/f8ad50c4cfa724a8440e3ac60e0889125a27ccb86912a9b337ee1f5ef9973ec6-03.jpg"
+              "sample_time_seconds": 1.657,
+              "frame": "review-frames/c25bb98895ba21bd1569c6e03f781e237127ed9846e3c6f069ffa266cb12d6cc-03.jpg"
             },
             {
               "state": "no_known_placeholder",
-              "sample_time_seconds": 3.992,
-              "frame": "review-frames/f8ad50c4cfa724a8440e3ac60e0889125a27ccb86912a9b337ee1f5ef9973ec6-04.jpg"
+              "sample_time_seconds": 3.971,
+              "frame": "review-frames/c25bb98895ba21bd1569c6e03f781e237127ed9846e3c6f069ffa266cb12d6cc-04.jpg"
             }
           ]
         },
-        "checked_utc": "2026-11-25T12:42:16+00:00"
+        "checked_utc": "2026-11-25T13:09:41+00:00"
       },
       "alternatives_passed": 0
     },
@@ -877,21 +670,21 @@
       "id": "Volgograd1.ru",
       "channel": "Волгоград 1",
       "group": "Региональные",
-      "url": "https://rt-sth-vgrad-htlive.cdn.ngenix.net/hls/CH_R06_OTT_STH_VGRAD_VOLGOGRAD1/variant.m3u8",
-      "source_url": "https://rt-sth-vgrad-htlive.cdn.ngenix.net/hls/CH_R06_OTT_STH_VGRAD_VOLGOGRAD1/variant.m3u8",
+      "url": "http://rt-sth-vgrad-htlive.cdn.ngenix.net/hls/CH_R06_OTT_STH_VGRAD_VOLGOGRAD1/variant.m3u8",
+      "source_url": "http://rt-sth-vgrad-htlive.cdn.ngenix.net/hls/CH_R06_OTT_STH_VGRAD_VOLGOGRAD1/variant.m3u8",
       "ok_last_check": true,
       "rating": "observed_stable",
-      "success_rate": 0.9333,
+      "success_rate": 1.0,
       "samples": 15,
-      "observation_hours": 203.75,
+      "observation_hours": 203.69,
       "test": {
         "ok": true,
         "reason": "decoded live samples; manifest advancing; sampled frames checked",
         "pixels": 2073600,
-        "played_seconds": 19.95,
-        "elapsed": 14.61,
-        "download_seconds": 1.16,
-        "media_url": "https://a3569457550-rt-sth-vgrad-htlive.cdn.ngenix.net/hls/CH_R06_VOLGOGRAD1/playlist.m3u8?utcstart=1795608000",
+        "played_seconds": 19.97,
+        "elapsed": 19.19,
+        "download_seconds": 2.61,
+        "media_url": "http://a3569457550-rt-sth-vgrad-htlive.cdn.ngenix.net/hls/CH_R06_VOLGOGRAD1/playlist.m3u8?utcstart=1795611600",
         "audio_url": null,
         "advanced": true,
         "visual_criteria": "1ea12fcdda22709c1a60328e4399a5214d5d7ddf774c261f78f9468c4b77ef16",
@@ -902,26 +695,78 @@
             {
               "state": "no_known_placeholder",
               "sample_time_seconds": 2,
-              "frame": "review-frames/4b672a87f9acd2980b221a49c6343531137958d80da11d3a27ba740e28c12953-01.jpg"
+              "frame": "review-frames/ea7b0023a90f0388d0bb0038731de93d6ead0cedcaf0acd8321b4e909bd0fc80-01.jpg"
             },
             {
               "state": "no_known_placeholder",
               "sample_time_seconds": 13.976,
-              "frame": "review-frames/4b672a87f9acd2980b221a49c6343531137958d80da11d3a27ba740e28c12953-02.jpg"
+              "frame": "review-frames/ea7b0023a90f0388d0bb0038731de93d6ead0cedcaf0acd8321b4e909bd0fc80-02.jpg"
+            },
+            {
+              "state": "no_known_placeholder",
+              "sample_time_seconds": 1.664,
+              "frame": "review-frames/ea7b0023a90f0388d0bb0038731de93d6ead0cedcaf0acd8321b4e909bd0fc80-03.jpg"
+            },
+            {
+              "state": "no_known_placeholder",
+              "sample_time_seconds": 3.992,
+              "frame": "review-frames/ea7b0023a90f0388d0bb0038731de93d6ead0cedcaf0acd8321b4e909bd0fc80-04.jpg"
+            }
+          ]
+        },
+        "checked_utc": "2026-11-25T13:10:00+00:00"
+      },
+      "alternatives_passed": 0
+    },
+    {
+      "id": "Kuzbass1.ru",
+      "channel": "Кузбасс 1",
+      "group": "Региональные",
+      "url": "https://rt-sib-nvkz-htlive.cdn.ngenix.net/hls/CH_R01_GTRK/variant.m3u8",
+      "source_url": "https://rt-sib-nvkz-htlive.cdn.ngenix.net/hls/CH_R01_GTRK/variant.m3u8",
+      "ok_last_check": true,
+      "rating": "observed_stable",
+      "success_rate": 0.9333,
+      "samples": 15,
+      "observation_hours": 205.88,
+      "test": {
+        "ok": true,
+        "reason": "decoded live samples; manifest advancing; sampled frames checked",
+        "pixels": 2073600,
+        "played_seconds": 19.95,
+        "elapsed": 23.39,
+        "download_seconds": 4.89,
+        "media_url": "https://a787200764-rt-sib-nvkz-htlive.cdn.ngenix.net/hls/CH_R01_GTRK/playlist.m3u8?utcstart=1795611600",
+        "audio_url": null,
+        "advanced": true,
+        "visual_criteria": "1ea12fcdda22709c1a60328e4399a5214d5d7ddf774c261f78f9468c4b77ef16",
+        "frame_inspection": {
+          "state": "no_known_placeholder",
+          "frames_checked": 4,
+          "frames": [
+            {
+              "state": "no_known_placeholder",
+              "sample_time_seconds": 2,
+              "frame": "review-frames/b75288212851a10c5943cd8cf7fec8098a01aa01ffed6e96b37389740c45b301-01.jpg"
+            },
+            {
+              "state": "no_known_placeholder",
+              "sample_time_seconds": 13.976,
+              "frame": "review-frames/b75288212851a10c5943cd8cf7fec8098a01aa01ffed6e96b37389740c45b301-02.jpg"
             },
             {
               "state": "no_known_placeholder",
               "sample_time_seconds": 1.657,
-              "frame": "review-frames/4b672a87f9acd2980b221a49c6343531137958d80da11d3a27ba740e28c12953-03.jpg"
+              "frame": "review-frames/b75288212851a10c5943cd8cf7fec8098a01aa01ffed6e96b37389740c45b301-03.jpg"
             },
             {
               "state": "no_known_placeholder",
               "sample_time_seconds": 3.971,
-              "frame": "review-frames/4b672a87f9acd2980b221a49c6343531137958d80da11d3a27ba740e28c12953-04.jpg"
+              "frame": "review-frames/b75288212851a10c5943cd8cf7fec8098a01aa01ffed6e96b37389740c45b301-04.jpg"
             }
           ]
         },
-        "checked_utc": "2026-11-25T12:42:20+00:00"
+        "checked_utc": "2026-11-25T13:10:04+00:00"
       },
       "alternatives_passed": 0
     }
@@ -1936,6 +1781,18 @@
       "candidates": 0
     },
     {
+      "id": "Channel8Krasnoyarsk.ru",
+      "channel": "8 канал Красноярск",
+      "reason": "no eligible unique stream",
+      "candidates": 1
+    },
+    {
+      "id": "Channel8Novosibirsk.ru",
+      "channel": "8 канал Новосибирск",
+      "reason": "no eligible unique stream",
+      "candidates": 0
+    },
+    {
       "id": "RTVi.ru",
       "channel": "RTVi",
       "reason": "no eligible unique stream",
@@ -1962,6 +1819,12 @@
     {
       "id": "Arkhyz24.ru",
       "channel": "Архыз 24",
+      "reason": "no eligible unique stream",
+      "candidates": 0
+    },
+    {
+      "id": "BigAsia.ru",
+      "channel": "Большая Азия",
       "reason": "no eligible unique stream",
       "candidates": 0
     },
@@ -2029,7 +1892,7 @@
       "id": "Enisey.ru",
       "channel": "Енисей",
       "reason": "no eligible unique stream",
-      "candidates": 0
+      "candidates": 1
     },
     {
       "id": "ZhivayaPlaneta.ru",
@@ -2089,7 +1952,7 @@
       "id": "NVKSakha.ru",
       "channel": "НВК Саха",
       "reason": "no eligible unique stream",
-      "candidates": 0
+      "candidates": 1
     },
     {
       "id": "NST.ru",
@@ -2216,6 +2079,12 @@
       "channel": "Усадьба",
       "reason": "no eligible unique stream",
       "candidates": 0
+    },
+    {
+      "id": "UgraTV.ru",
+      "channel": "Югра-ТВ",
+      "reason": "no eligible unique stream",
+      "candidates": 1
     },
     {
       "id": "Soyuz.ru",
@@ -2850,8 +2719,8 @@
     {
       "id": "NTVHit.ru",
       "channel": "НТВ-Хит",
-      "reason": "quality review pending",
-      "candidates": 1
+      "reason": "no eligible unique stream",
+      "candidates": 0
     },
     {
       "id": "Perviyotdel.ru",
@@ -3196,6 +3065,12 @@
       "candidates": 0
     },
     {
+      "id": "Volga.ru",
+      "channel": "Волга",
+      "reason": "no eligible unique stream",
+      "candidates": 0
+    },
+    {
       "id": "Volgograd24.ru",
       "channel": "Волгоград 24",
       "reason": "no eligible unique stream",
@@ -3358,12 +3233,6 @@
       "candidates": 0
     },
     {
-      "id": "RZDTV.ru",
-      "channel": "РЖД ТВ",
-      "reason": "no eligible unique stream",
-      "candidates": 0
-    },
-    {
       "id": "Rossiya1Vainah.ru",
       "channel": "Россия 1 Вайнах",
       "reason": "no eligible unique stream",
@@ -3442,12 +3311,6 @@
       "candidates": 0
     },
     {
-      "id": "TKR.ru",
-      "channel": "ТКР",
-      "reason": "no eligible unique stream",
-      "candidates": 0
-    },
-    {
       "id": "TNVTatarstan.ru",
       "channel": "ТНВ-Татарстан",
       "reason": "no eligible unique stream",
@@ -3468,8 +3331,8 @@
     {
       "id": "YaPervyy.ru",
       "channel": "ЯПервый",
-      "reason": "quality review pending",
-      "candidates": 1
+      "reason": "no eligible unique stream",
+      "candidates": 0
     },
     {
       "id": "Vera24.ru",
@@ -3546,8 +3409,8 @@
     {
       "id": "Katun24.ru",
       "channel": "Катунь 24",
-      "reason": "no eligible unique stream",
-      "candidates": 0
+      "reason": "quality review pending",
+      "candidates": 1
     },
     {
       "id": "Lipeckoevremya.ru",
@@ -3697,7 +3560,7 @@
       "id": "sv.bryansk-guberniya",
       "channel": "Брянская губерния",
       "reason": "no eligible unique stream",
-      "candidates": 1
+      "candidates": 0
     },
     {
       "id": "sv.bst-bratsk",
@@ -3810,8 +3673,8 @@
     {
       "id": "sv.tomskoe-vremya",
       "channel": "Томское время",
-      "reason": "no eligible unique stream",
-      "candidates": 0
+      "reason": "quality review pending",
+      "candidates": 1
     },
     {
       "id": "sv.ural1",
@@ -3984,6 +3847,12 @@
     {
       "id": "Zdorove.ru",
       "channel": "Здоровье",
+      "reason": "no eligible unique stream",
+      "candidates": 0
+    },
+    {
+      "id": "TVGuberniya.ru",
+      "channel": "TV Губерния",
       "reason": "no eligible unique stream",
       "candidates": 0
     },
@@ -4506,12 +4375,6 @@
     {
       "id": "AmurskoyeOblastnoyeTV.ru",
       "channel": "Амурское областное телевидение",
-      "reason": "no eligible unique stream",
-      "candidates": 0
-    },
-    {
-      "id": "Kuzbass1.ru",
-      "channel": "Кузбасс 1",
       "reason": "no eligible unique stream",
       "candidates": 0
     },
@@ -10677,8 +10540,8 @@
       "quarantined": 194334
     },
     "minimum_spacing_hours": 2.0,
-    "requests_needing_format_review": 8466,
-    "inconclusive_attempts": 15057,
+    "requests_needing_format_review": 8329,
+    "inconclusive_attempts": 15904,
     "inconclusive_is_playback_failure": false,
     "retry_rejected_hours": 168.0,
     "weekly_rechecked_requests": 0,
