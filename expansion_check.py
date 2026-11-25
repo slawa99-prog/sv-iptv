@@ -10,7 +10,7 @@ from copy import deepcopy
 from datetime import datetime
 
 
-MEDIA_PROBE_VERSION = "2026-11-25.2"
+MEDIA_PROBE_VERSION = "2026-11-25.3"
 UNCLASSIFIED_RESPONSES = {
     "format requires a separate adapter or access review",
     "unrecognized continuous transport",
@@ -21,7 +21,9 @@ UNCLASSIFIED_RESPONSES = {
 EARLY_RETRY_REASONS = {None: UNCLASSIFIED_RESPONSES | {
     "continuous sample decode incomplete; format review required",
     "byte-range HLS: unsupported", "byte-range initialization: unsupported",
-}, "2026-11-25.1": UNCLASSIFIED_RESPONSES}
+}, "2026-11-25.1": UNCLASSIFIED_RESPONSES,
+   "2026-11-25.2": {"HTTP response (unknown_binary) requires format or access review",
+                    "HTTP response (id3) requires format or access review"}}
 
 
 def epoch(value):
