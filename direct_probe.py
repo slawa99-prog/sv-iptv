@@ -10,10 +10,23 @@ import tempfile
 import time
 from urllib.parse import urlparse
 from urllib.request import HTTPRedirectHandler, Request, build_opener
+from http.client import HTTPException
+
+from response_diagnostics import PREFIX_BYTES, describe_response, transport_kind
 
 
 class UnsupportedMedia(ValueError):
     """An unsupported/ambiguous format is not proof of a dead TV stream."""
+
+    def __init__(self, message, *, diagnostic=None):
+        super().__init__(message)
+        self.diagnostic = diagnostic
+
+    @classmethod
+    def from_response(cls, response, prefix, message=None):
+        detail = describe_response(response, prefix)
+        return cls(message or f"HTTP response ({detail['body_kind']}) requires format or access review",
+                   diagnostic=detail)
 
 
 class DirectMedia(UnsupportedMedia):
@@ -46,16 +59,6 @@ class PublicMediaRedirect(HTTPRedirectHandler):
 urlopen = build_opener(PublicMediaRedirect()).open
 
 
-def transport_kind(data):
-    if data.startswith(b'FLV'):
-        return 'flv'
-    for packet in (188, 192, 204):
-        for offset in range(min(packet, max(0, len(data) - 2 * packet))):
-            if data[offset] == data[offset + packet] == data[offset + 2 * packet] == 0x47:
-                return 'mpegts'
-    return None
-
-
 def capture(item, path, cfg, validate):
     validate(item['url'])
     target = max(12, float(cfg.get('test_seconds', 12)))
@@ -70,23 +73,32 @@ def capture(item, path, cfg, validate):
         validate(response.url)
         response_headers = getattr(response, 'headers', {})
         if 'Content-Length' in response_headers or 'Content-Range' in response_headers:
-            raise UnsupportedMedia('finite media: live status requires review')
+            try:
+                prefix = response.read1(min(PREFIX_BYTES, byte_limit))
+            except (OSError, HTTPException):
+                prefix = None
+            raise UnsupportedMedia.from_response(response, prefix, 'finite media: live status requires review')
         with path.open('wb') as out:
             while time.monotonic() - started < capture_limit:
-                chunk = response.read1(65536)
+                try:
+                    chunk = response.read1(65536)
+                except (OSError, HTTPException):
+                    if prefix and kind is None:
+                        raise UnsupportedMedia.from_response(response, prefix)
+                    raise
                 if not chunk:
-                    raise UnsupportedMedia('finite media: live status requires review')
+                    raise UnsupportedMedia.from_response(response, prefix, 'finite media: live status requires review')
                 total += len(chunk)
                 if total > byte_limit:
                     raise UnsupportedMedia('continuous sample byte budget reached')
                 if kind is None:
-                    prefix += chunk
+                    prefix += chunk[:PREFIX_BYTES - len(prefix)]
                     kind = transport_kind(prefix)
-                    if kind is None and (len(prefix) >= 4096 or prefix.lstrip().startswith((b'<', b'{', b'#'))):
-                        raise UnsupportedMedia('format requires a separate adapter or access review')
+                    if kind is None and len(prefix) == PREFIX_BYTES:
+                        raise UnsupportedMedia.from_response(response, prefix)
                 out.write(chunk)
-    if kind is None:
-        raise UnsupportedMedia('unrecognized continuous transport')
+        if kind is None:
+            raise UnsupportedMedia.from_response(response, prefix)
     return {'transport': kind, 'bytes': total, 'capture_seconds': round(time.monotonic() - started, 2)}
 
 

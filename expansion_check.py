@@ -5,19 +5,23 @@ PC evidence protects known working requests but never raises a VPS rating.
 """
 from __future__ import annotations
 
+from collections import Counter
 from copy import deepcopy
 from datetime import datetime
 
 
-MEDIA_PROBE_VERSION = "2026-11-25.1"
-# Only pending requests whose former probe could not read these media get a
-# single early retry. Encrypted/access-controlled sources keep their schedule.
-RECHECKABLE_LEGACY_REASONS = {
+MEDIA_PROBE_VERSION = "2026-11-25.2"
+UNCLASSIFIED_RESPONSES = {
     "format requires a separate adapter or access review",
-    "continuous sample decode incomplete; format review required",
-    "byte-range HLS: unsupported", "byte-range initialization: unsupported",
     "unrecognized continuous transport",
 }
+# Histories before the first adapter release did not record a probe version.
+# The diagnostic release only adds a reason to revisit previously unclassified
+# responses. A known access restriction or a current diagnostic waits as usual.
+EARLY_RETRY_REASONS = {None: UNCLASSIFIED_RESPONSES | {
+    "continuous sample decode incomplete; format review required",
+    "byte-range HLS: unsupported", "byte-range initialization: unsupported",
+}, "2026-11-25.1": UNCLASSIFIED_RESPONSES}
 
 
 def epoch(value):
@@ -117,6 +121,12 @@ class Campaign:
                 stat['inconclusive_attempts'] = stat.get('inconclusive_attempts', 0) + 1
                 if result.get('media_probe_version'):
                     stat['inconclusive_probe_version'] = result['media_probe_version']
+                else:
+                    stat.pop('inconclusive_probe_version', None)
+                if result.get('response_diagnostic'):
+                    stat['response_diagnostic'] = result['response_diagnostic']
+                else:
+                    stat.pop('response_diagnostic', None)
                 continue
             if self.network_degraded and not result['ok']:
                 # Keep the failed VPS observation in normal history, but do not
@@ -144,6 +154,7 @@ class Campaign:
             stat.pop('last_inconclusive', None)
             stat.pop('inconclusive_reason', None)
             stat.pop('inconclusive_probe_version', None)
+            stat.pop('response_diagnostic', None)
             if result['ok']:
                 stat['ever_passed'] = True
                 self.baseline.add(key)
@@ -178,9 +189,9 @@ class Campaign:
                 continue
             if stat.get('last_inconclusive'):
                 retry = normal_retry
+                early_reasons = EARLY_RETRY_REASONS.get(stat.get('inconclusive_probe_version'), ())
                 if (self.config['environment'] == 'ru-vps' and stat.get('samples', 0) < self.required
-                        and stat.get('inconclusive_probe_version') != MEDIA_PROBE_VERSION
-                        and stat.get('inconclusive_reason') in RECHECKABLE_LEGACY_REASONS):
+                        and stat.get('inconclusive_reason') in early_reasons):
                     retry = self.spacing
                 if now - epoch(stat['last_inconclusive']) < retry:
                     continue
@@ -199,8 +210,16 @@ class Campaign:
 
     def report(self):
         counts = {c: 0 for c in ('pending', 'monitor', 'pc_only', 'quarantined')}
+        bodies, mimes = Counter(), Counter()
+        below_required = 0
         for key in self.items:
             counts[self.category(key)] += 1
+            stat = self.stats.get(key, {})
+            detail = stat.get('response_diagnostic')
+            if detail and stat.get('last_inconclusive') and key in self.verification_keys:
+                bodies[detail['body_kind']] += 1
+                mimes[detail['content_type']] += 1
+                below_required += stat.get('samples', 0) < self.required
         cohort = self.state['cohort_keys']
         passes = min((min(self.required, self.stats.get(k, {}).get('samples', 0)) for k in cohort), default=0)
         zero_both, pc_only_channels, pending_channels = [], [], []
@@ -231,6 +250,8 @@ class Campaign:
                                                      for k in self.verification_keys), default=0),
                 'request_categories': counts, 'minimum_spacing_hours': self.spacing / 3600,
                 'requests_needing_format_review': sum(bool(s.get('last_inconclusive')) for s in self.stats.values()),
+                'frozen_response_diagnostics': {'requests': sum(bodies.values()), 'below_required_samples': below_required,
+                                                'by_body_kind': dict(bodies), 'by_content_type': dict(mimes)},
                 'inconclusive_attempts': sum(s.get('inconclusive_attempts', 0) for s in self.stats.values()),
                 'inconclusive_is_playback_failure': False,
                 'retry_rejected_hours': self.retry / 3600,
