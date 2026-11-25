@@ -11,8 +11,8 @@ if [[ ! "$revision" =~ ^[0-9a-f]{40}$ ]]; then
   echo 'Pass the exact reviewed 40-character GitHub commit SHA.' >&2
   exit 1
 fi
-if [[ "$#" -gt 2 || ( -n "$workers" && ! "$workers" =~ ^[1-8]$ ) ]]; then
-  echo 'Usage: update.sh COMMIT_SHA [WORKERS: 1-8]' >&2
+if [[ "$#" -gt 2 || ( -n "$workers" && ! "$workers" =~ ^([1-9]|1[0-2])$ ) ]]; then
+  echo 'Usage: update.sh COMMIT_SHA [WORKERS: 1-12]' >&2
   exit 1
 fi
 if [[ -n "$workers" && "$workers" -gt 4 ]]; then
@@ -20,8 +20,10 @@ if [[ -n "$workers" && "$workers" -gt 4 ]]; then
   cpu_count="$(nproc)"
   memory_kib="$(awk '/^MemTotal:/ {print $2}' /proc/meminfo)"
   echo "Available resources: $cpu_count CPUs, $memory_kib KiB RAM; requested workers: $workers"
-  if [[ "$cpu_count" -lt 4 || "$memory_kib" -lt 6291456 ]]; then
-    echo 'For 5-8 workers, first make sure the guest sees at least 4 CPUs and 6 GiB RAM. Current check was not stopped.' >&2
+  min_cpus=4
+  if (( workers > 8 )); then min_cpus=8; fi
+  if [[ "$cpu_count" -lt "$min_cpus" || "$memory_kib" -lt 6291456 ]]; then
+    echo "For $workers workers the guest needs at least $min_cpus CPUs and 6 GiB RAM. Current check was not stopped." >&2
     exit 1
   fi
 fi
@@ -76,11 +78,15 @@ root, workers, target = pathlib.Path(sys.argv[1]), int(sys.argv[2]), pathlib.Pat
 sys.path.insert(0, str(root))
 from server.ru_check import MAX_WORKERS
 assert 1 <= workers <= MAX_WORKERS, 'Downloaded launcher does not support the requested worker count'
+limits = ''
+if workers > 8:
+    # Scale the existing eight-worker cgroup budgets for the additional decoders.
+    limits = f'MemoryHigh={2500 * workers // 8}M\nMemoryMax={384 * workers}M\nTasksMax={32 * workers}\n'
 target.write_text('[Service]\nExecStart=\n'
     f'ExecStart=/usr/bin/python3 /usr/local/lib/sv-iptv-ru/ru_check.py --workers {workers}\n'
     'CPUAccounting=yes\nMemoryAccounting=yes\nIPAccounting=yes\n'
     'ExecStopPost=-/usr/bin/systemctl show sv-iptv-ru.service -p ExecMainStartTimestamp '
-    '-p ExecMainExitTimestamp -p CPUUsageNSec -p MemoryPeak -p IPIngressBytes -p IPEgressBytes --no-pager\n',
+    '-p ExecMainExitTimestamp -p CPUUsageNSec -p MemoryPeak -p IPIngressBytes -p IPEgressBytes --no-pager\n' + limits,
     encoding='utf-8')
 PY
 fi

@@ -14,7 +14,6 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime, timezone
 import gzip
 import hashlib
-import ipaddress
 import json
 import math
 import os
@@ -28,13 +27,15 @@ import threading
 import time
 import unicodedata
 from functools import lru_cache
+from http.client import IncompleteRead
 import placeholder_filter
-from expansion_check import Campaign, compact_failed_history
+import dash_probe
+from expansion_check import Campaign, compact_failed_history, MEDIA_PROBE_VERSION
 from research_queue import archive_items
-from direct_probe import UnsupportedMedia, check_direct
+from direct_probe import DirectMedia, UnsupportedMedia, check_direct, urlopen, validate_url
 from urllib.error import HTTPError, URLError
 from urllib.parse import urljoin, urlparse
-from urllib.request import Request, urlopen
+from urllib.request import Request
 
 ROOT = Path(__file__).resolve().parent
 VALIDATION_ROOT = ROOT
@@ -109,21 +110,6 @@ def split_info(line: str) -> tuple[str, str]:
     return line, "Канал"
 
 
-def validate_url(url: str) -> None:
-    p = urlparse(url)
-    if p.scheme not in ("http", "https") or not p.hostname or p.username or p.password:
-        raise ValueError("unsupported URL")
-    host = p.hostname.casefold()
-    if host == "localhost" or host.endswith((".localhost", ".local", ".internal")):
-        raise ValueError("local endpoint")
-    try:
-        ip = ipaddress.ip_address(host)
-    except ValueError:
-        return
-    if not ip.is_global:
-        raise ValueError("non-public endpoint")
-
-
 def parse_m3u(text: str) -> list[dict]:
     if not text.lstrip("\ufeff \t\r\n").startswith("#EXTM3U"):
         raise ValueError("invalid M3U header")
@@ -165,14 +151,31 @@ def stream_key(item: dict) -> str:
     return hashlib.sha256(payload.encode()).hexdigest()
 
 
-def fetch_bytes(url: str, headers=None, timeout=12, limit=4_000_000, expect_hls=False) -> bytes:
+def fetch_bytes(url: str, headers=None, timeout=12, limit=4_000_000, expect_hls=False,
+                *, byte_range=None, resolved=None) -> bytes:
     validate_url(url)
     request_headers = {"User-Agent": "Mozilla/5.0 SV-IPTV/3.0", "Accept-Encoding": "identity"}
     request_headers.update(headers or {})
     request_headers["Cache-Control"] = "no-cache"
+    if byte_range:
+        offset, length = byte_range
+        if offset < 0 or not 0 < length <= limit:
+            raise UnsupportedMedia('HLS byte range exceeds the download budget')
+        last = offset + length - 1
+        request_headers['Range'] = f'bytes={offset}-{last}'
+        limit = length
     started = time.monotonic()
     with urlopen(Request(url, headers=request_headers), timeout=timeout) as response:
         validate_url(response.url)
+        if resolved is not None:
+            resolved[url] = response.url
+        if byte_range:
+            span = re.fullmatch(r'bytes ([0-9]+)-([0-9]+)/(\*|[0-9]+)',
+                                response.headers.get('Content-Range', '').strip(), re.I)
+            if (response.status != 206 or not span or int(span[1]) != offset or int(span[2]) != last
+                    or (span[3] != '*' and int(span[3]) <= last)
+                    or response.headers.get('Content-Encoding', 'identity').lower() != 'identity'):
+                raise UnsupportedMedia('server did not return the requested HLS byte range')
         chunks, size = [], 0
         while size <= limit:
             if time.monotonic() - started > timeout:
@@ -182,11 +185,19 @@ def fetch_bytes(url: str, headers=None, timeout=12, limit=4_000_000, expect_hls=
                 break
             chunks.append(chunk)
             size += len(chunk)
-            if expect_hls and size >= 16 and not chunks[0].startswith(b'\x1f\x8b'):
-                prefix = b''.join(chunks)[:512].lstrip(b'\xef\xbb\xbf \t\r\n')
-                if prefix and not prefix.startswith(b'#EXTM3U'):
-                    raise UnsupportedMedia('non-HLS media response')
+            if expect_hls and size >= 16 and size - len(chunk) < 512:
+                prefix = b''.join(chunks)[:512].lstrip(b'\xef\xbb\xbf \t\r\n').lower()
+                if prefix.startswith((b'<!doctype html', b'<html', b'<head', b'<body')):
+                    raise UnsupportedMedia('HTML response requires player or access review')
+                if prefix.startswith((b'{', b'[')):
+                    raise UnsupportedMedia('JSON response requires player or access review')
+                if prefix and not b'#extm3u'.startswith(prefix) and not prefix.startswith((b'#extm3u', b'<', b'\x1f\x8b')):
+                    raise DirectMedia('non-playlist media response')
         data = b''.join(chunks)
+    if byte_range:
+        if len(data) != length:
+            raise UnsupportedMedia('incomplete HLS byte range')
+        return data
     if len(data) > limit:
         raise ValueError("response size limit")
     if data.startswith(b"\x1f\x8b"):
@@ -200,14 +211,22 @@ def fetch_bytes(url: str, headers=None, timeout=12, limit=4_000_000, expect_hls=
 
 def manifest(url: str, headers: dict, cfg: dict) -> str:
     try:
-        data = fetch_bytes(url, headers, cfg.get("network_timeout_seconds", 10), 2_000_000, expect_hls=True)
+        data = fetch_bytes(url, headers, cfg.get("network_timeout_seconds", 10), 2_000_000,
+                           expect_hls=True, resolved=cfg.get('_manifest_urls'))
         text = data.decode("utf-8-sig")
     except (UnicodeDecodeError, ValueError) as exc:
-        if isinstance(exc, UnicodeDecodeError) or str(exc) in ('response size limit', 'uncompressed size limit'):
-            raise UnsupportedMedia('non-HLS media response') from exc
+        if isinstance(exc, UnicodeDecodeError):
+            raise DirectMedia('non-playlist media response') from exc
+        if str(exc) in ('response size limit', 'uncompressed size limit'):
+            raise UnsupportedMedia('playlist exceeds the manifest budget') from exc
         raise
-    if not text.lstrip().startswith("#EXTM3U"):
-        raise UnsupportedMedia('not an HLS manifest')
+    text = text.lstrip()
+    if text.lower().startswith(('<!doctype html', '<html', '<head', '<body')):
+        raise UnsupportedMedia('HTML response requires player or access review')
+    if text.startswith(('{', '[')):
+        raise UnsupportedMedia('JSON response requires player or access review')
+    if not text.startswith(('#EXTM3U', '<')):
+        raise DirectMedia('non-playlist media response')
     return text
 
 
@@ -216,12 +235,25 @@ def hls_attrs(line: str) -> dict:
             for m in re.finditer(r'([A-Z0-9-]+)=(?:"([^"]*)"|([^,]*))', line)}
 
 
+def require_clear_hls(text):
+    for line in text.splitlines():
+        if line.strip().startswith(('#EXT-X-KEY:', '#EXT-X-SESSION-KEY:')) and hls_attrs(line).get('METHOD') != 'NONE':
+            raise UnsupportedMedia('encrypted media requires an authorized player')
+
+
 def choose_media(url: str, headers: dict, cfg: dict) -> tuple[str, str, str | None]:
     selected_audio = None
     for _ in range(5):
         text = manifest(url, headers, cfg)
+        base = cfg.get('_manifest_urls', {}).get(url, url)
+        if '#EXT-X-SESSION-KEY:' in text and any(hls_attrs(line).get('METHOD') != 'NONE'
+                for line in text.splitlines() if line.startswith('#EXT-X-SESSION-KEY:')):
+            raise UnsupportedMedia('encrypted media requires an authorized player')
+        if not text.startswith("#EXTM3U"):
+            return url, text, None
         if "#EXT-X-STREAM-INF:" not in text:
             return url, text, selected_audio
+        require_clear_hls(text)
         pending, variants = None, []
         external_audio = {}
         for line in text.splitlines():
@@ -231,7 +263,7 @@ def choose_media(url: str, headers: dict, cfg: dict) -> tuple[str, str, str | No
                     group = attrs.get("GROUP-ID")
                     rank = (attrs.get("LANGUAGE", "").casefold() in ("ru", "rus"), attrs.get("DEFAULT") == "YES")
                     if group not in external_audio or rank > external_audio[group][0]:
-                        external_audio[group] = (rank, urljoin(url, attrs["URI"]))
+                        external_audio[group] = (rank, urljoin(base, attrs["URI"]))
         for line in text.splitlines():
             if line.startswith("#EXT-X-STREAM-INF:"):
                 pending = hls_attrs(line)
@@ -240,33 +272,54 @@ def choose_media(url: str, headers: dict, cfg: dict) -> tuple[str, str, str | No
                 height = int(resolution[-1]) if resolution[-1].isdigit() else 0
                 bitrate = int(pending.get("AVERAGE-BANDWIDTH", pending.get("BANDWIDTH", 0)))
                 audio = external_audio.get(pending.get("AUDIO"))
-                variants.append((height, bitrate, urljoin(url, line.strip()), audio[1] if audio else None))
+                variants.append((height, bitrate, urljoin(base, line.strip()), audio[1] if audio else None))
                 pending = None
         if not variants:
-            raise ValueError("no playable HLS rendition")
+            raise UnsupportedMedia("no playable HLS rendition")
         cap_h, cap_b = cfg.get("preferred_max_height", 720), cfg.get("preferred_max_bitrate", 4_000_000)
         suitable = [v for v in variants if v[0] <= cap_h and v[1] <= cap_b]
         chosen = max(suitable, key=lambda v: (v[0], v[1])) if suitable else min(variants, key=lambda v: v[1])
         url = chosen[2]
         selected_audio = chosen[3] or selected_audio
-    raise ValueError("HLS nesting limit")
+    raise UnsupportedMedia("HLS nesting limit")
+
+
+def hls_range(spec, uri, previous):
+    match = re.fullmatch(r'([0-9]{1,19})(?:@([0-9]{1,19}))?', spec)
+    if not match or int(match[1]) == 0:
+        raise UnsupportedMedia('invalid HLS byte range')
+    length = int(match[1])
+    if match[2] is not None:
+        offset = int(match[2])
+    elif previous and previous['url'] == uri and previous.get('byte_range'):
+        offset = sum(previous['byte_range'])
+    else:
+        raise UnsupportedMedia('ambiguous implicit HLS byte range')
+    if offset + length > 2**63 - 1:
+        raise UnsupportedMedia('HLS byte range exceeds supported offsets')
+    return offset, length
 
 
 def media_segments(text: str, url: str) -> dict:
+    if not text.lstrip().startswith('#EXTM3U'):
+        raise UnsupportedMedia('expected an HLS media playlist')
+    require_clear_hls(text)
     if "#EXT-X-ENDLIST" in text:
-        raise ValueError("ended stream / VOD")
+        raise UnsupportedMedia("ended stream / VOD requires live review")
     seq, target, duration, init, segments, discontinuity = 0, 6.0, None, None, [], False
+    pending_range, init_range = None, None
     for line in text.splitlines():
         line = line.strip()
-        if line.startswith("#EXT-X-KEY:") and hls_attrs(line).get("METHOD") != "NONE":
-            raise UnsupportedMedia("encrypted media requires an authorized player")
         if line.startswith("#EXT-X-BYTERANGE"):
-            raise UnsupportedMedia("byte-range HLS: unsupported")
+            if not line.startswith('#EXT-X-BYTERANGE:') or pending_range is not None:
+                raise UnsupportedMedia('ambiguous HLS byte-range tags')
+            pending_range = line.split(':', 1)[1]
         if line.startswith("#EXT-X-MAP:"):
             attrs = hls_attrs(line)
-            if "BYTERANGE" in attrs:
-                raise UnsupportedMedia("byte-range initialization: unsupported")
+            if not attrs.get('URI'):
+                raise UnsupportedMedia('HLS initialization URI missing')
             init = urljoin(url, attrs["URI"])
+            init_range = hls_range(attrs['BYTERANGE'], init, segments[-1] if segments else None) if 'BYTERANGE' in attrs else None
         elif line.startswith("#EXT-X-MEDIA-SEQUENCE:"):
             seq = int(line.split(":", 1)[1])
         elif line.startswith("#EXT-X-TARGETDURATION:"):
@@ -276,11 +329,20 @@ def media_segments(text: str, url: str) -> dict:
         elif line.startswith("#EXTINF:"):
             duration = float(line.split(":", 1)[1].split(",")[0])
         elif line and not line.startswith("#") and duration is not None:
-            segments.append({"url": urljoin(url, line), "seconds": duration,
-                             "sequence": seq + len(segments), "init": init, "discontinuity": discontinuity})
+            uri = urljoin(url, line)
+            segment = {"url": uri, "seconds": duration, "sequence": seq + len(segments),
+                       "init": init, "discontinuity": discontinuity}
+            if pending_range is not None:
+                segment['byte_range'] = hls_range(pending_range, uri, segments[-1] if segments else None)
+                pending_range = None
+            if init_range:
+                segment['init_range'] = init_range
+            segments.append(segment)
             duration, discontinuity = None, False
+    if pending_range is not None:
+        raise UnsupportedMedia('incomplete HLS byte-range playlist')
     if not segments:
-        raise ValueError("no media segments")
+        raise UnsupportedMedia("no media segments")
     return {"target": target, "segments": segments}
 
 
@@ -344,24 +406,46 @@ def decode_sample(segments: list[dict], headers: dict, cfg: dict, audio_segments
     with tempfile.TemporaryDirectory(prefix="sv-iptv-") as tmp:
         folder = Path(tmp)
         init_files, total_bytes, download_started = {}, 0, time.monotonic()
-        paths = []
+        paths, segment_hashes = [], []
+        def download(url, span, limit):
+            nonlocal total_bytes
+            budget = cfg.get("sample_max_bytes", 70_000_000) - total_bytes
+            if budget <= 0:
+                raise ValueError("sample byte limit")
+            timeout = cfg.get("network_timeout_seconds", 10)
+            if span:
+                try:
+                    data = fetch_bytes(url, headers, timeout, min(limit, budget), byte_range=span)
+                except IncompleteRead as exc:
+                    raise UnsupportedMedia('incomplete HLS byte range') from exc
+                except HTTPError as exc:
+                    if exc.code == 416:
+                        raise UnsupportedMedia('requested HLS byte range is unavailable') from exc
+                    raise
+            else:
+                data = fetch_bytes(url, headers, timeout, min(limit, budget))
+            total_bytes += len(data)
+            return data
+
         groups = [segments] + ([audio_segments] if audio_segments is not None else [])
         for track, parts in enumerate(groups):
+            hashes = set()
             lines = ["#EXTM3U", "#EXT-X-VERSION:7", f'#EXT-X-TARGETDURATION:{math.ceil(max(x["seconds"] for x in parts))}',
                      "#EXT-X-MEDIA-SEQUENCE:0"]
             for pos, seg in enumerate(parts):
                 if seg.get("init"):
-                    if seg["init"] not in init_files:
+                    init = (seg["init"], seg.get("init_range"))
+                    if init not in init_files:
                         init_name = f"init{len(init_files)}.mp4"
-                        (folder / init_name).write_bytes(fetch_bytes(seg["init"], headers,
-                            cfg.get("network_timeout_seconds", 10), 4_000_000))
-                        init_files[seg["init"]] = init_name
-                    lines.append(f'#EXT-X-MAP:URI="{init_files[seg["init"]]}"')
-                data = fetch_bytes(seg["url"], headers, cfg.get("network_timeout_seconds", 10),
-                                   cfg.get("segment_max_bytes", 20_000_000))
-                total_bytes += len(data)
-                if total_bytes > cfg.get("sample_max_bytes", 70_000_000):
-                    raise ValueError("sample byte limit")
+                        data = download(*init, 4_000_000)
+                        if any(marker in data for marker in (b'pssh', b'tenc', b'encv', b'enca')):
+                            raise UnsupportedMedia("encrypted initialization requires an authorized player")
+                        (folder / init_name).write_bytes(data)
+                        init_files[init] = init_name
+                    lines.append(f'#EXT-X-MAP:URI="{init_files[init]}"')
+                data = download(seg["url"], seg.get("byte_range"), cfg.get("segment_max_bytes", 20_000_000))
+                if cfg.get('_verify_segment_bytes'):
+                    hashes.add(hashlib.sha256(data).hexdigest())
                 if len(data) < 188:
                     raise ValueError("empty media segment")
                 name = f"seg{track}_{pos}." + ("m4s" if seg.get("init") else "ts")
@@ -373,6 +457,7 @@ def decode_sample(segments: list[dict], headers: dict, cfg: dict, audio_segments
             path = folder / f"sample{track}.m3u8"
             path.write_text("\n".join(lines) + "\n", encoding="utf-8")
             paths.append(path)
+            segment_hashes.append(hashes)
         download_seconds = time.monotonic() - download_started
         safe_input = ["-protocol_whitelist", "file,crypto,data", "-allowed_extensions", "ALL"]
         tracks = []
@@ -387,8 +472,9 @@ def decode_sample(segments: list[dict], headers: dict, cfg: dict, audio_segments
         if not videos or not audios:
             raise ValueError("missing video or audio")
         inputs = [arg for path in paths for arg in safe_input + ["-i", str(path)]]
+        strict = ['-xerror'] if cfg.get('_verify_segment_bytes') else []
         rc, out, err = run_command(["ffmpeg", "-nostdin", "-hide_banner", "-v", "error",
-            "-threads", "1"] + inputs + ["-map", "0:v:0", "-map", f"{len(paths)-1}:a:0",
+            "-threads", "1"] + strict + inputs + ["-map", "0:v:0", "-map", f"{len(paths)-1}:a:0",
             "-threads", "1", "-shortest", "-progress", "pipe:1", "-f", "null", "-"], cfg.get("decode_timeout_seconds", 30))
         times = re.findall(r"^out_time_us=(\d+)$", out, re.M)
         frames = re.findall(r"^frame=(\d+)$", out, re.M)
@@ -406,111 +492,171 @@ def decode_sample(segments: list[dict], headers: dict, cfg: dict, audio_segments
         if download_seconds > max(8, expected * cfg.get("max_download_duration_ratio", 1.0)):
             raise ValueError("media download slower than playback")
         inspection = inspect_sample(paths[0], cfg, seconds, safe_input)
-        return {"pixels": max(int(x.get("width", 0)) * int(x.get("height", 0)) for x in videos),
+        result = {"pixels": max(int(x.get("width", 0)) * int(x.get("height", 0)) for x in videos),
                 "played_seconds": round(seconds, 2), "download_seconds": round(download_seconds, 2),
                 "bytes": total_bytes, "frame_inspection": inspection}
+        if cfg.get('_verify_segment_bytes'):
+            result['segment_hashes'] = [sorted(group) for group in segment_hashes]
+        return result
+
+
+def recent_segments(track, target):
+    parts, seconds = [], 0
+    for seg in reversed(track['segments']):
+        parts.append(seg)
+        seconds += seg['seconds']
+        if seconds >= target:
+            break
+    if seconds < 1 or len(parts) > 12:
+        raise ValueError('insufficient live sample')
+    return list(reversed(parts))
+
+
+def fresh_segments(old, new):
+    if old.get('track_id') != new.get('track_id'):
+        raise UnsupportedMedia('live representation changed during the probe')
+    previous = {}
+    for seg in old['segments']:
+        previous.setdefault(seg['url'], []).append(seg.get('byte_range'))
+    fresh = []
+    for seg in new['segments']:
+        if seg['sequence'] <= old['segments'][-1]['sequence']:
+            continue
+        if seg['url'] in previous:
+            span = seg.get('byte_range')
+            if not span or any(not p or (span[0] < sum(p) and p[0] < sum(span)) for p in previous[seg['url']]):
+                continue
+        fresh.append(seg)
+    return fresh
+
+
+def check_segmented(media_url, text, audio_url, headers, cfg, started):
+    dash = text.startswith('<')
+
+    def tracks(body):
+        locations = cfg.get('_manifest_urls', {})
+        base = locations.get(media_url, media_url)
+        if dash:
+            return dash_probe.tracks(body, base, cfg)
+        video = media_segments(body, base)
+        audio = None
+        if audio_url:
+            audio_text = manifest(audio_url, headers, cfg)
+            audio = media_segments(audio_text, locations.get(audio_url, audio_url))
+        return video, audio
+
+    def uses_ranges(video, audio):
+        return any(s.get('byte_range') or s.get('init_range') for t in (video, audio) if t for s in t['segments'])
+
+    # Once a byte-range or DASH playlist is identified, ambiguous windows
+    # and decoder limitations stay pending. HTTP/network errors remain distinct.
+    guarded = dash or '#EXT-X-BYTERANGE' in text or 'BYTERANGE=' in text
+    try:
+        video, audio = tracks(text)
+        initial_ranges = uses_ranges(video, audio)
+        guarded = guarded or initial_ranges
+        cfg = {**cfg, '_verify_segment_bytes': guarded}
+        target = cfg.get('test_seconds', 12)
+        chosen = recent_segments(video, target)
+        chosen_audio = None
+        if audio:
+            chosen_audio = dash_probe.aligned_audio(chosen, audio['segments']) if dash else recent_segments(audio, target)
+        sample = decode_sample(chosen, headers, cfg, chosen_audio)
+        frames = list(sample['frame_inspection']['frames'])
+        seen = [set(group) for group in sample.get('segment_hashes', ())]
+        played, last_read = sample['played_seconds'], started
+        for _ in range(6):
+            window = max(video['target'], audio['target'] if audio else 0)
+            wait = min(32, window * 1.15 + 1) - (time.monotonic() - last_read)
+            if wait > 0:
+                time.sleep(wait)
+            next_video, next_audio = tracks(manifest(media_url, headers, cfg))
+            last_read = time.monotonic()
+            if uses_ranges(next_video, next_audio) != initial_ranges:
+                raise UnsupportedMedia('HLS segment addressing changed during the probe')
+            fresh = fresh_segments(video, next_video)
+            if not fresh:
+                raise ValueError('live manifest did not advance')
+            fresh_audio = None
+            if audio:
+                fresh_audio = fresh_segments(audio, next_audio)
+                if not fresh_audio:
+                    raise ValueError('audio manifest did not advance')
+                fresh_audio = dash_probe.aligned_audio(fresh[-1:], fresh_audio) if dash else fresh_audio[-1:]
+            later = decode_sample(fresh[-1:], headers, cfg, fresh_audio)
+            if guarded:
+                if len(seen) != (2 if audio else 1) or not all(seen):
+                    raise UnsupportedMedia('segment playback evidence is incomplete')
+                for prior, observed in zip(seen, later['segment_hashes'], strict=True):
+                    if not observed or not prior.isdisjoint(observed):
+                        raise UnsupportedMedia('live playlist repeated media bytes')
+                    prior.update(observed)
+            frames.extend(later['frame_inspection']['frames'])
+            played += later['played_seconds']
+            if played >= target:
+                break
+            video, audio = next_video, next_audio
+        else:
+            raise ValueError('insufficient live sample across updates')
+    except (VisualInspectionError, UnsupportedMedia):
+        raise
+    except (ValueError, KeyError, OverflowError) as exc:
+        if guarded:
+            raise UnsupportedMedia('DASH or byte-range playback incomplete: ' + str(exc)[:100]) from exc
+        raise
+    result = {'ok': True, 'reason': 'decoded live samples; manifest advancing; sampled frames checked',
+              'pixels': sample['pixels'], 'played_seconds': round(played, 2),
+              'elapsed': round(time.monotonic() - started, 2), 'download_seconds': sample['download_seconds'],
+              'media_url': media_url, 'audio_url': audio_url, 'advanced': True,
+              'visual_criteria': visual_signature(),
+              'frame_inspection': {'state': 'no_known_placeholder', 'frames_checked': len(frames), 'frames': frames}}
+    if guarded:
+        result.update(transport='dash' if dash else 'hls_byte_range', identity_review_required=True)
+    return result
 
 
 def check_stream(item: dict, cfg: dict) -> dict:
-    cfg = {**cfg, "_inspection_key": stream_key(item), "_inspection_counter": [0]}
-    visual_criteria = visual_signature()
+    cfg = {**cfg, "_inspection_key": stream_key(item), "_inspection_counter": [0], "_manifest_urls": {}}
     host = urlparse(item["url"]).hostname
     with LOCK:
         semaphore = HOST_LOCKS.setdefault(host, threading.Semaphore(cfg.get("per_host_workers", 2)))
     with semaphore:
         started = time.monotonic()
+        inconclusive = False
         try:
-            media_url, text, audio_url = choose_media(item["url"], item.get("headers", {}), cfg)
-            first = media_segments(text, media_url)
-            first_audio = media_segments(manifest(audio_url, item.get("headers", {}), cfg), audio_url) if audio_url else None
-            chosen, seconds = [], 0
-            for seg in reversed(first["segments"]):
-                chosen.insert(0, seg)
-                seconds += seg["seconds"]
-                if seconds >= cfg.get("test_seconds", 12):
-                    break
-            if seconds < 1 or len(chosen) > 12:
-                raise ValueError("insufficient live sample")
-            audio_chosen = None
-            if first_audio:
-                audio_chosen, audio_seconds = [], 0
-                for seg in reversed(first_audio["segments"]):
-                    audio_chosen.insert(0, seg)
-                    audio_seconds += seg["seconds"]
-                    if audio_seconds >= cfg.get("test_seconds", 12):
-                        break
-                if audio_seconds < 1 or len(audio_chosen) > 12:
-                    raise ValueError("insufficient audio sample")
-            sample = decode_sample(chosen, item.get("headers", {}), cfg, audio_chosen)
-            frames = list(sample["frame_inspection"]["frames"])
-            played, last_read = sample["played_seconds"], started
-            # Short live windows are common for low-latency channels. Accumulate
-            # real decoded media across updates rather than accepting a short test.
-            for _ in range(6):
-                target = max(first["target"], first_audio["target"] if first_audio else 0)
-                wait = min(32, target * 1.15 + 1) - (time.monotonic() - last_read)
-                if wait > 0:
-                    time.sleep(wait)
-                second = media_segments(manifest(media_url, item.get("headers", {}), cfg), media_url)
-                last_read = time.monotonic()
-                old_urls = {x["url"] for x in first["segments"]}
-                fresh = [s for s in second["segments"] if s["url"] not in old_urls
-                         and s["sequence"] > first["segments"][-1]["sequence"]]
-                if not fresh:
-                    raise ValueError("live manifest did not advance")
-                fresh_audio = None
-                if first_audio:
-                    second_audio = media_segments(manifest(audio_url, item.get("headers", {}), cfg), audio_url)
-                    old_audio_urls = {s["url"] for s in first_audio["segments"]}
-                    fresh_audio = [s for s in second_audio["segments"] if s["url"] not in old_audio_urls
-                                   and s["sequence"] > first_audio["segments"][-1]["sequence"]]
-                    if not fresh_audio:
-                        raise ValueError("audio manifest did not advance")
-                later = decode_sample(fresh[-1:], item.get("headers", {}), cfg, fresh_audio[-1:] if fresh_audio else None)
-                frames.extend(later["frame_inspection"]["frames"])
-                played += later["played_seconds"]
-                if played >= cfg.get("test_seconds", 12):
-                    break
-                first = second
-                if first_audio:
-                    first_audio = second_audio
-            else:
-                raise ValueError("insufficient live sample across updates")
-            elapsed = time.monotonic() - started
-            return {"ok": True, "reason": "decoded live samples; manifest advancing; sampled frames checked",
-                    "pixels": sample["pixels"], "played_seconds": round(played, 2),
-                    "elapsed": round(elapsed, 2), "download_seconds": sample["download_seconds"],
-                    "media_url": media_url, "audio_url": audio_url, "advanced": True,
-                    "visual_criteria": visual_criteria,
-                    "frame_inspection": {"state": "no_known_placeholder", "frames_checked": len(frames), "frames": frames}}
-        except UnsupportedMedia as initial:
+            if item.get('unsupported'):
+                raise UnsupportedMedia('encrypted media requires an authorized player')
+            headers = item.get('headers', {})
             try:
-                # Encrypted/byte-range manifests are not direct binary streams.
-                # Do not bypass their player requirements or mislabel them dead.
-                if 'encrypted' in str(initial) or 'byte-range' in str(initial):
-                    raise initial
-                return check_direct(item, cfg)
-            except VisualInspectionError as exc:
-                return {"ok": False, "reason": str(exc), "technical_decode_ok": True, "pixels": 0,
-                        "elapsed": round(time.monotonic() - started, 2), "visual_criteria": visual_criteria,
-                        "frame_inspection": exc.inspection}
-            except (UnsupportedMedia, ValueError) as exc:
-                return {"ok": False, "inconclusive": True, "reason": str(exc)[:160], "pixels": 0,
-                        "elapsed": round(time.monotonic() - started, 2)}
-            except (HTTPError, URLError, TimeoutError):
-                return {"ok": False, "reason": "direct transport network unavailable", "pixels": 0,
-                        "elapsed": round(time.monotonic() - started, 2)}
+                media_url, text, audio_url = choose_media(item['url'], headers, cfg)
+            except DirectMedia:
+                try:
+                    return check_direct(item, cfg)
+                except (UnsupportedMedia, VisualInspectionError):
+                    raise
+                except ValueError as exc:
+                    raise UnsupportedMedia(str(exc)) from exc
+            return check_segmented(media_url, text, audio_url, headers, cfg, started)
         except VisualInspectionError as exc:
-            return {"ok": False, "reason": str(exc), "technical_decode_ok": True, "pixels": 0,
-                    "elapsed": round(time.monotonic() - started, 2), "visual_criteria": visual_criteria,
-                    "frame_inspection": exc.inspection}
+            blocked = exc.inspection.get('state') == 'blocked_frame'
+            return {'ok': False, 'reason': str(exc), 'technical_decode_ok': True, 'pixels': 0,
+                    'inconclusive': not blocked, 'media_probe_version': MEDIA_PROBE_VERSION,
+                    'elapsed': round(time.monotonic() - started, 2),
+                    'visual_criteria': visual_signature(), 'frame_inspection': exc.inspection}
+        except UnsupportedMedia as exc:
+            reason, inconclusive = str(exc), True
         except HTTPError as exc:
-            reason = f"HTTP {exc.code}"
-        except (TimeoutError, URLError):
-            reason = "network timeout or unavailable"
-        except Exception as exc:
+            inconclusive = exc.code in (401, 403, 407, 429, 451)
+            reason = f'HTTP {exc.code}' + (' requires access or rate-limit review' if inconclusive else '')
+        except (URLError, TimeoutError, ConnectionError):
+            reason = 'network timeout or unavailable'
+        except ValueError as exc:
             reason = str(exc)[:160]
-        return {"ok": False, "reason": reason, "elapsed": round(time.monotonic() - started, 2), "pixels": 0}
+            inconclusive = reason in ('unsupported URL', 'local endpoint', 'non-public endpoint')
+        except Exception as exc:
+            reason, inconclusive = 'local checker could not finish: ' + type(exc).__name__, True
+        return {'ok': False, 'reason': reason[:160], 'elapsed': round(time.monotonic() - started, 2),
+                'pixels': 0, 'inconclusive': inconclusive, 'media_probe_version': MEDIA_PROBE_VERSION}
 
 
 def discover_catalog(catalog: list[dict], cfg: dict, now: str) -> tuple[list[dict], dict]:
@@ -731,8 +877,10 @@ def candidate_review_reason(channel, item, history, cfg, now, conflicts=()):
     if not quality.get("enabled"):
         return None
     key = stream_key(item)
-    new_request = bool(channel.get("identity_review_required") or history.get('last_result', {}).get('identity_review_required') or
-                       key in quality.get("review_required_request_keys", ()))
+    live_review = history.get('live_broadcast_review_required') or history.get('last_result', {}).get('live_broadcast_review_required')
+    new_request = bool(channel.get("identity_review_required") or item.get("identity_review_required")
+                       or history.get('identity_review_required') or history.get('last_result', {}).get('identity_review_required')
+                       or live_review or key in quality.get("review_required_request_keys", ()))
     required = new_request or key in conflicts
     if not required:
         return None
@@ -758,7 +906,7 @@ def candidate_review_reason(channel, item, history, cfg, now, conflicts=()):
                      and review.get("identity_matches") is True
                      and (review.get("russian_audio") is True or domestic_audio)
                      and review.get("no_placeholder") is True)
-        if history.get('last_result', {}).get('live_broadcast_review_required'):
+        if live_review:
             valid = valid and review.get('live_broadcast_confirmed') is True
         if valid:
             break
@@ -848,10 +996,14 @@ def observation(old: dict, result: dict, now: str, cfg: dict) -> dict:
               and len(visual_checks) >= cfg.get("stable_min_samples", 8)
               and visual_span >= cfg.get("stable_min_hours", 42)
               and rate >= cfg.get("minimum_success_rate", .9))
-    return {"checks": checks, "last_checked": now, "last_result": result,
+    updated = {"checks": checks, "last_checked": now, "last_result": result,
             "samples": len(checks), "success_rate": round(rate, 4),
             "observation_hours": round(span, 2), "stable": bool(stable),
             "visual_samples": len(visual_checks), "visual_observation_hours": round(visual_span, 2)}
+    for flag in ('identity_review_required', 'live_broadcast_review_required'):
+        if result.get(flag) or old.get(flag) or old.get('last_result', {}).get(flag):
+            updated[flag] = True
+    return updated
 
 
 def select_candidates(items: list[dict], old: dict, previous: str | None, cfg: dict, now: str) -> list[dict]:
@@ -1036,7 +1188,7 @@ def build(cfg: dict, *, tester=check_stream, now: str | None = None, inventory=F
               f'{summary["request_categories"]["pending"]} pending; '
               f'{summary["completed_frozen_queue_passes"]} complete independent frozen passes', flush=True)
     results = {}
-    signature_options = {"checker": CHECKER_VERSION, "visual_criteria": visual_signature(),
+    signature_options = {"checker": CHECKER_VERSION, "media_probe_version": MEDIA_PROBE_VERSION, "visual_criteria": visual_signature(),
         "environment": cfg.get("check_environment"), "campaign": campaign_cfg.get("id") if campaign else None,
         **{k: cfg.get(k) for k in
         ("test_seconds", "preferred_max_height", "preferred_max_bitrate", "network_timeout_seconds",
@@ -1081,7 +1233,8 @@ def build(cfg: dict, *, tester=check_stream, now: str | None = None, inventory=F
             try:
                 results[key] = f.result()
             except Exception as exc:
-                results[key] = {"ok": False, "reason": str(exc)[:120], "pixels": 0}
+                results[key] = {"ok": False, "reason": "local checker could not finish: " + type(exc).__name__,
+                                "inconclusive": True, "media_probe_version": MEDIA_PROBE_VERSION, "pixels": 0}
             results[key]["checked_utc"] = utcnow() if tester is check_stream else now
             if tester is check_stream and (time.monotonic() - last_checkpoint >= 60 or len(results) == len(all_items)):
                 write_json(ROOT / "probe-progress.json", {"signature": signature, "criteria_signature": criteria_signature,
@@ -1094,11 +1247,13 @@ def build(cfg: dict, *, tester=check_stream, now: str | None = None, inventory=F
                (v.get("last_checked") and timestamp(now) - timestamp(v["last_checked"]) < cfg.get("history_days", 14) * 86400)}
     for key, result in results.items():
         at = result.get("checked_utc", now)
-        if result.get('inconclusive'):
-            updated[key] = {**old.get(key, {}), 'last_inconclusive':
-                            {'at': at, 'reason': result.get('reason', 'format review required')}}
-        elif old.get(key, {}).get("last_checked") and timestamp(old[key]["last_checked"]) >= timestamp(at):
-            updated[key] = old[key]
+        prior = old.get(key, {})
+        prior_review = prior.get('last_inconclusive')
+        prior_review_at = prior_review.get('at') if isinstance(prior_review, dict) else prior_review
+        if any(t and timestamp(t) >= timestamp(at) for t in (prior.get('last_checked'), prior_review_at)):
+            updated[key] = prior
+        elif result.get('inconclusive'):
+            updated[key] = {**prior, 'last_inconclusive': {'at': at, 'reason': result.get('reason', 'format review required')}}
         else:
             updated[key] = observation(old.get(key, {}), result, at, cfg)
     if campaign:
@@ -1212,7 +1367,7 @@ def build(cfg: dict, *, tester=check_stream, now: str | None = None, inventory=F
                     updated.get(stream_key(e), {}), cfg, finished, identity_conflicts)]
                 for cid, entries in saved_backups["channels"].items() if cid.casefold() in channels_by_id}
             write_json(ROOT / "backups.json", saved_backups)
-    report = {"version": CHECKER_VERSION, "started_utc": now, "checked_utc": finished,
+    report = {"version": CHECKER_VERSION, "media_probe_version": MEDIA_PROBE_VERSION, "started_utc": now, "checked_utc": finished,
               "candidate_quality": {"policy_version": cfg.get("candidate_quality", {}).get("policy_version", 1), "enabled": bool(cfg.get("candidate_quality", {}).get("enabled")),
                   "review_required_request_count": len(cfg.get("candidate_quality", {}).get("review_required_request_keys", ())),
                   "identity_conflict_requests": len(identity_conflicts),

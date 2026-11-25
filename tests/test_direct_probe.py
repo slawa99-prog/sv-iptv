@@ -1,6 +1,7 @@
 """Offline transport fixtures; these tests are not VPS observations."""
 import contextlib
 import io
+import json
 from pathlib import Path
 import tempfile
 import unittest
@@ -31,10 +32,10 @@ class DirectProbeTests(unittest.TestCase):
 
     def test_capture_is_time_bounded_and_keeps_request_headers(self):
         with patch.object(dp, 'urlopen', return_value=self.response(self.ts)) as open_mock, \
-             patch.object(dp.time, 'monotonic', side_effect=[0,0,13,13]):
+             patch.object(dp.time, 'monotonic', side_effect=[0,0,19,19]):
             result = dp.capture(self.item, self.path, {}, sv.validate_url)
         self.assertEqual(result['transport'], 'mpegts')
-        self.assertEqual(result['capture_seconds'], 13)
+        self.assertEqual(result['capture_seconds'], 19)
         self.assertEqual(open_mock.call_args.args[0].get_header('Referer'), self.item['headers']['Referer'])
 
     def test_binary_response_is_detected_before_waiting_for_the_hls_size_limit(self):
@@ -55,7 +56,11 @@ class DirectProbeTests(unittest.TestCase):
         def run(command, timeout):
             calls.append(command)
             if command[0] == 'ffprobe':
-                return 0, '{"streams":[{"codec_type":"video","width":640,"height":480},{"codec_type":"audio"}]}', ''
+                return 0, json.dumps({
+                    'streams': [{'index': 0, 'codec_type': 'video', 'width': 640, 'height': 480},
+                                {'index': 1, 'codec_type': 'audio'}], 'format': {'start_time': '0'},
+                    'packets': [{'stream_index': track, 'pts_time': i / 10, 'duration_time': .1,
+                                 'flags': 'K' if not i else ''} for track in (0, 1) for i in range(130)]}), ''
             return 0, 'out_time_us=12000000\nframe=300\n', ''
         def capture(item, path, cfg, validate):
             path.write_bytes(self.ts)
@@ -71,11 +76,11 @@ class DirectProbeTests(unittest.TestCase):
             self.assertFalse(any('https://' in s for s in command))
 
     def test_unsupported_format_stays_inconclusive_and_encryption_is_not_bypassed(self):
-        for message in ('not an HLS manifest', 'encrypted media requires an authorized player'):
-            with self.subTest(message=message), patch.object(sv, 'manifest', side_effect=dp.UnsupportedMedia(message)), \
+        for exc in (dp.DirectMedia('non-playlist media response'), dp.UnsupportedMedia('encrypted media requires an authorized player')):
+            with self.subTest(reason=str(exc)), patch.object(sv, 'manifest', side_effect=exc), \
                  patch.object(sv, 'visual_signature', return_value='fixture'), \
                  patch.object(sv, 'check_direct', side_effect=dp.UnsupportedMedia('format review')) as direct:
                 result = sv.check_stream(self.item, {})
                 self.assertTrue(result['inconclusive'])
                 self.assertFalse(result['ok'])
-                self.assertEqual(direct.call_count, 0 if 'encrypted' in message else 1)
+                self.assertEqual(direct.call_count, 1 if isinstance(exc, dp.DirectMedia) else 0)

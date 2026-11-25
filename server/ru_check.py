@@ -25,7 +25,7 @@ SOURCE_URL = f"https://github.com/{REPOSITORY}.git"
 REPORT_BRANCH = "ru-checks"
 REPORT_FILES = ("tv.m3u", "status.json", "history.json", "backups.json", "node.json")
 ENVIRONMENT = {"kind": "sv-iptv-russian-vps", "version": 1}
-MAX_WORKERS = 8
+MAX_WORKERS = 12
 
 
 def write_json(path: Path, data: dict) -> None:

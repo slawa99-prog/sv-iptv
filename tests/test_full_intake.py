@@ -153,6 +153,47 @@ class FullIntakeTests(unittest.TestCase):
         review['live_broadcast_confirmed'] = True
         self.assertIsNone(sv.candidate_review_reason(channel, self.a, h, self.cfg, '2026-11-17T00:00:00Z'))
 
+    def test_one_early_adapter_retry_preserves_spacing_weekly_counts_and_pc_evidence(self):
+        key = sv.stream_key(self.unknown)
+        cfg = {'id': 'fixture', 'environment': 'ru-vps', 'max_requests_per_run': 1000}
+        campaign = Campaign(cfg, {}, {}, {}, {'pc_success_request_keys': [key]}, sv.stream_key,
+                            '2026-11-25T10:00:00Z', verification_items=[self.unknown])
+        reason = 'continuous sample decode incomplete; format review required'
+        result = {'ok': False, 'inconclusive': True, 'reason': reason, 'checked_utc': campaign.now}
+        campaign.record({key: result})
+        for when, expected in [('2026-11-25T11:59:59Z', False), ('2026-11-25T12:00:00Z', True)]:
+            campaign.now = when
+            self.assertEqual(key in campaign.batch({key: self.unknown}), expected)
+        for restricted in ('encrypted media requires an authorized player', 'HTTP 403 requires access or rate-limit review'):
+            campaign.stats[key]['inconclusive_reason'] = restricted
+            self.assertEqual(campaign.batch({key: self.unknown}), {})
+        campaign.stats[key]['inconclusive_reason'] = reason
+        campaign.record({key: {**result, 'media_probe_version': sv.MEDIA_PROBE_VERSION, 'checked_utc': campaign.now}})
+        campaign.now = '2026-11-25T16:00:00Z'
+        self.assertEqual(campaign.batch({key: self.unknown}), {})
+        campaign.record({key: {'ok': True, 'checked_utc': '2026-11-25T10:30:00Z'}})
+        self.assertEqual((campaign.stats[key]['samples'], campaign.stats[key]['inconclusive_attempts']), (0, 2))
+        self.assertIn(key, campaign.pc)
+        self.assertFalse(campaign.stats[key].get('weekly_rechecks'))
+        campaign.now = '2026-12-02T12:00:00Z'
+        self.assertIn(key, campaign.batch({key: self.unknown}))
+        campaign.record({key: {'ok': True, 'checked_utc': campaign.now}})
+        self.assertEqual(campaign.stats[key]['samples'], 1)
+        self.assertNotIn('inconclusive_probe_version', campaign.stats[key])
+        campaign.record({key: result})
+        self.assertNotIn('last_inconclusive', campaign.stats[key])
+
+    def test_prior_success_and_two_samples_do_not_clear_an_open_format_review(self):
+        key = sv.stream_key(self.unknown)
+        c = Campaign({'id': 'fixture', 'environment': 'ru-vps'}, {}, {}, {}, {}, sv.stream_key,
+                     '2026-11-25T10:00:00Z', verification_items=[self.unknown])
+        for hour in ('00','03'):
+            c.record({key: {'ok': True, 'checked_utc': '2026-11-25T'+hour+':00:00Z'}})
+        c.record({key: {'ok': False, 'inconclusive': True, 'checked_utc': c.now, 'reason': 'access review'}})
+        self.assertEqual(c.category(key), 'pending')
+        self.assertEqual((c.stats[key]['samples'], c.stats[key]['successes']), (2, 2))
+        self.assertTrue(c.stats[key]['ever_passed'])
+
     def test_resume_after_queue_change_keeps_original_dates_and_archives_checkpoint(self):
         self.attach([self.a])
         self.cfg['resume_checks'] = True
