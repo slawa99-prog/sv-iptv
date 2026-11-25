@@ -2,6 +2,8 @@
 import io
 import json
 from pathlib import Path
+import shutil
+import subprocess
 import tempfile
 import unittest
 from unittest.mock import patch
@@ -27,6 +29,66 @@ def response(payload, mime, **headers):
 
 
 class ResponseDiagnosticsTests(unittest.TestCase):
+    @unittest.skipUnless(shutil.which('ffmpeg'), 'ffmpeg required for encoded audio fixtures')
+    def test_real_audio_frames_from_the_middle_of_a_stream_remain_on_review(self):
+        for encoder, muxer, kind, rate, quality in [
+            ('libmp3lame', 'mp3', 'mp3', 48000, ['-b:a', '128k']),
+            ('libmp3lame', 'mp3', 'mp3', 24000, ['-q:a', '4']),
+            ('libmp3lame', 'mp3', 'mp3', 12000, ['-b:a', '24k']),
+            ('mp2', 'mp2', 'mpeg_audio_layer_2', 44100, ['-b:a', '128k']),
+            ('aac', 'adts', 'aac_adts', 48000, ['-b:a', '128k']),
+        ]:
+            with self.subTest(encoder=encoder, rate=rate):
+                command = ['ffmpeg', '-nostdin', '-v', 'error', '-f', 'lavfi', '-i',
+                           f'sine=frequency=777:sample_rate={rate}', '-t', '2.0',
+                           '-c:a', encoder, *quality, '-f', muxer, 'pipe:1']
+                encoded = subprocess.run(command, check=True, capture_output=True, timeout=10).stdout
+                self.assertEqual(body_kind(encoded), kind)
+                joined = encoded[159:]
+                self.assertEqual(body_kind(joined), kind)
+                # A MIME label is only a claim; neither it nor the audio evidence is a TV trial.
+                with patch.object(sv, 'urlopen', return_value=response(b'x' * 900, 'text/plain')), \
+                     patch.object(direct, 'urlopen', return_value=response(joined, 'video/mp4')):
+                    result = sv.check_stream(ITEM, {})
+                self.assertTrue(result['inconclusive'])
+                self.assertFalse(result['ok'])
+                self.assertEqual(result['response_diagnostic']['body_kind'], kind)
+                self.assertEqual(result['response_diagnostic']['content_type'], 'video/mp4')
+
+    def test_audio_requires_matching_successive_frame_boundaries(self):
+        # MPEG-1 Layer I, 128 kb/s at 48 kHz. One frame is 128 bytes.
+        header = bytes.fromhex('ffff4400')
+        frame = header + bytes(124)
+        self.assertEqual(body_kind(frame * 3), 'mpeg_audio_layer_1')
+        self.assertEqual(body_kind(frame * 2), 'unknown_binary')
+        self.assertEqual(body_kind(frame + b'x' + frame + b'x' + frame), 'unknown_binary')
+        reserved_frequency = bytes.fromhex('ffff4c00') + bytes(124)
+        self.assertEqual(body_kind(reserved_frequency * 3), 'unknown_binary')
+        # A tag can contain a picture or unrelated media bytes. These frames are inside the tag.
+        tag = b'ID3\x04\x00\x00\x00\x00\x03\x00' + frame * 3
+        self.assertEqual(body_kind(tag), 'id3')
+        self.assertEqual(body_kind(tag + frame * 3), 'mpeg_audio_layer_1')
+        self.assertEqual(body_kind(b'\x47' + bytes(187) + b'\x47' + bytes(187) + b'\x47' + frame * 3), 'mpegts')
+        self.assertEqual(body_kind(MP4[:16] + frame * 3), 'iso_bmff')
+        self.assertEqual(describe_response(response(b'', 'audio/mpeg'), bytes(700))['body_kind'], 'unknown_binary')
+
+    def test_only_unidentified_binary_from_previous_release_gets_audio_retry(self):
+        key = sv.stream_key(ITEM)
+        c = Campaign({'id': 'fixture', 'environment': 'ru-vps', 'max_requests_per_run': 1000},
+                     {}, {}, {}, {}, sv.stream_key, '2026-11-25T12:00:00Z', verification_items=[ITEM])
+        c.stats[key] = {'samples': 0, 'successes': 0, 'last_inconclusive': '2026-11-25T10:00:00Z',
+                        'inconclusive_probe_version': '2026-11-25.2'}
+        for kind, expected in [('unknown_binary', True), ('id3', True), ('ogg', False), ('not_read', False)]:
+            with self.subTest(kind=kind):
+                c.stats[key]['inconclusive_reason'] = f'HTTP response ({kind}) requires format or access review'
+                self.assertEqual(key in c.batch({key: ITEM}), expected)
+        c.stats[key]['inconclusive_reason'] = 'HTTP response (unknown_binary) requires format or access review'
+        c.now = '2026-11-25T11:59:59Z'
+        self.assertNotIn(key, c.batch({key: ITEM}))
+        c.now = '2026-11-25T12:00:00Z'
+        c.stats[key]['inconclusive_probe_version'] = MEDIA_PROBE_VERSION
+        self.assertNotIn(key, c.batch({key: ITEM}))
+
     def test_body_signatures_are_independent_of_mime_and_bounded(self):
         fixtures = [
             (MP4, 'iso_bmff'), (b'\x1a\x45\xdf\xa3' + bytes(10), 'ebml'),
