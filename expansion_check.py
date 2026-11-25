@@ -9,6 +9,17 @@ from copy import deepcopy
 from datetime import datetime
 
 
+MEDIA_PROBE_VERSION = "2026-11-25.1"
+# Only pending requests whose former probe could not read these media get a
+# single early retry. Encrypted/access-controlled sources keep their schedule.
+RECHECKABLE_LEGACY_REASONS = {
+    "format requires a separate adapter or access review",
+    "continuous sample decode incomplete; format review required",
+    "byte-range HLS: unsupported", "byte-range initialization: unsupported",
+    "unrecognized continuous transport",
+}
+
+
 def epoch(value):
     return datetime.fromisoformat(value.replace('Z', '+00:00')).timestamp()
 
@@ -66,7 +77,7 @@ class Campaign:
 
     def category(self, key):
         stat = self.stats.get(key, {})
-        if stat.get('last_inconclusive') and not (stat.get('successes', 0) or key in self.baseline):
+        if stat.get('last_inconclusive'):
             return 'pending'
         if stat.get('samples', 0) < self.required:
             return 'pending'
@@ -95,12 +106,17 @@ class Campaign:
         self.network_degraded = len(controls) >= 10 and sum(bool(results[k]['ok']) for k in controls) < len(controls) * .5
         for key, result in results.items():
             at = result['checked_utc']
+            previous = self.stats.get(key, {})
+            if any(previous.get(name) and epoch(at) <= epoch(previous[name])
+                   for name in ('last_checked', 'last_inconclusive')):
+                continue
             if result.get('inconclusive'):
                 stat = self.stats.setdefault(key, {'samples': 0, 'successes': 0})
-                if not stat.get('last_inconclusive') or epoch(at) > epoch(stat['last_inconclusive']):
-                    stat['last_inconclusive'] = at
-                    stat['inconclusive_reason'] = result.get('reason', 'format review required')
-                    stat['inconclusive_attempts'] = stat.get('inconclusive_attempts', 0) + 1
+                stat['last_inconclusive'] = at
+                stat['inconclusive_reason'] = result.get('reason', 'format review required')
+                stat['inconclusive_attempts'] = stat.get('inconclusive_attempts', 0) + 1
+                if result.get('media_probe_version'):
+                    stat['inconclusive_probe_version'] = result['media_probe_version']
                 continue
             if self.network_degraded and not result['ok']:
                 # Keep the failed VPS observation in normal history, but do not
@@ -108,9 +124,6 @@ class Campaign:
                 continue
             stat = self.stats.setdefault(key, {'samples': 0, 'successes': 0})
             last = stat.get('last_checked')
-            # Resuming an interrupted pass must not count the same result twice.
-            if last and epoch(at) <= epoch(last):
-                continue
             if (last and self.category(key) in ('pc_only', 'quarantined')
                     and epoch(at) - epoch(last) >= self.retry):
                 stat['weekly_rechecks'] = stat.get('weekly_rechecks', 0) + 1
@@ -130,6 +143,7 @@ class Campaign:
             stat['last_checked'] = at
             stat.pop('last_inconclusive', None)
             stat.pop('inconclusive_reason', None)
+            stat.pop('inconclusive_probe_version', None)
             if result['ok']:
                 stat['ever_passed'] = True
                 self.baseline.add(key)
@@ -155,12 +169,22 @@ class Campaign:
         limit = int(self.config.get('max_requests_per_run', 0))
         if limit <= 0:
             return items
-        due = {k: v for k, v in items.items() if
-               (not self.stats.get(k, {}).get('last_checked') or
-                epoch(self.now) - epoch(self.stats[k]['last_checked']) >= self.spacing)
-               and (not self.stats.get(k, {}).get('last_inconclusive') or
-                    epoch(self.now) - epoch(self.stats[k]['last_inconclusive']) >=
-                    max(2, float(self.config.get('inconclusive_retry_hours', 168))) * 3600)}
+        now = epoch(self.now)
+        normal_retry = max(2, float(self.config.get('inconclusive_retry_hours', 168))) * 3600
+        due = {}
+        for key, item in items.items():
+            stat = self.stats.get(key, {})
+            if stat.get('last_checked') and now - epoch(stat['last_checked']) < self.spacing:
+                continue
+            if stat.get('last_inconclusive'):
+                retry = normal_retry
+                if (self.config['environment'] == 'ru-vps' and stat.get('samples', 0) < self.required
+                        and stat.get('inconclusive_probe_version') != MEDIA_PROBE_VERSION
+                        and stat.get('inconclusive_reason') in RECHECKABLE_LEGACY_REASONS):
+                    retry = self.spacing
+                if now - epoch(stat['last_inconclusive']) < retry:
+                    continue
+            due[key] = item
         controls = sorted(self.controls & due.keys(), key=lambda k: (self.stats.get(k, {}).get('last_checked', ''), k))[:min(16, limit // 10)]
         ordered = sorted(due.keys() - set(controls), key=lambda k: (
             self.category(k) != 'pending', self.stats.get(k, {}).get('samples', 0),
