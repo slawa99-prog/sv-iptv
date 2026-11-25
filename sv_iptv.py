@@ -33,6 +33,7 @@ import dash_probe
 from expansion_check import Campaign, compact_failed_history, MEDIA_PROBE_VERSION
 from research_queue import archive_items
 from direct_probe import DirectMedia, UnsupportedMedia, check_direct, urlopen, validate_url
+from response_diagnostics import DIRECT_REVIEW_ONLY, PREFIX_BYTES, body_kind, describe_response
 from urllib.error import HTTPError, URLError
 from urllib.parse import urljoin, urlparse
 from urllib.request import Request
@@ -152,7 +153,7 @@ def stream_key(item: dict) -> str:
 
 
 def fetch_bytes(url: str, headers=None, timeout=12, limit=4_000_000, expect_hls=False,
-                *, byte_range=None, resolved=None) -> bytes:
+                *, byte_range=None, resolved=None, response_info=None) -> bytes:
     validate_url(url)
     request_headers = {"User-Agent": "Mozilla/5.0 SV-IPTV/3.0", "Accept-Encoding": "identity"}
     request_headers.update(headers or {})
@@ -167,6 +168,8 @@ def fetch_bytes(url: str, headers=None, timeout=12, limit=4_000_000, expect_hls=
     started = time.monotonic()
     with urlopen(Request(url, headers=request_headers), timeout=timeout) as response:
         validate_url(response.url)
+        if response_info is not None:
+            response_info.update(describe_response(response, None))
         if resolved is not None:
             resolved[url] = response.url
         if byte_range:
@@ -186,13 +189,16 @@ def fetch_bytes(url: str, headers=None, timeout=12, limit=4_000_000, expect_hls=
             chunks.append(chunk)
             size += len(chunk)
             if expect_hls and size >= 16 and size - len(chunk) < 512:
-                prefix = b''.join(chunks)[:512].lstrip(b'\xef\xbb\xbf \t\r\n').lower()
+                sample = b''.join(chunks)[:PREFIX_BYTES]
+                prefix = sample[:512].lstrip(b'\xef\xbb\xbf \t\r\n').lower()
                 if prefix.startswith((b'<!doctype html', b'<html', b'<head', b'<body')):
-                    raise UnsupportedMedia('HTML response requires player or access review')
+                    raise UnsupportedMedia.from_response(response, sample, 'HTML response requires player or access review')
+                if prefix.startswith(b'[playlist]'):
+                    raise UnsupportedMedia.from_response(response, sample, 'PLS playlist requires format review')
                 if prefix.startswith((b'{', b'[')):
-                    raise UnsupportedMedia('JSON response requires player or access review')
+                    raise UnsupportedMedia.from_response(response, sample, 'JSON response requires player or access review')
                 if prefix and not b'#extm3u'.startswith(prefix) and not prefix.startswith((b'#extm3u', b'<', b'\x1f\x8b')):
-                    raise DirectMedia('non-playlist media response')
+                    raise DirectMedia.from_response(response, sample, 'non-playlist media response')
         data = b''.join(chunks)
     if byte_range:
         if len(data) != length:
@@ -210,23 +216,30 @@ def fetch_bytes(url: str, headers=None, timeout=12, limit=4_000_000, expect_hls=
 
 
 def manifest(url: str, headers: dict, cfg: dict) -> str:
+    detail = describe_response(None, None)
     try:
         data = fetch_bytes(url, headers, cfg.get("network_timeout_seconds", 10), 2_000_000,
-                           expect_hls=True, resolved=cfg.get('_manifest_urls'))
+                           expect_hls=True, resolved=cfg.get('_manifest_urls'), response_info=detail)
+        detail.update(body_kind=body_kind(data), prefix_bytes=min(len(data), PREFIX_BYTES))
         text = data.decode("utf-8-sig")
     except (UnicodeDecodeError, ValueError) as exc:
         if isinstance(exc, UnicodeDecodeError):
-            raise DirectMedia('non-playlist media response') from exc
+            raise DirectMedia('non-playlist media response', diagnostic=detail) from exc
         if str(exc) in ('response size limit', 'uncompressed size limit'):
             raise UnsupportedMedia('playlist exceeds the manifest budget') from exc
         raise
     text = text.lstrip()
-    if text.lower().startswith(('<!doctype html', '<html', '<head', '<body')):
-        raise UnsupportedMedia('HTML response requires player or access review')
+    if detail['body_kind'] == 'html' or text.lower().startswith(('<!doctype html', '<html', '<head', '<body')):
+        detail['body_kind'] = 'html'
+        raise UnsupportedMedia('HTML response requires player or access review', diagnostic=detail)
+    if detail['body_kind'] == 'pls':
+        raise UnsupportedMedia('PLS playlist requires format review', diagnostic=detail)
     if text.startswith(('{', '[')):
-        raise UnsupportedMedia('JSON response requires player or access review')
+        raise UnsupportedMedia('JSON response requires player or access review', diagnostic=detail)
     if not text.startswith(('#EXTM3U', '<')):
-        raise DirectMedia('non-playlist media response')
+        raise DirectMedia('non-playlist media response', diagnostic=detail)
+    if text.startswith('<') and '_manifest_diagnostics' in cfg:
+        cfg['_manifest_diagnostics'][url] = detail
     return text
 
 
@@ -242,9 +255,18 @@ def require_clear_hls(text):
 
 
 def choose_media(url: str, headers: dict, cfg: dict) -> tuple[str, str, str | None]:
+    entry_url = url
     selected_audio = None
     for _ in range(5):
-        text = manifest(url, headers, cfg)
+        try:
+            text = manifest(url, headers, cfg)
+        except DirectMedia as exc:
+            if url != entry_url:
+                # The bytes came from a child. Reopening the master as a raw
+                # transport would diagnose a different response under this key.
+                raise UnsupportedMedia('HLS rendition returned direct data and requires format review',
+                                       diagnostic=exc.diagnostic) from exc
+            raise
         base = cfg.get('_manifest_urls', {}).get(url, url)
         if '#EXT-X-SESSION-KEY:' in text and any(hls_attrs(line).get('METHOD') != 'NONE'
                 for line in text.splitlines() if line.startswith('#EXT-X-SESSION-KEY:')):
@@ -537,7 +559,11 @@ def check_segmented(media_url, text, audio_url, headers, cfg, started):
         locations = cfg.get('_manifest_urls', {})
         base = locations.get(media_url, media_url)
         if dash:
-            return dash_probe.tracks(body, base, cfg)
+            try:
+                return dash_probe.tracks(body, base, cfg)
+            except UnsupportedMedia as exc:
+                exc.diagnostic = cfg.get('_manifest_diagnostics', {}).get(media_url)
+                raise
         video = media_segments(body, base)
         audio = None
         if audio_url:
@@ -616,20 +642,27 @@ def check_segmented(media_url, text, audio_url, headers, cfg, started):
 
 
 def check_stream(item: dict, cfg: dict) -> dict:
-    cfg = {**cfg, "_inspection_key": stream_key(item), "_inspection_counter": [0], "_manifest_urls": {}}
+    cfg = {**cfg, "_inspection_key": stream_key(item), "_inspection_counter": [0],
+           "_manifest_urls": {}, "_manifest_diagnostics": {}}
     host = urlparse(item["url"]).hostname
     with LOCK:
         semaphore = HOST_LOCKS.setdefault(host, threading.Semaphore(cfg.get("per_host_workers", 2)))
     with semaphore:
         started = time.monotonic()
         inconclusive = False
+        diagnostic = None
         try:
             if item.get('unsupported'):
                 raise UnsupportedMedia('encrypted media requires an authorized player')
             headers = item.get('headers', {})
             try:
                 media_url, text, audio_url = choose_media(item['url'], headers, cfg)
-            except DirectMedia:
+            except DirectMedia as exc:
+                if (exc.diagnostic and exc.diagnostic['body_kind'] in DIRECT_REVIEW_ONLY
+                        and exc.diagnostic.get('prefix_bytes', 0) >= 3 * 204):
+                    kind = exc.diagnostic['body_kind']
+                    raise UnsupportedMedia(f'HTTP response ({kind}) requires format or access review',
+                                           diagnostic=exc.diagnostic) from exc
                 try:
                     return check_direct(item, cfg)
                 except (UnsupportedMedia, VisualInspectionError):
@@ -644,10 +677,12 @@ def check_stream(item: dict, cfg: dict) -> dict:
                     'elapsed': round(time.monotonic() - started, 2),
                     'visual_criteria': visual_signature(), 'frame_inspection': exc.inspection}
         except UnsupportedMedia as exc:
-            reason, inconclusive = str(exc), True
+            reason, inconclusive, diagnostic = str(exc), True, exc.diagnostic
         except HTTPError as exc:
             inconclusive = exc.code in (401, 403, 407, 429, 451)
             reason = f'HTTP {exc.code}' + (' requires access or rate-limit review' if inconclusive else '')
+            if inconclusive:
+                diagnostic = describe_response(exc, None)
         except (URLError, TimeoutError, ConnectionError):
             reason = 'network timeout or unavailable'
         except ValueError as exc:
@@ -655,8 +690,11 @@ def check_stream(item: dict, cfg: dict) -> dict:
             inconclusive = reason in ('unsupported URL', 'local endpoint', 'non-public endpoint')
         except Exception as exc:
             reason, inconclusive = 'local checker could not finish: ' + type(exc).__name__, True
-        return {'ok': False, 'reason': reason[:160], 'elapsed': round(time.monotonic() - started, 2),
-                'pixels': 0, 'inconclusive': inconclusive, 'media_probe_version': MEDIA_PROBE_VERSION}
+        result = {'ok': False, 'reason': reason[:160], 'elapsed': round(time.monotonic() - started, 2),
+                  'pixels': 0, 'inconclusive': inconclusive, 'media_probe_version': MEDIA_PROBE_VERSION}
+        if diagnostic:
+            result['response_diagnostic'] = diagnostic
+        return result
 
 
 def discover_catalog(catalog: list[dict], cfg: dict, now: str) -> tuple[list[dict], dict]:
