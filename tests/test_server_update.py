@@ -32,7 +32,7 @@ class ServerUpdatePreflightTests(unittest.TestCase):
                               text=True, capture_output=True, timeout=10)
 
     def test_invalid_worker_or_revision_does_not_contact_systemd(self):
-        for args in (('a'*40, '0'), ('a'*40, '9'), ('a'*40, '6', 'extra'), ('main', '6')):
+        for args in (('a'*40, '0'), ('a'*40, '13'), ('a'*40, '6', 'extra'), ('main', '6')):
             with self.subTest(args=args):
                 result = self.run_update(*args)
                 self.assertNotEqual(result.returncode, 0)
@@ -58,3 +58,17 @@ class ServerUpdatePreflightTests(unittest.TestCase):
                 # Deliberately stop at the first read-only service existence check.
                 self.assertEqual(result.returncode, 77, result.stderr)
                 self.assertEqual(self.log.read_text(), 'cat sv-iptv-ru.service\n')
+
+    def test_ten_and_twelve_workers_wait_for_eight_visible_cpus(self):
+        for workers in ('10', '12'):
+            for cpus in (4, 8):
+                with self.subTest(workers=workers, cpus=cpus):
+                    self.mock('nproc', f'echo {cpus}')
+                    self.log.unlink(missing_ok=True)
+                    result = self.run_update('a'*40, workers)
+                    if cpus == 4:
+                        self.assertIn('at least 8 CPUs', result.stderr)
+                        self.assertFalse(self.log.exists())
+                    else:
+                        self.assertEqual(result.returncode, 77, result.stderr)
+                        self.assertEqual(self.log.read_text(), 'cat sv-iptv-ru.service\n')

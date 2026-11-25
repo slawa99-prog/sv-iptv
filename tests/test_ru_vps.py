@@ -85,7 +85,7 @@ class RussianVPSTests(unittest.TestCase):
         for name, value in retained.items():
             ru.write_json(self.output / name, value)
         before = {name: (self.output / name).read_bytes() for name in retained}
-        for workers in (6, 8):
+        for workers in (6, 8, 10, 12):
             with self.subTest(workers=workers):
                 cfg = ru.prepare_workspace(self.source, self.output, workers)
                 self.assertEqual(cfg["workers"], workers)
@@ -97,7 +97,7 @@ class RussianVPSTests(unittest.TestCase):
                     self.assertEqual((self.output / name).read_bytes(), data)
 
     def test_invalid_workers_do_not_create_a_workspace(self):
-        for workers in (0, 9):
+        for workers in (0, 13):
             with self.subTest(workers=workers), self.assertRaises(ValueError):
                 ru.prepare_workspace(self.source, self.output, workers)
             self.assertFalse(self.output.exists())
