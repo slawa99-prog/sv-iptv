@@ -1231,6 +1231,8 @@ def build(cfg: dict, *, tester=check_stream, now: str | None = None, inventory=F
         **{k: cfg.get(k) for k in
         ("test_seconds", "preferred_max_height", "preferred_max_bitrate", "network_timeout_seconds",
          "max_download_duration_ratio", "decode_timeout_seconds")}}
+    if campaign and campaign.sweep_enabled:
+        signature_options['frozen_retry_round'] = [campaign.state['frozen_retry_policy'], campaign.batch_phase]
     signature = hashlib.sha256(json.dumps({**signature_options, 'queue': sorted(all_items)}, sort_keys=True).encode()).hexdigest()
     criteria_signature = hashlib.sha256(json.dumps(signature_options, sort_keys=True).encode()).hexdigest()
     if tester is check_stream and cfg.get("resume_checks"):
@@ -1250,7 +1252,10 @@ def build(cfg: dict, *, tester=check_stream, now: str | None = None, inventory=F
                 if result.get("ok") and result.get("played_seconds", 0) < cfg.get("test_seconds", 12):
                     continue
                 age_limit = 48 * 3600 if campaign else 3600
-                if key in all_items and result.get("checked_utc") and 0 <= time.time() - timestamp(result["checked_utc"]) < age_limit:
+                if (key in all_items and result.get("checked_utc")
+                        and 0 <= time.time() - timestamp(result["checked_utc"]) < age_limit
+                        and (not campaign or key not in campaign.scheduled_sweep
+                             or campaign.sweep_due(key, timestamp(result["checked_utc"])))):
                     results[key] = result
             print(f'Resumed {len(results)} recent probe results', flush=True)
     by_host = {}
