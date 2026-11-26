@@ -11,6 +11,7 @@ from datetime import datetime
 
 
 MEDIA_PROBE_VERSION = "2026-11-25.3"
+FROZEN_RETRY_POLICY = "two-sweeps-v1"
 UNCLASSIFIED_RESPONSES = {
     "format requires a separate adapter or access review",
     "unrecognized continuous transport",
@@ -80,6 +81,56 @@ class Campaign:
         self.state['publication_protected_keys'] = sorted(self.proven)
         self.controls = {k for k in self.items if history.get(k, {}).get('stable')}
         self.network_degraded = False
+        self.sweep_enabled = (config.get('frozen_retry_policy') == FROZEN_RETRY_POLICY
+                              and config['environment'] == 'ru-vps')
+        self.sweep_keys = set()
+        self.scheduled_sweep = set()
+        self.batch_phase = None
+        if self.sweep_enabled:
+            if self.state.get('frozen_retry_policy') != FROZEN_RETRY_POLICY:
+                # Enrol the unfinished frozen requests once. Store each audit trail
+                # inside requests so that large histories are partitioned losslessly.
+                for k in self.verification_keys:
+                    if self.stats.get(k, {}).get('samples', 0) < self.required:
+                        self.stats.setdefault(k, {'samples': 0, 'successes': 0})['sweep_attempts'] = []
+                self.state['frozen_retry_policy'] = FROZEN_RETRY_POLICY
+            self.sweep_keys = {k for k in self.verification_keys if 'sweep_attempts' in self.stats.get(k, {})}
+
+    def sweep_stage(self, key):
+        stat = self.stats[key]
+        if stat.get('samples', 0) >= self.required:
+            return 'covered'
+        attempts = stat['sweep_attempts']
+        if not attempts:
+            return 'first'
+        if len(attempts) == 1:
+            return 'second'
+        if attempts[-1]['outcome'] == 'inconclusive' and stat.get('last_inconclusive'):
+            return 'format_review'
+        # A conclusive repeat after an inconclusive first visit can leave one
+        # genuine sample missing. Give that request its independent observation.
+        return 'missing_sample'
+
+    @staticmethod
+    def sweep_phase(stages):
+        for stage in ('first', 'second', 'missing_sample'):
+            if stage in stages:
+                return stage
+        return 'awaiting_format_review' if 'format_review' in stages else 'no_sweep_due'
+
+    def sweep_due(self, key, at):
+        stat = self.stats[key]
+        return all(not stat.get(field) or at - epoch(stat[field]) >= self.spacing
+                   for field in ('last_checked', 'last_inconclusive', 'sweep_deferred_utc'))
+
+    def sweep_report(self):
+        stages = Counter(self.sweep_stage(k) for k in self.sweep_keys)
+        attempts = [len(self.stats[k]['sweep_attempts']) for k in self.sweep_keys]
+        return {'policy': FROZEN_RETRY_POLICY, 'phase': self.sweep_phase(stages),
+                'target_requests': len(self.sweep_keys), 'first_attempted': sum(n >= 1 for n in attempts),
+                'second_attempted': sum(n >= 2 for n in attempts), 'first_remaining': stages['first'],
+                'awaiting_second': stages['second'], 'awaiting_counted_sample': stages['missing_sample'],
+                'held_for_format_review': stages['format_review'], 'with_required_samples': stages['covered']}
 
     def category(self, key):
         stat = self.stats.get(key, {})
@@ -116,6 +167,17 @@ class Campaign:
             if any(previous.get(name) and epoch(at) <= epoch(previous[name])
                    for name in ('last_checked', 'last_inconclusive')):
                 continue
+            if key in self.scheduled_sweep:
+                if not self.sweep_due(key, epoch(at)):
+                    continue
+                if self.network_degraded and not result['ok']:
+                    # Rotate past a failed network control batch, without using
+                    # it as a first visit, repeat visit or negative sample.
+                    previous['sweep_deferred_utc'] = at
+                else:
+                    outcome = 'inconclusive' if result.get('inconclusive') else ('success' if result['ok'] else 'failure')
+                    previous['sweep_attempts'].append({'at': at, 'outcome': outcome})
+                    previous.pop('sweep_deferred_utc', None)
             if result.get('inconclusive'):
                 stat = self.stats.setdefault(key, {'samples': 0, 'successes': 0})
                 stat['last_inconclusive'] = at
@@ -180,12 +242,23 @@ class Campaign:
         state even when their keys are outside this batch.
         """
         limit = int(self.config.get('max_requests_per_run', 0))
-        if limit <= 0:
+        if limit <= 0 and not self.sweep_enabled:
             return items
+        if limit <= 0:
+            limit = len(items)
         now = epoch(self.now)
         normal_retry = max(2, float(self.config.get('inconclusive_retry_hours', 168))) * 3600
         due = {}
+        stages = {k: self.sweep_stage(k) for k in self.sweep_keys}
+        self.batch_phase = self.sweep_phase(set(stages.values()))
+        focus = set()
         for key, item in items.items():
+            stage = stages.get(key)
+            if stage and stage != 'covered':
+                if stage == self.batch_phase and self.sweep_due(key, now):
+                    due[key] = item
+                    focus.add(key)
+                continue
             stat = self.stats.get(key, {})
             if stat.get('last_checked') and now - epoch(stat['last_checked']) < self.spacing:
                 continue
@@ -199,10 +272,12 @@ class Campaign:
                     continue
             due[key] = item
         controls = sorted(self.controls & due.keys(), key=lambda k: (self.stats.get(k, {}).get('last_checked', ''), k))[:min(16, limit // 10)]
-        ordered = sorted(due.keys() - set(controls), key=lambda k: (
+        ordered = sorted((focus or due.keys()) - set(controls), key=lambda k: (
             self.category(k) != 'pending', self.stats.get(k, {}).get('samples', 0),
             k not in self.eligible_keys, self.stats.get(k, {}).get('last_checked', ''), k))
-        return {k: due[k] for k in controls + ordered[:limit-len(controls)]}
+        selected = controls + ordered[:limit-len(controls)]
+        self.scheduled_sweep = focus.intersection(selected)
+        return {k: due[k] for k in selected}
 
     def publishable(self, key):
         # Old proven sources retain service during the broad pass. A genuinely
@@ -243,6 +318,7 @@ class Campaign:
                 'original_cohort_requests_not_current': len(set(cohort) - self.items.keys()),
                 'publication_candidate_requests': len(self.eligible_keys),
                 'frozen_queue_requests': len(self.verification_keys),
+                **({'frozen_retry_rounds': self.sweep_report()} if self.sweep_enabled else {}),
                 'verification_only_requests': len(self.verification_keys - self.eligible_keys),
                 'frozen_queue_sha256': self.config.get('frozen_queue', {}).get('sha256'),
                 'frozen_queues': ([self.config['frozen_queue']] if self.config.get('frozen_queue') else []) +
