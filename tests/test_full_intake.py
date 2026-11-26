@@ -10,7 +10,7 @@ import unittest
 from unittest.mock import patch
 
 import sv_iptv as sv
-from expansion_check import Campaign
+from expansion_check import Campaign, FROZEN_RETRY_POLICY
 from research_queue import archive_items
 
 
@@ -182,6 +182,107 @@ class FullIntakeTests(unittest.TestCase):
         self.assertNotIn('inconclusive_probe_version', campaign.stats[key])
         campaign.record({key: result})
         self.assertNotIn('last_inconclusive', campaign.stats[key])
+
+    def test_frozen_sweeps_finish_first_visits_before_repeats_then_hold_open_formats(self):
+        items = [self.a, self.foreign, self.unknown]
+        self.attach(items)
+        before = (self.root / 'tv.m3u').read_bytes()
+        ambiguous = {'ok': False, 'inconclusive': True, 'reason': 'unrecognized format'}
+        self.run_at('2026-11-18T00:00:00Z', ambiguous)
+        self.cfg['expansion_campaign'].update(frozen_retry_policy=FROZEN_RETRY_POLICY, max_requests_per_run=1)
+        first, second = [], []
+        for hour in ('10:00', '10:10', '13:00', '13:05', '13:20', '14:59', '15:00'):
+            report, visited = self.run_at('2026-11-18T' + hour + ':00Z', ambiguous)
+            if hour == '14:59':
+                self.assertEqual(visited, [])
+            elif hour <= '13:00':
+                first.extend(visited)
+            else:
+                second.extend(visited)
+        for visits in (first, second):
+            self.assertCountEqual(visits, [i['url'] for i in items])
+        c = report['expansion_campaign']
+        sweep = c['frozen_retry_rounds']
+        self.assertEqual((sweep['first_attempted'], sweep['second_attempted'], sweep['held_for_format_review']), (3, 3, 3))
+        self.assertEqual((c['requests_needing_format_review'], c['completed_frozen_queue_passes']), (3, 0))
+        self.assertEqual(c['request_categories']['pending'], 3)
+        later, visited = self.run_at('2026-12-01T00:00:00Z')
+        self.assertEqual(visited, [])
+        self.assertEqual(later['expansion_campaign']['frozen_retry_rounds'], sweep)
+        self.assertEqual((self.root / 'tv.m3u').read_bytes(), before)
+        stats = sv.read_json(self.root / 'history.json', {})['expansion_campaign']['requests']
+        for item in items:
+            stat = stats[sv.stream_key(item)]
+            self.assertEqual(stat['samples'], 0)
+            self.assertEqual([a['outcome'] for a in stat['sweep_attempts']], ['inconclusive'] * 2)
+            a, b = (sv.timestamp(a['at']) for a in stat['sweep_attempts'])
+            self.assertGreaterEqual(b - a, 7200)
+
+    def test_conclusive_repeat_gets_missing_sample_pc_protection_and_genuine_weekly_audit(self):
+        self.attach([self.a, self.foreign])
+        self.cfg['expansion_campaign']['frozen_retry_policy'] = FROZEN_RETRY_POLICY
+        self.run_at('2026-11-18T00:00:00Z', {'ok': False, 'inconclusive': True})
+        failure = {'ok': False, 'reason': 'network timeout or unavailable'}
+        report, visited = self.run_at('2026-11-18T02:00:00Z', failure)
+        self.assertEqual(len(visited), 2)
+        c = report['expansion_campaign']
+        self.assertEqual(c['frozen_retry_rounds']['awaiting_counted_sample'], 2)
+        self.assertEqual(c['completed_frozen_queue_passes'], 1)
+        self.assertEqual(self.run_at('2026-11-18T03:59:59Z', failure)[1], [])
+        report, _ = self.run_at('2026-11-18T04:00:00Z', failure)
+        c = report['expansion_campaign']
+        self.assertEqual((c['completed_frozen_queue_passes'], c['weekly_rechecked_requests']), (2, 0))
+        self.assertEqual((c['request_categories']['pc_only'], c['request_categories']['quarantined']), (1, 1))
+        self.assertEqual(self.run_at('2026-11-25T03:59:59Z', failure)[1], [])
+        report, visited = self.run_at('2026-11-25T04:00:00Z', failure)
+        c = report['expansion_campaign']
+        self.assertEqual((len(visited), c['weekly_rechecked_requests'], c['weekly_recheck_observations']), (2, 2, 2))
+
+    def test_network_outage_and_stale_sweep_results_cannot_advance_a_request(self):
+        at = '2026-11-18T00:00:00Z'
+        controls = [{'url': f'https://example.com/{n}', 'headers': {}} for n in range(12)]
+        history = {sv.stream_key(i): {'stable': True} for i in controls}
+        cfg = {'id': 'fixture', 'environment': 'ru-vps', 'max_requests_per_run': 1000,
+               'frozen_retry_policy': FROZEN_RETRY_POLICY}
+        c = Campaign(cfg, {}, {'controls': controls}, history, {}, sv.stream_key, at, [self.unknown])
+        key = sv.stream_key(self.unknown)
+        self.assertEqual(set(c.batch(c.items)), {key} | history.keys())
+        c.record({k: {'ok': False, 'checked_utc': at} for k in c.items})
+        self.assertTrue(c.network_degraded)
+        self.assertEqual(c.stats[key]['sweep_attempts'], [])
+        c.now = '2026-11-18T02:00:00Z'
+        self.assertIn(key, c.batch(c.items))
+        c.record({key: {'ok': True, 'checked_utc': '2026-11-18T01:59:59Z'}})
+        self.assertEqual(c.stats[key]['samples'], 0)
+        c.record({key: {'ok': True, 'checked_utc': c.now}})
+        c.record({key: {'ok': True, 'checked_utc': c.now}})
+        self.assertEqual((len(c.stats[key]['sweep_attempts']), c.stats[key]['samples']), (1, 1))
+
+    def test_old_policy_and_previous_sweep_checkpoints_cannot_supply_a_new_visit(self):
+        self.attach([self.a])
+        self.cfg['resume_checks'] = True
+        visited = []
+        key = sv.stream_key(self.a)
+        def checker(item, cfg):
+            visited.append(item['url'])
+            return {'ok': False, 'inconclusive': True, 'reason': 'format review required'}
+        def run(at):
+            with patch.object(sv, 'check_stream', checker), patch.object(sv.shutil, 'which', return_value='/fake/ffmpeg'), \
+                 patch.object(sv, 'utcnow', return_value=at), patch.object(sv.time, 'time', return_value=sv.timestamp(at)), \
+                 contextlib.redirect_stdout(io.StringIO()):
+                return sv.build(self.cfg, tester=checker, now=at)
+        run('2026-11-18T00:00:00Z')
+        self.cfg['expansion_campaign']['frozen_retry_policy'] = FROZEN_RETRY_POLICY
+        for hour in ('03', '06'):
+            at = f'2026-11-18T{hour}:00:00Z'
+            checkpoint = sv.read_json(self.root / 'probe-progress.json', {})
+            checkpoint.update(completed=False, results={key: {'ok': False, 'checked_utc': at, 'reason': 'old result'}})
+            sv.write_json(self.root / 'probe-progress.json', checkpoint)
+            visited.clear()
+            report = run(at)
+            self.assertEqual(visited, [self.a['url']])
+        self.assertEqual(report['expansion_campaign']['completed_frozen_queue_passes'], 0)
+        self.assertEqual(report['expansion_campaign']['frozen_retry_rounds']['held_for_format_review'], 1)
 
     def test_prior_success_and_two_samples_do_not_clear_an_open_format_review(self):
         key = sv.stream_key(self.unknown)
