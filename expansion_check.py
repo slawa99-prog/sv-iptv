@@ -9,8 +9,9 @@ from collections import Counter
 from copy import deepcopy
 from datetime import datetime
 
+from format_review import AUDIO_FORMATS
 
-MEDIA_PROBE_VERSION = "2026-11-25.3"
+MEDIA_PROBE_VERSION = "2026-11-27.1"
 FROZEN_RETRY_POLICY = "two-sweeps-v1"
 UNCLASSIFIED_RESPONSES = {
     "format requires a separate adapter or access review",
@@ -85,6 +86,7 @@ class Campaign:
                               and config['environment'] == 'ru-vps')
         self.sweep_keys = set()
         self.scheduled_sweep = set()
+        self.scheduled_format_reviews = set()
         self.batch_phase = None
         if self.sweep_enabled:
             if self.state.get('frozen_retry_policy') != FROZEN_RETRY_POLICY:
@@ -106,6 +108,17 @@ class Campaign:
         if len(attempts) == 1:
             return 'second'
         if attempts[-1]['outcome'] == 'inconclusive' and stat.get('last_inconclusive'):
+            last = attempts[-1]
+            if last.get('audio_window') and last['at'] == stat['last_inconclusive']:
+                prior = attempts[-2]
+                if (prior.get('audio_window') and epoch(last['at']) - epoch(prior['at']) >= self.spacing
+                        and (not stat.get('last_checked') or epoch(stat['last_checked']) < epoch(prior['at']))):
+                    return 'audio_only'
+                return 'format_probe'
+            kind = stat.get('response_diagnostic', {}).get('body_kind')
+            if ((kind in AUDIO_FORMATS or kind == 'html')
+                    and not any(a.get('format_review_version') == MEDIA_PROBE_VERSION for a in attempts)):
+                return 'format_probe'
             return 'format_review'
         # A conclusive repeat after an inconclusive first visit can leave one
         # genuine sample missing. Give that request its independent observation.
@@ -113,24 +126,56 @@ class Campaign:
 
     @staticmethod
     def sweep_phase(stages):
-        for stage in ('first', 'second', 'missing_sample'):
+        for stage in ('first', 'second', 'missing_sample', 'format_probe'):
             if stage in stages:
                 return stage
-        return 'awaiting_format_review' if 'format_review' in stages else 'no_sweep_due'
+        return 'awaiting_format_review' if {'format_review', 'audio_only'}.intersection(stages) else 'no_sweep_due'
 
     def sweep_due(self, key, at):
         stat = self.stats[key]
         return all(not stat.get(field) or at - epoch(stat[field]) >= self.spacing
                    for field in ('last_checked', 'last_inconclusive', 'sweep_deferred_utc'))
 
+    def declared_sources(self):
+        latest = {}
+        for key in self.sweep_keys:
+            stat = self.stats[key]
+            detail = stat.get('response_diagnostic', {})
+            if detail.get('format_review') == 'html_declared_media' and stat.get('last_inconclusive'):
+                at = epoch(stat['last_inconclusive'])
+                for source in detail.get('source_keys', ()):
+                    latest[source] = max(at, latest.get(source, 0))
+        return latest
+
     def sweep_report(self):
         stages = Counter(self.sweep_stage(k) for k in self.sweep_keys)
         attempts = [len(self.stats[k]['sweep_attempts']) for k in self.sweep_keys]
+        reviewed, audio_once, pages = 0, 0, Counter()
+        for key in self.sweep_keys:
+            row = self.stats[key]
+            reviewed += any(a.get('format_review_version') == MEDIA_PROBE_VERSION for a in row['sweep_attempts'])
+            detail = row.get('response_diagnostic', {})
+            state = detail.get('format_review', '')
+            audio_once += state == 'decoded_audio_only' and self.sweep_stage(key) == 'format_probe'
+            if state.startswith('html_'):
+                pages[state] += 1
+        sources = self.declared_sources()
+        known = sources.keys() & self.verification_keys
+        checked = sum(bool(self.stats.get(k, {}).get('last_checked'))
+                      and epoch(self.stats[k]['last_checked']) >= sources[k] for k in known)
         return {'policy': FROZEN_RETRY_POLICY, 'phase': self.sweep_phase(stages),
                 'target_requests': len(self.sweep_keys), 'first_attempted': sum(n >= 1 for n in attempts),
                 'second_attempted': sum(n >= 2 for n in attempts), 'first_remaining': stages['first'],
                 'awaiting_second': stages['second'], 'awaiting_counted_sample': stages['missing_sample'],
-                'held_for_format_review': stages['format_review'], 'with_required_samples': stages['covered']}
+                'held_for_format_review': stages['format_review'] + stages['format_probe'] + stages['audio_only'],
+                'with_required_samples': stages['covered'],
+                'format_review': {'probe_version': MEDIA_PROBE_VERSION, 'requests_probed': reviewed,
+                                  'awaiting_probe': stages['format_probe'], 'awaiting_other_review': stages['format_review'],
+                                  'audio_windows_pending_repeat': audio_once,
+                                  'audio_only_confirmed': stages['audio_only'], 'html_pages': dict(pages),
+                                  'declared_source_keys': len(sources), 'source_keys_in_frozen_queue': len(known),
+                                  'frozen_source_keys_checked_since_page': checked,
+                                  'frozen_source_keys_with_prior_vps_success': len(known & self.baseline)}}
 
     def category(self, key):
         stat = self.stats.get(key, {})
@@ -174,9 +219,21 @@ class Campaign:
                     # Rotate past a failed network control batch, without using
                     # it as a first visit, repeat visit or negative sample.
                     previous['sweep_deferred_utc'] = at
+                    if key in self.scheduled_format_reviews:
+                        continue
                 else:
                     outcome = 'inconclusive' if result.get('inconclusive') else ('success' if result['ok'] else 'failure')
-                    previous['sweep_attempts'].append({'at': at, 'outcome': outcome})
+                    visit = {'at': at, 'outcome': outcome}
+                    if key in self.scheduled_format_reviews:
+                        if result.get('format_review_version') != MEDIA_PROBE_VERSION:
+                            continue
+                        visit['format_review_version'] = MEDIA_PROBE_VERSION
+                        detail = result.get('response_diagnostic', {})
+                        if (outcome == 'inconclusive' and detail.get('format_review') == 'decoded_audio_only'
+                                and detail.get('audio_codec') in AUDIO_FORMATS.values()
+                                and detail.get('video_tracks') == 0 and detail.get('decoded_seconds', 0) >= 12):
+                            visit['audio_window'] = {'codec': detail['audio_codec'], 'seconds': detail['decoded_seconds']}
+                    previous['sweep_attempts'].append(visit)
                     previous.pop('sweep_deferred_utc', None)
             if result.get('inconclusive'):
                 stat = self.stats.setdefault(key, {'samples': 0, 'successes': 0})
@@ -255,7 +312,10 @@ class Campaign:
         for key, item in items.items():
             stage = stages.get(key)
             if stage and stage != 'covered':
-                if stage == self.batch_phase and self.sweep_due(key, now):
+                # A missing TV sample can be cooling down. Use free slots for the
+                # new adapter without delaying the original first or second sweep.
+                can_review = stage == 'format_probe' and self.batch_phase == 'missing_sample'
+                if (stage == self.batch_phase or can_review) and self.sweep_due(key, now):
                     due[key] = item
                     focus.add(key)
                 continue
@@ -272,11 +332,20 @@ class Campaign:
                     continue
             due[key] = item
         controls = sorted(self.controls & due.keys(), key=lambda k: (self.stats.get(k, {}).get('last_checked', ''), k))[:min(16, limit // 10)]
-        ordered = sorted((focus or due.keys()) - set(controls), key=lambda k: (
+        sources = self.declared_sources()
+        linked_due = {k for k in sources.keys() & due.keys() & self.verification_keys
+                      if all(not self.stats.get(k, {}).get(field) or epoch(self.stats[k][field]) < sources[k]
+                             for field in ('last_checked', 'last_inconclusive'))}
+        pool = focus | linked_due if focus else due.keys()
+        ordered = sorted(pool - set(controls), key=lambda k: (
+            bool(focus) and k not in focus,
+            stages.get(k) == 'format_probe' and self.batch_phase == 'missing_sample',
+            k not in linked_due,
             self.category(k) != 'pending', self.stats.get(k, {}).get('samples', 0),
             k not in self.eligible_keys, self.stats.get(k, {}).get('last_checked', ''), k))
         selected = controls + ordered[:limit-len(controls)]
         self.scheduled_sweep = focus.intersection(selected)
+        self.scheduled_format_reviews = {k for k in self.scheduled_sweep if stages[k] == 'format_probe'}
         return {k: due[k] for k in selected}
 
     def publishable(self, key):
