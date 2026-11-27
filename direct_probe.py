@@ -12,7 +12,8 @@ from urllib.parse import urlparse
 from urllib.request import HTTPRedirectHandler, Request, build_opener
 from http.client import HTTPException
 
-from response_diagnostics import PREFIX_BYTES, describe_response, transport_kind
+from format_review import AUDIO_FORMATS, MAX_AUDIO_BYTES, decoded_audio_window
+from response_diagnostics import PREFIX_BYTES, body_kind, describe_response, transport_kind
 
 
 class UnsupportedMedia(ValueError):
@@ -69,10 +70,12 @@ def capture(item, path, cfg, validate):
     # Joining a TS broadcast can land between keyframes. Allow time for the
     # next random-access point and a complete test window after it.
     capture_limit = target + min(8, target / 2)
+    review = cfg.get('_review_held_format', False)
     with urlopen(Request(item['url'], headers=headers), timeout=cfg.get('network_timeout_seconds', 8)) as response:
         validate(response.url)
         response_headers = getattr(response, 'headers', {})
-        if 'Content-Length' in response_headers or 'Content-Range' in response_headers:
+        finite = 'Content-Length' in response_headers or 'Content-Range' in response_headers
+        if finite and not review:
             try:
                 prefix = response.read1(min(PREFIX_BYTES, byte_limit))
             except (OSError, HTTPException):
@@ -83,22 +86,39 @@ def capture(item, path, cfg, validate):
                 try:
                     chunk = response.read1(65536)
                 except (OSError, HTTPException):
+                    if kind in AUDIO_FORMATS:
+                        break
                     if prefix and kind is None:
                         raise UnsupportedMedia.from_response(response, prefix)
                     raise
                 if not chunk:
+                    if kind in AUDIO_FORMATS:
+                        break
                     raise UnsupportedMedia.from_response(response, prefix, 'finite media: live status requires review')
-                total += len(chunk)
-                if total > byte_limit:
-                    raise UnsupportedMedia('continuous sample byte budget reached')
                 if kind is None:
                     prefix += chunk[:PREFIX_BYTES - len(prefix)]
                     kind = transport_kind(prefix)
+                    if review and not kind:
+                        detected = body_kind(prefix)
+                        if detected in AUDIO_FORMATS:
+                            kind = detected
+                    if finite and kind not in AUDIO_FORMATS and (kind or len(prefix) == PREFIX_BYTES):
+                        raise UnsupportedMedia.from_response(response, prefix, 'finite media: live status requires review')
                     if kind is None and len(prefix) == PREFIX_BYTES:
                         raise UnsupportedMedia.from_response(response, prefix)
+                if kind in AUDIO_FORMATS:
+                    byte_limit = min(byte_limit, MAX_AUDIO_BYTES)
+                    chunk = chunk[:byte_limit - total]
+                total += len(chunk)
+                if total > byte_limit:
+                    raise UnsupportedMedia('continuous sample byte budget reached')
                 out.write(chunk)
+                if kind in AUDIO_FORMATS and total >= byte_limit:
+                    break
         if kind is None:
             raise UnsupportedMedia.from_response(response, prefix)
+        if kind in AUDIO_FORMATS:
+            return {'transport': kind, 'diagnostic': describe_response(response, prefix)}
     return {'transport': kind, 'bytes': total, 'capture_seconds': round(time.monotonic() - started, 2)}
 
 
@@ -147,6 +167,14 @@ def check_direct(item, cfg):
         path = Path(tmp) / 'sample.bin'
         captured = capture(item, path, cfg, sv.validate_url)
         target = max(12, float(cfg.get('test_seconds', 12)))
+        if captured['transport'] in AUDIO_FORMATS:
+            detail = captured['diagnostic']
+            proof = decoded_audio_window(path, captured['transport'], target, sv.run_command,
+                                         cfg.get('decode_timeout_seconds', 30))
+            detail.update(proof or {'format_review': 'audio_window_unconfirmed'})
+            # An audio observation can identify radio. It is never a TV sample.
+            raise UnsupportedMedia('audio-only window decoded' if proof else 'audio window requires review',
+                                   diagnostic=detail)
         safe = ['-protocol_whitelist', 'file']
         source = safe + ['-f', captured['transport']]
         rc, out, _ = sv.run_command(['ffprobe', '-v', 'error'] + source + [

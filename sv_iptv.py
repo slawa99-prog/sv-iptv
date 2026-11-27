@@ -30,6 +30,7 @@ from functools import lru_cache
 from http.client import IncompleteRead
 import placeholder_filter
 import dash_probe
+from format_review import MAX_PAGE_BYTES, html_sources
 from expansion_check import Campaign, compact_failed_history, MEDIA_PROBE_VERSION
 from research_queue import archive_items
 from direct_probe import DirectMedia, UnsupportedMedia, check_direct, urlopen, validate_url
@@ -153,7 +154,7 @@ def stream_key(item: dict) -> str:
 
 
 def fetch_bytes(url: str, headers=None, timeout=12, limit=4_000_000, expect_hls=False,
-                *, byte_range=None, resolved=None, response_info=None) -> bytes:
+                *, byte_range=None, resolved=None, response_info=None, review_page=False) -> bytes:
     validate_url(url)
     request_headers = {"User-Agent": "Mozilla/5.0 SV-IPTV/3.0", "Accept-Encoding": "identity"}
     request_headers.update(headers or {})
@@ -180,10 +181,17 @@ def fetch_bytes(url: str, headers=None, timeout=12, limit=4_000_000, expect_hls=
                     or response.headers.get('Content-Encoding', 'identity').lower() != 'identity'):
                 raise UnsupportedMedia('server did not return the requested HLS byte range')
         chunks, size = [], 0
+        reading_page = False
         while size <= limit:
-            if time.monotonic() - started > timeout:
-                raise TimeoutError("total response deadline")
-            chunk = response.read1(min(65536, limit + 1 - size))
+            try:
+                if time.monotonic() - started > timeout:
+                    raise TimeoutError("total response deadline")
+                chunk = response.read1(min(65536, limit + 1 - size))
+            except (OSError, IncompleteRead):
+                if reading_page:
+                    raise UnsupportedMedia('HTML page read incomplete', diagnostic={'body_kind': 'html',
+                                           'content_type': 'text/html', 'format_review': 'html_incomplete'})
+                raise
             if not chunk:
                 break
             chunks.append(chunk)
@@ -191,15 +199,23 @@ def fetch_bytes(url: str, headers=None, timeout=12, limit=4_000_000, expect_hls=
             if expect_hls and size >= 16 and size - len(chunk) < 512:
                 sample = b''.join(chunks)[:PREFIX_BYTES]
                 prefix = sample[:512].lstrip(b'\xef\xbb\xbf \t\r\n').lower()
-                if prefix.startswith((b'<!doctype html', b'<html', b'<head', b'<body')):
-                    raise UnsupportedMedia.from_response(response, sample, 'HTML response requires player or access review')
+                if (prefix.startswith((b'<!doctype html', b'<html', b'<head', b'<body'))
+                        or (review_page and body_kind(sample) == 'html')):
+                    if not review_page:
+                        raise UnsupportedMedia.from_response(response, sample, 'HTML response requires player or access review')
+                    reading_page = True
+                    limit = min(limit, MAX_PAGE_BYTES)
                 if prefix.startswith(b'[playlist]'):
                     raise UnsupportedMedia.from_response(response, sample, 'PLS playlist requires format review')
                 if prefix.startswith((b'{', b'[')):
                     raise UnsupportedMedia.from_response(response, sample, 'JSON response requires player or access review')
-                if prefix and not b'#extm3u'.startswith(prefix) and not prefix.startswith((b'#extm3u', b'<', b'\x1f\x8b')):
+                if not reading_page and prefix and not b'#extm3u'.startswith(prefix) and not prefix.startswith((b'#extm3u', b'<', b'\x1f\x8b')):
                     raise DirectMedia.from_response(response, sample, 'non-playlist media response')
         data = b''.join(chunks)
+        if reading_page and len(data) > limit:
+            detail = describe_response(response, data[:PREFIX_BYTES])
+            detail['format_review'] = 'html_too_large'
+            raise UnsupportedMedia('HTML page exceeds the review budget', diagnostic=detail)
     if byte_range:
         if len(data) != length:
             raise UnsupportedMedia('incomplete HLS byte range')
@@ -217,10 +233,25 @@ def fetch_bytes(url: str, headers=None, timeout=12, limit=4_000_000, expect_hls=
 
 def manifest(url: str, headers: dict, cfg: dict) -> str:
     detail = describe_response(None, None)
+    review_page = url == cfg.get('_format_review_url')
     try:
         data = fetch_bytes(url, headers, cfg.get("network_timeout_seconds", 10), 2_000_000,
-                           expect_hls=True, resolved=cfg.get('_manifest_urls'), response_info=detail)
+                           expect_hls=True, resolved=cfg.get('_manifest_urls'), response_info=detail,
+                           **({'review_page': True} if review_page else {}))
         detail.update(body_kind=body_kind(data), prefix_bytes=min(len(data), PREFIX_BYTES))
+        if review_page and detail['body_kind'] == 'html':
+            if len(data) > MAX_PAGE_BYTES:
+                detail['format_review'] = 'html_too_large'
+            else:
+                page_url = cfg.get('_manifest_urls', {}).get(url, url)
+                sources, overflow = html_sources(data, page_url, headers, validate_url, stream_key)
+                detail.update(format_review='html_declared_media' if sources else 'html_no_declared_media',
+                              source_keys=sorted(sources), additional_sources=overflow)
+                if cfg.get('_format_source_dir') and sources:
+                    # Kept on the VPS only. Published diagnostics contain independent request hashes.
+                    write_json(Path(cfg['_format_source_dir']) / (cfg['_inspection_key'] + '.json'),
+                               {'checked_utc': utcnow(), 'page_key': cfg['_inspection_key'], 'sources': sources})
+            raise UnsupportedMedia('HTML page requires a separate TV source', diagnostic=detail)
         text = data.decode("utf-8-sig")
     except (UnicodeDecodeError, ValueError) as exc:
         if isinstance(exc, UnicodeDecodeError):
@@ -644,6 +675,8 @@ def check_segmented(media_url, text, audio_url, headers, cfg, started):
 def check_stream(item: dict, cfg: dict) -> dict:
     cfg = {**cfg, "_inspection_key": stream_key(item), "_inspection_counter": [0],
            "_manifest_urls": {}, "_manifest_diagnostics": {}}
+    if cfg.get('_review_held_format'):
+        cfg['_format_review_url'] = item['url']
     host = urlparse(item["url"]).hostname
     with LOCK:
         semaphore = HOST_LOCKS.setdefault(host, threading.Semaphore(cfg.get("per_host_workers", 2)))
@@ -1247,6 +1280,9 @@ def build(cfg: dict, *, tester=check_stream, now: str | None = None, inventory=F
                 print('Earlier unfinished checkpoint preserved in checkpoints/; no synthetic samples imported', flush=True)
         if compatible and not checkpoint.get("completed"):
             for key, result in checkpoint.get("results", {}).items():
+                if (campaign and key in campaign.scheduled_format_reviews
+                        and result.get('format_review_version') != MEDIA_PROBE_VERSION):
+                    continue
                 if result.get("reason") in ("insufficient live sample", "separate audio rendition: not supported by this checker"):
                     continue  # Compatible extension: retry formats older checks could not test.
                 if result.get("ok") and result.get("played_seconds", 0) < cfg.get("test_seconds", 12):
@@ -1270,7 +1306,9 @@ def build(cfg: dict, *, tester=check_stream, now: str | None = None, inventory=F
     last_checkpoint = time.monotonic()
     with ThreadPoolExecutor(max_workers=max(1, min(cfg.get("workers", 8), 16))) as pool:
         check_cfg = {**cfg, "_inspection_dir": str(ROOT / "review-frames")}
-        futures = {pool.submit(tester, item, check_cfg): key for key, item in queue}
+        review_keys = campaign.scheduled_format_reviews if campaign else set()
+        review_cfg = {**check_cfg, '_review_held_format': True, '_format_source_dir': str(ROOT / 'format-review-sources')}
+        futures = {pool.submit(tester, item, review_cfg if key in review_keys else check_cfg): key for key, item in queue}
         for f in as_completed(futures):
             key = futures[f]
             try:
@@ -1279,6 +1317,8 @@ def build(cfg: dict, *, tester=check_stream, now: str | None = None, inventory=F
                 results[key] = {"ok": False, "reason": "local checker could not finish: " + type(exc).__name__,
                                 "inconclusive": True, "media_probe_version": MEDIA_PROBE_VERSION, "pixels": 0}
             results[key]["checked_utc"] = utcnow() if tester is check_stream else now
+            if key in review_keys:
+                results[key]['format_review_version'] = MEDIA_PROBE_VERSION
             if tester is check_stream and (time.monotonic() - last_checkpoint >= 60 or len(results) == len(all_items)):
                 write_json(ROOT / "probe-progress.json", {"signature": signature, "criteria_signature": criteria_signature,
                     "started_utc": now, "updated_utc": utcnow(), "queue_requests": len(all_items),
