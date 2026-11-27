@@ -295,6 +295,43 @@ class FullIntakeTests(unittest.TestCase):
         self.assertEqual((c.stats[key]['samples'], c.stats[key]['successes']), (2, 2))
         self.assertTrue(c.stats[key]['ever_passed'])
 
+    def test_old_held_html_uses_new_adapter_through_build_without_replaying_checkpoint(self):
+        self.attach([self.unknown])
+        self.cfg['expansion_campaign']['frozen_retry_policy'] = FROZEN_RETRY_POLICY
+        self.cfg['resume_checks'] = True
+        key = sv.stream_key(self.unknown)
+        before = (self.root / 'tv.m3u').read_bytes()
+        calls = []
+        def checker(item, cfg):
+            if sv.stream_key(item) != key:
+                return {'ok': False, 'reason': 'fixture'}
+            calls.append(bool(cfg.get('_review_held_format')))
+            detail = {'body_kind': 'html', 'content_type': 'text/html'}
+            if cfg.get('_review_held_format'):
+                detail.update(format_review='html_no_declared_media', source_keys=[])
+            return {'ok': False, 'inconclusive': True, 'reason': 'page', 'response_diagnostic': detail}
+        def run(at):
+            with patch.object(sv, 'check_stream', checker), patch.object(sv.shutil, 'which', return_value='/fake/ffmpeg'), \
+                 patch.object(sv, 'utcnow', return_value=at), patch.object(sv.time, 'time', return_value=sv.timestamp(at)), \
+                 contextlib.redirect_stdout(io.StringIO()):
+                return sv.build(self.cfg, tester=checker, now=at)
+        for hour in ('00', '03'):
+            run('2026-11-27T' + hour + ':00:00Z')
+        # Same format-probe phase, still before the minimum interval.
+        run('2026-11-27T04:00:00Z')
+        path = self.root / 'probe-progress.json'
+        unfinished = sv.read_json(path, {})
+        unfinished.update(completed=False, results={key: {'checked_utc': '2026-11-27T05:55:00Z',
+                                                          'ok': False, 'reason': 'unmarked old result'}})
+        sv.write_json(path, unfinished)
+        report = run('2026-11-27T06:00:00Z')['expansion_campaign']
+        run('2026-11-28T06:00:00Z')
+        self.assertEqual(calls, [False, False, True])
+        self.assertEqual(report['frozen_retry_rounds']['format_review']['html_pages'], {'html_no_declared_media': 1})
+        row = sv.read_json(self.root/'history.json', {})['expansion_campaign']['requests'][key]
+        self.assertEqual((row['samples'], row['sweep_attempts'][-1]['at']), (0, '2026-11-27T06:00:00Z'))
+        self.assertEqual((self.root / 'tv.m3u').read_bytes(), before)
+
     def test_resume_after_queue_change_keeps_original_dates_and_archives_checkpoint(self):
         self.attach([self.a])
         self.cfg['resume_checks'] = True
